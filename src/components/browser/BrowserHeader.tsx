@@ -39,17 +39,19 @@ export function BrowserHeader({
           {isPrepareAllClass && (
             <button
               onClick={onLearnAll}
-              className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-100 hover:bg-indigo-100 transition-colors"
+              className="text-[10px] font-black uppercase tracking-widest px-2 sm:px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-100 hover:bg-indigo-100 transition-colors"
             >
-              📚 Tout apprendre
+              <span className="hidden sm:inline">📚 {t.grimoire.learnAll}</span>
+              <span className="sm:hidden">📚 {t.grimoire.learnAllShort}</span>
             </button>
           )}
           <button
             onClick={onReset}
             disabled={knownSpellsCount === 0}
-            className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            className="text-[10px] font-black uppercase tracking-widest px-2 sm:px-3 py-1.5 rounded-lg text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            🗑️ {t.grimoire.resetAll}
+            <span className="hidden sm:inline">🗑️ {t.grimoire.resetAll}</span>
+            <span className="sm:hidden">🗑️ {t.grimoire.resetShort}</span>
           </button>
         </>
       }

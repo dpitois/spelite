@@ -26,7 +26,7 @@ export function Panel({
 
   const titleClasses =
     titleVariant === "large"
-      ? "text-3xl font-black text-slate-800 tracking-tight"
+      ? "text-xl sm:text-3xl font-black text-slate-800 tracking-tight"
       : "text-xs font-black uppercase text-slate-400 tracking-widest";
 
   return (

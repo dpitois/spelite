@@ -56,8 +56,11 @@
   },
   "layout": {
     "dashboard": "Tableau de Bord",
+    "dashboardShort": "Bord",
     "grimoire": "Grimoire",
+    "grimoireShort": "Sorts",
     "setup": "Personnage",
+    "setupShort": "Perso",
     "footer": "Gestionnaire de Sorts D&D 5e"
   },
   "setup": {
@@ -119,7 +122,10 @@
     "title": "Grimoire des Sorts",
     "subtitle": "Sorts pour",
     "resetAll": "Tout oublier",
+    "resetShort": "Reset",
     "resetConfirm": "Attention : Voulez-vous vraiment oublier TOUS les sorts de votre grimoire ?",
+    "learnAll": "Tout apprendre",
+    "learnAllShort": "Tout",
     "searchPlaceholder": "Rechercher un sort...",
     "schoolFilter": "École",
     "allSchools": "Toutes les écoles",

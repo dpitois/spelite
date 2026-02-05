@@ -56,8 +56,11 @@
   },
   "layout": {
     "dashboard": "Dashboard",
+    "dashboardShort": "Dash",
     "grimoire": "Grimoire",
+    "grimoireShort": "Spells",
     "setup": "Character",
+    "setupShort": "Hero",
     "footer": "D&D 5e Spell Manager"
   },
   "setup": {
@@ -119,7 +122,10 @@
     "title": "Spell Grimoire",
     "subtitle": "Spells for",
     "resetAll": "Reset All",
+    "resetShort": "Reset",
     "resetConfirm": "Warning: Do you really want to forget ALL spells in your grimoire?",
+    "learnAll": "Learn All",
+    "learnAllShort": "All",
     "searchPlaceholder": "Search a spell...",
     "schoolFilter": "School",
     "allSchools": "All Schools",
