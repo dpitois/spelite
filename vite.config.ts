@@ -6,9 +6,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import { execSync } from "child_process";
 
 const commitHash = execSync("git rev-parse --short HEAD").toString().trim();
-const commitDate = execSync(
-  "git log -1 --format=%cd --date=format:'%Y.%m.%d'",
-)
+const commitDate = execSync("git log -1 --format=%cd --date=format:'%Y.%m.%d'")
   .toString()
   .trim();
 

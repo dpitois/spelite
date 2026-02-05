@@ -84,7 +84,9 @@ export function BrowserFilters({
           <select
             value={filterStatus}
             onChange={(e) =>
-              setFilterStatus(e.currentTarget.value as "all" | "known" | "learnable")
+              setFilterStatus(
+                e.currentTarget.value as "all" | "known" | "learnable",
+              )
             }
             className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-2.5 focus:border-indigo-500 focus:bg-white outline-none transition-all font-bold text-slate-700 text-sm"
           >

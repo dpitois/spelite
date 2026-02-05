@@ -179,7 +179,9 @@ export function CharacterEditor({
               <input
                 type="number"
                 value={baseAC}
-                onChange={(e) => setBaseAC(parseInt(e.currentTarget.value) || 0)}
+                onChange={(e) =>
+                  setBaseAC(parseInt(e.currentTarget.value) || 0)
+                }
                 className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-indigo-500 focus:bg-white outline-none transition-all font-bold text-slate-700"
               />
             </div>

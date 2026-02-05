@@ -40,7 +40,9 @@ export function SpellRow({
           >
             <svg
               className={`w-3 h-3 transition-transform duration-200 ${
-                isExpanded ? "rotate-90 text-indigo-600" : "text-slate-400 group-hover/name:text-indigo-600"
+                isExpanded
+                  ? "rotate-90 text-indigo-600"
+                  : "text-slate-400 group-hover/name:text-indigo-600"
               }`}
               fill="none"
               viewBox="0 0 24 24"
@@ -76,7 +78,9 @@ export function SpellRow({
       </div>
       <div
         className={`grid transition-all duration-300 ease-in-out ${
-          isExpanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          isExpanded
+            ? "grid-rows-[1fr] opacity-100"
+            : "grid-rows-[0fr] opacity-0"
         }`}
       >
         <div className="overflow-hidden">

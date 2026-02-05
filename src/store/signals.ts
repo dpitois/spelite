@@ -78,8 +78,12 @@ const getActiveChar = (): CharacterData => {
 const activeCharData = getActiveChar();
 
 export const characterName = signal(activeCharData.name || DEFAULT_STATE.name);
-export const className = signal(activeCharData.className || DEFAULT_STATE.className);
-export const subclass = signal(activeCharData.subclass || DEFAULT_STATE.subclass);
+export const className = signal(
+  activeCharData.className || DEFAULT_STATE.className,
+);
+export const subclass = signal(
+  activeCharData.subclass || DEFAULT_STATE.subclass,
+);
 export const race = signal(activeCharData.race || DEFAULT_STATE.race);
 export const level = signal(activeCharData.level || DEFAULT_STATE.level);
 export const stats = signal<AbilityScores>(
@@ -91,9 +95,7 @@ export const knownSpells = signal<string[]>(activeCharData.knownSpells || []);
 export const preparedSpells = signal<string[]>(
   activeCharData.preparedSpells || [],
 );
-export const usedSlots = signal<UsedSlotsState>(
-  activeCharData.usedSlots || {},
-);
+export const usedSlots = signal<UsedSlotsState>(activeCharData.usedSlots || {});
 
 // --- Persistence ---
 
