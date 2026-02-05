@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <linearGradient id="magicGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Book Cover -->
+  <rect x="20" y="15" width="60" height="70" rx="4" fill="url(#magicGradient)" stroke="none" />
+  <rect x="20" y="15" width="60" height="70" rx="4" stroke="#4f46e5" fill="none" />
+  
+  <!-- Pages -->
+  <path d="M25 25 H 75" stroke="white" stroke-width="2" stroke-opacity="0.5" />
+  <path d="M25 35 H 75" stroke="white" stroke-width="2" stroke-opacity="0.5" />
+  
+  <!-- Star/Magic Symbol on Cover -->
+  <path d="M50 45 L 53 52 L 60 55 L 53 58 L 50 65 L 47 58 L 40 55 L 47 52 Z" fill="#fbbf24" stroke="#f59e0b" stroke-width="2" />
+  
+  <!-- Sparkles -->
+  <path d="M10 20 L 12 25 L 10 30 L 8 25 Z" fill="#fbbf24" stroke="none">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" />
+  </path>
+  <path d="M85 70 L 88 75 L 85 80 L 82 75 Z" fill="#fbbf24" stroke="none">
+    <animate attributeName="opacity" values="0;1;0" dur="2.5s" repeatCount="indefinite" />
+  </path>
+</svg>
