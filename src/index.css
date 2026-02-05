@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  /* Grimoire Theme Overrides */
+  --font-serif: "EB Garamond", serif;
+  --font-display: "Cinzel", serif;
+
+  /* Replace technical Slate with warm, earthy Stone */
+  --color-slate-50: var(--color-stone-100);
+  --color-slate-100: var(--color-stone-200);
+  --color-slate-200: var(--color-stone-300);
+  --color-slate-300: var(--color-stone-400);
+  --color-slate-400: var(--color-stone-500);
+  --color-slate-500: var(--color-stone-600);
+  --color-slate-600: var(--color-stone-700);
+  --color-slate-700: var(--color-stone-800);
+  --color-slate-800: var(--color-stone-900);
+  --color-slate-900: #1c1917; /* stone-950 approx */
+
+  /* Replace Indigo with a mystical Violet */
+  --color-indigo-50: var(--color-violet-50);
+  --color-indigo-100: var(--color-violet-100);
+  --color-indigo-200: var(--color-violet-200);
+  --color-indigo-300: var(--color-violet-300);
+  --color-indigo-400: var(--color-violet-400);
+  --color-indigo-500: var(--color-violet-500);
+  --color-indigo-600: var(--color-violet-600);
+  --color-indigo-700: var(--color-violet-700);
+  --color-indigo-800: var(--color-violet-800);
+  --color-indigo-900: var(--color-violet-900);
+
+  /* Antique Paper / Parchment White */
+  --color-white: #fcf9f2;
+}
+
+body {
+  font-family: var(--font-serif);
+  /* Deep textured background (like an old desk or leather) */
+  background-color: #d6d3d1; /* stone-300 */
+  background-image: radial-gradient(circle at center, #d6d3d1 0%, #a8a29e 100%);
+  background-attachment: fixed;
+  color: var(--color-stone-900);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+}
+
+/* Add a subtle "paper" feel to cards */
+.bg-white {
+  background-image: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0),
+    rgba(214, 211, 209, 0.1)
+  );
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 0 40px rgba(139, 94, 60, 0.03);
+}
+
+/* Base Interactive Styles */
+button,
+select,
+[role="button"] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
