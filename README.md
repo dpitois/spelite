@@ -53,9 +53,10 @@ Si aucune variable n'est fournie, le build utilise des chemins relatifs (`./`), 
 
 Bienvenue sur Spelite. Ce guide vous aidera à créer votre personnage et à gérer votre grimoire.
 
-*Note : Une version détaillée est également disponible en anglais : [User Guide (EN)](docs/UserGuide.md).*
+_Note : Une version détaillée est également disponible en anglais : [User Guide (EN)](docs/UserGuide.md)._
 
 ### 1. Gestion des Personnages
+
 Dans l'onglet **Personnage**, vous disposez de deux sections : **Éditer** et **Gérer**.
 
 - **Créer** : Allez dans "Gérer" et cliquez sur "Créer un nouveau personnage".
@@ -63,7 +64,9 @@ Dans l'onglet **Personnage**, vous disposez de deux sections : **Éditer** et **
 - **Charger/Supprimer** : Basculez entre vos différents héros ou supprimez ceux dont vous n'avez plus besoin.
 
 ### 2. Configuration du Personnage
+
 Une fois un personnage sélectionné, utilisez l'onglet **Éditer** pour renseigner :
+
 - **Informations de base** : Nom, Classe, Race et Niveau.
 - **Statistiques** : Vos scores de caractéristiques (Force, Dextérité, etc.). Les modificateurs et le DD de sauvegarde des sorts sont calculés automatiquement.
 - **Combat** : Vos PV Max et votre CA de base.
@@ -71,13 +74,17 @@ Une fois un personnage sélectionné, utilisez l'onglet **Éditer** pour renseig
 **Important** : Cliquez sur le bouton **Sauvegarder le personnage** en bas de page pour appliquer vos modifications.
 
 ### 3. Gestion du Grimoire
+
 Dans la vue **Grimoire**, vous pouvez :
+
 - **Parcourir les sorts** : La liste est automatiquement filtrée selon votre classe et votre niveau.
 - **Apprendre des sorts** : Cliquez sur "Apprendre" pour ajouter un sort à votre grimoire personnel.
 - **Filtrer** : Utilisez la barre de recherche ou les filtres (niveau, école de magie) pour trouver rapidement un sort.
 
 ### 4. Utilisation du Tableau de Bord (Dashboard)
+
 Le **Dashboard** est votre compagnon en combat :
+
 - **Suivi des PV** : Mettez à jour vos points de vie actuels.
 - **Emplacements de sorts** : Cliquez sur les emplacements pour suivre votre consommation de magie.
 - **Détails des sorts** : Cliquez sur un sort appris pour voir sa description complète, sa portée et ses composants.

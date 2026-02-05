@@ -17,7 +17,7 @@ export function AbilityScoresGrid({
 }: AbilityScoresGridProps) {
   return (
     <Panel title={t.dashboard.abilitiesTitle} className={className}>
-      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+      <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
         {Object.entries(stats).map(([key, score]) => {
           const mod = calculateModifier(score);
           return (

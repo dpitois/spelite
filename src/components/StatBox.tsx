@@ -21,47 +21,45 @@ export function StatBox({
     default: "text-slate-400",
   };
 
-  if (variant === "accent") {
-    return (
-      <div
-        className={`bg-indigo-50 px-4 py-2 rounded-xl border border-indigo-100 text-center min-w-[70px] ${className}`}
-      >
-        <span className="block text-xl font-black text-indigo-600">
-          {value}
-        </span>
-        <span className="text-[10px] text-indigo-400 uppercase font-black tracking-tighter">
-          {label}
-        </span>
-      </div>
-    );
-  }
+  const baseClasses = `relative flex flex-col items-center justify-center rounded-2xl border overflow-hidden transition-all`;
 
-  if (variant === "large") {
-    return (
-      <div
-        className={`bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 text-center min-w-[70px] ${className}`}
-      >
-        <span className="block text-xl font-black text-slate-800">{value}</span>
-        <span className="text-[10px] text-slate-400 uppercase font-black tracking-tighter">
-          {label}
-        </span>
-      </div>
-    );
-  }
+  const variantClasses = {
+    default: "bg-slate-50 border-slate-100 min-h-[90px] p-3",
+    large: "bg-slate-50 border-slate-100 min-h-[100px] p-4",
+    accent: "bg-indigo-50 border-indigo-100 min-h-[100px] p-4",
+  };
+
+  const labelColorClasses =
+    variant === "accent" ? "text-indigo-300/60" : "text-slate-300/60";
+  const valueColorClasses =
+    variant === "accent" ? "text-indigo-600" : "text-slate-800";
 
   return (
-    <div
-      className={`text-center p-2 bg-slate-50 rounded-xl border border-slate-100 ${className}`}
-    >
-      <span className="block text-[8px] font-black uppercase text-slate-400 tracking-tighter leading-tight mb-0.5">
+    <div className={`${baseClasses} ${variantClasses[variant]} ${className}`}>
+      {/* Background Label - Top-Left Aligned and Bold */}
+      <span
+        className={`absolute inset-0 flex items-start justify-start p-2 font-black uppercase select-none pointer-events-none leading-none tracking-tighter transition-all ${labelColorClasses} ${
+          label.length > 3 ? "text-[10px]" : "text-3xl"
+        }`}
+      >
         {label}
       </span>
-      <span className="block text-sm font-black text-slate-800 leading-none mb-0.5">
+
+      {/* Main Value - Centered and Massive */}
+      <span
+        className={`relative z-10 font-black leading-none drop-shadow-md transition-all ${valueColorClasses} ${
+          variant === "default" ? "text-6xl" : "text-7xl"
+        }`}
+      >
         {value}
       </span>
+
+      {/* Sub Value (Modifier) - Bottom Right and Large with White Outline */}
       {subValue !== undefined && (
         <span
-          className={`text-[10px] font-bold leading-none ${colorClasses[subValueColor]}`}
+          className={`absolute bottom-2 right-2.5 z-10 font-black leading-none tracking-tighter [text-shadow:_-2px_-2px_0_#fff,_2px_-2px_0_#fff,_-2px_2px_0_#fff,_2px_2px_0_#fff,_0_2px_4px_rgba(0,0,0,0.1)] ${colorClasses[subValueColor]} ${
+            variant === "default" ? "text-[27px]" : "text-[32px]"
+          }`}
         >
           {subValue}
         </span>
