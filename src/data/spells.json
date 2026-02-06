@@ -2300,7 +2300,7 @@
       },
       "name": {
         "en": "Floating Disk",
-        "fr": "Floating Disk"
+        "fr": "Disque flottant de Tenser"
       },
       "desc": {
         "en": [
@@ -2309,9 +2309,9 @@
           "If you move more than 100 feet away from the disk (typically because it can't move around an obstacle to follow you), the spell ends."
         ],
         "fr": [
-          "This spell creates a circular, horizontal plane of force, 3 feet in diameter and 1 inch thick, that floats 3 feet above the ground in an unoccupied space of your choice that you can see within range. The disk remains for the duration, and can hold up to 500 pounds. If more weight is placed on it, the spell ends, and everything on the disk falls to the ground.",
-          "The disk is immobile while you are within 20 feet of it. If you move more than 20 feet away from it, the disk follows you so that it remains within 20 feet of you. If can move across uneven terrain, up or down stairs, slopes and the like, but it can't cross an elevation change of 10 feet or more. For example, the disk can't move across a 10-foot-deep pit, nor could it leave such a pit if it was created at the bottom.",
-          "If you move more than 100 feet away from the disk (typically because it can't move around an obstacle to follow you), the spell ends."
+          "Ce sort crée un plateau de force horizontal et circulaire, de 90 cm de diamètre et épais de 2,50 cm, qui flotte 90 cm au-dessus du sol dans un espace inoccupé de votre choix, à portée et que vous pouvez voir. Le disque reste en place pour la durée du sort et peut supporter 250 kg. Si plus de poids est placé sur le disque, le sort prend fin, et tout ce qui se trouve sur le disque tombe sur le sol.",
+          "Le disque est immobile tant que vous vous trouvez à 6 mètres de lui. Si vous vous déplacez à plus de 6 mètres, le disque vous suit jusqu'à se retrouver de nouveau à 6 mètres de vous. Il peut se déplacer au-dessus de n'importe quel type de terrain, monter et descendre les escaliers, les pentes et tout ce qui y ressemble, mais il ne peut effectuer un changement brutal d'altitude égal ou supérieur à 3 mètres. Par exemple, le disque ne peut pas se déplacer au-dessus d'un gouffre de 3 mètres de profondeur, ou il ne peut pas sortir d'un gouffre de 3 mètres de haut s'il a été invoqué au fond.",
+          "Si vous vous déplacez à plus de 30 mètres du disque (par exemple parce qu'il ne peut pas passer au-dessus d'un obstacle pour vous suivre), le sort prend fin."
         ]
       },
       "range": {
@@ -2320,7 +2320,7 @@
       },
       "duration": {
         "en": "1 hour",
-        "fr": "1 hour"
+        "fr": "1 heure"
       },
       "casting_time": {
         "en": "1 action",
@@ -2328,7 +2328,7 @@
       },
       "material": {
         "en": "A drop of mercury.",
-        "fr": "A drop of mercury."
+        "fr": "Une goutte de mercure"
       }
     },
     {
@@ -2682,7 +2682,7 @@
       },
       "name": {
         "en": "Hideous Laughter",
-        "fr": "Hideous Laughter"
+        "fr": "Fou rire de Tasha"
       },
       "desc": {
         "en": [
@@ -2690,8 +2690,8 @@
           "At the end of each of its turns, and each time it takes damage, the target can make another wisdom saving throw. The target had advantage on the saving throw if it's triggered by damage. On a success, the spell ends."
         ],
         "fr": [
-          "A creature of your choice that you can see within range perceives everything as hilariously funny and falls into fits of laughter if this spell affects it. The target must succeed on a wisdom saving throw or fall prone, becoming incapacitated and unable to stand up for the duration. A creature with an Intelligence score of 4 or less isn't affected.",
-          "At the end of each of its turns, and each time it takes damage, the target can make another wisdom saving throw. The target had advantage on the saving throw if it's triggered by damage. On a success, the spell ends."
+          "Une créature de votre choix, que vous pouvez voir et à portée, a l'impression que tout ce qu'elle perçoit est hilarant et lui provoque une intense crise de fou rire. La cible doit réussir un jet de sauvegarde de Sagesse sous peine de tomber à terre, et être incapable d'agir et de se relever pour toute la durée du sort. Une créature ayant une Intelligence de 4 ou moins ne peut pas être affectée par ce sort.",
+          "À la fin de chacun de ses tours, et à chaque fois qu'elle subit des dégâts, la cible peut effectuer un nouveau jet de sauvegarde de Sagesse. La cible a un avantage à son jet de sauvegarde s'il est déclenché par des dégâts. En cas de réussite, le sort prend fin."
         ]
       },
       "range": {
@@ -2700,7 +2700,7 @@
       },
       "duration": {
         "en": "Up to 1 minute",
-        "fr": "Up to 1 minute"
+        "fr": "concentration, jusqu'à 1 minute"
       },
       "casting_time": {
         "en": "1 action",
@@ -2708,7 +2708,7 @@
       },
       "material": {
         "en": "Tiny tarts and a feather that is waved in the air.",
-        "fr": "Tiny tarts and a feather that is waved in the air."
+        "fr": "De minuscules tartes et une plume qui est agitée dans les airs"
       }
     },
     {
@@ -3583,14 +3583,15 @@
       },
       "name": {
         "en": "Acid Arrow",
-        "fr": "Acid Arrow"
+        "fr": "Flèche acide de Melf"
       },
       "desc": {
         "en": [
           "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn."
         ],
         "fr": [
-          "A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much of the initial damage and no damage at the end of its next turn."
+          "Une flèche verte scintillante jaillit en direction d'une cible à portée et l'asperge d'acide. Effectuez une attaque à distance avec un sort contre la cible. Si l'attaque touche, la cible subit 4d4 dégâts d'acide immédiatement et 2d4 dégâts d'acide à la fin de son prochain tour. En cas d'échec, la flèche asperge la cible avec de l'acide, ne lui infligeant que la moitié des dégâts initiaux et aucun dégât à la fin de son prochain tour.",
+          "Aux niveaux supérieurs. Lorsque vous lancez ce sort en utilisant un emplacement de sort de niveau 3 ou supérieur, les dégâts (initiaux et à retardement) sont augmentés de 1d4 pour chaque niveau d'emplacement au-delà du niveau 2."
         ]
       },
       "range": {
@@ -3599,7 +3600,7 @@
       },
       "duration": {
         "en": "Instantaneous",
-        "fr": "Instantaneous"
+        "fr": "instantanée"
       },
       "casting_time": {
         "en": "1 action",
@@ -3607,7 +3608,7 @@
       },
       "material": {
         "en": "Powdered rhubarb leaf and an adder's stomach.",
-        "fr": "Powdered rhubarb leaf and an adder's stomach."
+        "fr": "Une feuille de rhubarbe en poudre et un estomac de vipère"
       }
     },
     {
@@ -3821,7 +3822,7 @@
       },
       "name": {
         "en": "Arcanist's Magic Aura",
-        "fr": "Arcanist's Magic Aura"
+        "fr": "Aura magique de Nystul"
       },
       "desc": {
         "en": [
@@ -3831,19 +3832,19 @@
           "***Mask.*** You change the way the target appears to spells and magical effects that detect creature types, such as a paladin's Divine Sense or the trigger of a symbol spell. You choose a creature type and other spells and magical effects treat the target as if it were a creature of that type or of that alignment."
         ],
         "fr": [
-          "You place an illusion on a creature or an object you touch so that divination spells reveal false information about it. The target can be a willing creature or an object that isn't being carried or worn by another creature.",
-          "When you cast the spell, choose one or both of the following effects. The effect lasts for the duration. If you cast this spell on the same creature or object every day for 30 days, placing the same effect on it each time, the illusion lasts until it is dispelled.",
-          "***False Aura.*** You change the way the target appears to spells and magical effects, such as detect magic, that detect magical auras. You can make a nonmagical object appear magical, a magical object appear nonmagical, or change the object's magical aura so that it appears to belong to a specific school of magic that you choose. When you use this effect on an object, you can make the false magic apparent to any creature that handles the item.",
-          "***Mask.*** You change the way the target appears to spells and magical effects that detect creature types, such as a paladin's Divine Sense or the trigger of a symbol spell. You choose a creature type and other spells and magical effects treat the target as if it were a creature of that type or of that alignment."
+          "Vous placez une illusion sur une créature ou un objet que vous touchez pour que les sorts de divination révèlent de fausses informations les concernant. La cible peut être une créature consentante ou un objet qui n'est pas tenu ou équipé par une autre créature.",
+          "Lorsque vous lancez le sort, choisissez l'un ou les deux effets suivants. L'effet reste en place pour la durée du sort. Si vous lancez ce sort sur la même créature ou le même objet tous les jours pendant 30 jours, en choisissant à chaque fois le même effet, l'illusion reste active jusqu'à ce que le sort soit dissipé.",
+          "Fausse aura. Vous modifiez la manière dont la cible apparaît aux sorts et effets magiques, comme le sort détection de la magie, qui détectent les auras magiques. Vous pouvez faire en sorte qu'un objet non magique semble magique, et vice versa, ou modifier l'aura magique d'un objet pour qu'elle semble appartenir à une autre école de magie de votre choix. Lorsque vous utilisez cet effet sur un objet, vous pouvez faire en sorte que cette fausse aura soit visible pour toute créature qui tient l'objet en main.",
+          "Masque. Vous modifiez la manière dont la cible apparaît aux sorts et effets magiques qui détectent le type d'une créature, comme le Sens divin du paladin ou le déclencheur du sort symbole. Vous choisissez un type de créature, les autres sorts et effets magiques traitent la cible comme si elle était de ce type ou de cet alignement."
         ]
       },
       "range": {
         "en": "Touch",
-        "fr": "Contact"
+        "fr": "contact"
       },
       "duration": {
         "en": "24 hours",
-        "fr": "24 hours"
+        "fr": "24 heures"
       },
       "casting_time": {
         "en": "1 action",
@@ -3851,7 +3852,7 @@
       },
       "material": {
         "en": "A small square of silk.",
-        "fr": "A small square of silk."
+        "fr": "Un petit carré de soie"
       }
     },
     {
@@ -8066,7 +8067,7 @@
       },
       "name": {
         "en": "Tiny Hut",
-        "fr": "Tiny Hut"
+        "fr": "Petite hutte de Léomund"
       },
       "desc": {
         "en": [
@@ -8075,18 +8076,18 @@
           "Until the spell ends, you can command the interior to become dimly lit or dark. The dome is opaque from the outside, of any color you choose, but it is transparent from the inside."
         ],
         "fr": [
-          "A 10-foot-radius immobile dome of force springs into existence around and above you and remains stationary for the duration. The spell ends if you leave its area.",
-          "Nine creatures of Medium size or smaller can fit inside the dome with you. The spell fails if its area includes a larger creature or more than nine creatures. Creatures and objects within the dome when you cast this spell can move through it freely. All other creatures and objects are barred from passing through it. Spells and other magical effects can't extend through the dome or be cast through it. The atmosphere inside the space is comfortable and dry, regardless of the weather outside.",
-          "Until the spell ends, you can command the interior to become dimly lit or dark. The dome is opaque from the outside, of any color you choose, but it is transparent from the inside."
+          "Un dôme immobile de 3 mètres de rayon apparaît autour et au-dessus de vous et reste à cet endroit, immobile, jusqu'à la fin du sort. Le sort prend fin si vous quittez cette zone.",
+          "Neuf créatures de taille M ou inférieure peuvent tenir sous le dôme avec vous. Le sort échoue si la zone contient une créature plus grande ou plus de neuf créatures. Les créatures et objets qui se trouvent sous le dôme lorsque vous lancez ce sort peuvent en sortir et y rentrer librement. Toutes les autres créatures et objets sont bloqués et ne peuvent le traverser. Les sorts et effets magiques, lancés de l'intérieur ou de l'extérieur du dôme, ne peuvent pas non plus passer au travers. L'atmosphère dans la zone est confortable et sec, quel que soit le climat extérieur.",
+          "Jusqu'à ce que le sort prenne fin, vous pouvez faire en sorte que l'intérieur du dôme soit faiblement éclairé voire plongé dans les ténèbres. Le dôme est opaque depuis l'extérieur, de la couleur de votre choix, mais il est transparent depuis l'intérieur."
         ]
       },
       "range": {
         "en": "Self",
-        "fr": "Personnelle"
+        "fr": "personnelle (hémisphère de 3 mètres de rayon)"
       },
       "duration": {
         "en": "8 hours",
-        "fr": "8 hours"
+        "fr": "8 heures"
       },
       "casting_time": {
         "en": "1 minute",
@@ -8094,7 +8095,7 @@
       },
       "material": {
         "en": "A small crystal bead.",
-        "fr": "A small crystal bead."
+        "fr": "Une petite perle de cristal"
       }
     },
     {
@@ -8451,7 +8452,7 @@
       },
       "name": {
         "en": "Black Tentacles",
-        "fr": "Black Tentacles"
+        "fr": "Tentacules noirs d'Evard"
       },
       "desc": {
         "en": [
@@ -8460,9 +8461,9 @@
           "A creature restrained by the tentacles can use its action to make a Strength or Dexterity check (its choice) against your spell save DC. On a success, it frees itself."
         ],
         "fr": [
-          "Squirming, ebony tentacles fill a 20-foot square on ground that you can see within range. For the duration, these tentacles turn the ground in the area into difficult terrain.",
-          "When a creature enters the affected area for the first time on a turn or starts its turn there, the creature must succeed on a Dexterity saving throw or take 3d6 bludgeoning damage and be restrained by the tentacles until the spell ends. A creature that starts its turn in the area and is already restrained by the tentacles takes 3d6 bludgeoning damage.",
-          "A creature restrained by the tentacles can use its action to make a Strength or Dexterity check (its choice) against your spell save DC. On a success, it frees itself."
+          "De sombres tentacules grouillants occupent le sol dans un carré de 6 mètres d'arête que vous pouvez voir dans la portée du sort. Pour la durée du sort, ces tentacules rendent le terrain difficile.",
+          "Lorsqu'une créature pénètre dans la zone affectée pour la première fois lors d'un tour ou lorsqu'elle y débute son tour, elle doit réussir un jet de sauvegarde de Dextérité ou subir 3d6 dégâts contondants et être entravée par les tentacules jusqu'à la fin du sort. Une créature qui débute son tour dans la zone et qui est déjà entravée par les tentacules subit 3d6 dégâts contondants.",
+          "Une créature entravée par les tentacules peut utiliser son action pour faire un jet de Force ou de Dextérité (selon son choix) contre le DD de sauvegarde de votre sort. En cas de réussite, elle se libère."
         ]
       },
       "range": {
@@ -8471,7 +8472,7 @@
       },
       "duration": {
         "en": "Up to 1 minute",
-        "fr": "Up to 1 minute"
+        "fr": "concentration, jusqu'à 1 minute"
       },
       "casting_time": {
         "en": "1 action",
@@ -8479,7 +8480,7 @@
       },
       "material": {
         "en": "A piece of tentacle from a giant octopus or a giant squid",
-        "fr": "A piece of tentacle from a giant octopus or a giant squid"
+        "fr": "Un morceau de tentacule d'une pieuvre ou d'un calmar géant"
       }
     },
     {
@@ -9094,7 +9095,7 @@
       },
       "name": {
         "en": "Faithful Hound",
-        "fr": "Faithful Hound"
+        "fr": "Chien de garde de Mordenkainen"
       },
       "desc": {
         "en": [
@@ -9103,9 +9104,9 @@
           "At the start of each of your turns, the hound attempts to bite one creature within 5 feet of it that is hostile to you. The hound's attack bonus is equal to your spellcasting ability modifier + your proficiency bonus. On a hit, it deals 4d8 piercing damage."
         ],
         "fr": [
-          "You conjure a phantom watchdog in an unoccupied space that you can see within range, where it remains for the duration, until you dismiss it as an action, or until you move more than 100 feet away from it.",
-          "The hound is invisible to all creatures except you and can't be harmed. When a Small or larger creature comes within 30 feet of it without first speaking the password that you specify when you cast this spell, the hound starts barking loudly. The hound sees invisible creatures and can see into the Ethereal Plane. It ignores illusions.",
-          "At the start of each of your turns, the hound attempts to bite one creature within 5 feet of it that is hostile to you. The hound's attack bonus is equal to your spellcasting ability modifier + your proficiency bonus. On a hit, it deals 4d8 piercing damage."
+          "Vous invoquez un chien de garde fantomatique dans un espace inoccupé que vous pouvez voir et à portée, où il reste pour la durée du sort, jusqu'à ce que vous le renvoyiez par une action, ou jusqu'à ce que vous vous déplaciez à plus de 30 mètres de lui.",
+          "Le chien est invisible pour toutes les créatures, vous excepté, et on ne peut pas lui faire du mal. Lorsqu'une créature de taille P ou supérieure s'approche à 9 mètres ou moins de lui sans donner le mot de passe que vous avez spécifié lorsque vous avez lancé le sort, le chien commence à aboyer bruyamment. Le chien voit les créatures invisibles et peut également voir le plan éthéré. Il ignore les illusions.",
+          "Au début de chacun de vos tours, le chien tente de mordre une créature se trouvant à 1,50 mètre ou moins de lui et qui vous est hostile. Le bonus à l'attaque du chien de garde est égal au modificateur de votre caractéristique d'incantation + votre bonus de maîtrise. Si le coup touche, il inflige 4d8 dégâts perforants."
         ]
       },
       "range": {
@@ -9114,7 +9115,7 @@
       },
       "duration": {
         "en": "8 hours",
-        "fr": "8 hours"
+        "fr": "8 heures"
       },
       "casting_time": {
         "en": "1 action",
@@ -9122,7 +9123,7 @@
       },
       "material": {
         "en": "A tiny silver whistle, a piece of bone, and a thread",
-        "fr": "A tiny silver whistle, a piece of bone, and a thread"
+        "fr": "Un minuscule sifflet d'argent, un morceau d'os, et un bout de ficelle"
       }
     },
     {
@@ -9632,7 +9633,7 @@
       },
       "name": {
         "en": "Private Sanctum",
-        "fr": "Private Sanctum"
+        "fr": "Sanctuaire privé de Mordenkainen"
       },
       "desc": {
         "en": [
@@ -9647,15 +9648,16 @@
           "Casting this spell on the same spot every day for a year makes this effect permanent."
         ],
         "fr": [
-          "You make an area within range magically secure. The area is a cube that can be as small as 5 feet to as large as 100 feet on each side. The spell lasts for the duration or until you use an action to dismiss it.",
-          "When you cast the spell, you decide what sort of security the spell provides, choosing any or all of the following properties:",
-          "- Sound can't pass through the barrier at the edge of the warded area.",
-          "- The barrier of the warded area appears dark and foggy, preventing vision (including darkvision) through it.",
-          "- Sensors created by divination spells can't appear inside the protected area or pass through the barrier at its perimeter.",
-          "- Creatures in the area can't be targeted by divination spells.",
-          "- Nothing can teleport into or out of the warded area.",
-          "- Planar travel is blocked within the warded area.",
-          "Casting this spell on the same spot every day for a year makes this effect permanent."
+          "Vous créez, à portée, une zone sécurisée magiquement. La zone est un cube de 1,50 mètre d'arête minimum à 30 mètres d'arête maximum. L'effet reste actif pour toute la durée du sort ou jusqu'à ce que vous le dissipiez en utilisant une action.",
+          "Lorsque vous lancez ce sort, vous décidez quelle sorte de sécurité il confère en choisissant une ou plusieurs options parmi les suivantes :",
+          "• Les sons ne peuvent pas traverser la barrière située à la limite de la zone d'effet du sort.",
+          "• La barrière de la zone d'effet est matérialisée en une nappe de fumée noirâtre, bloquant ainsi la vision (y compris la vision dans le noir) au travers.",
+          "• Les capteurs ou détecteurs créés par des sorts de divination ne peuvent pas apparaître à l'intérieur de la zone protégée ou passer au travers de la barrière située à son périmètre.",
+          "• Les créatures dans la zone ne peuvent pas être la cible de sorts de divination.",
+          "• Rien ne peut se téléporter à l'intérieur de la zone protégée, pour y entrer ou pour en sortir.",
+          "• Le voyage planaire est bloqué dans l'enceinte de la zone protégée.",
+          "Lancer ce sort au même endroit, tous les jours pendant un an, rend son effet permanent.",
+          "Aux niveaux supérieurs. Lorsque vous lancez ce sort en utilisant un emplacement de sort de niveau 5 ou supérieur, vous pouvez augmenter la taille du cube de 30 mètres pour chaque niveau d'emplacement au-delà du niveau 4. Ainsi vous pourriez protéger un cube de 60 mètres d'arête en utilisant un emplacement de sort de niveau 5."
         ]
       },
       "range": {
@@ -9664,7 +9666,7 @@
       },
       "duration": {
         "en": "24 hours",
-        "fr": "24 hours"
+        "fr": "24 heures"
       },
       "casting_time": {
         "en": "10 minutes",
@@ -9694,7 +9696,7 @@
       },
       "name": {
         "en": "Resilient Sphere",
-        "fr": "Resilient Sphere"
+        "fr": "Sphère résiliente d'Otiluke"
       },
       "desc": {
         "en": [
@@ -9704,10 +9706,10 @@
           "A disintegrate spell targeting the globe destroys it without harming anything inside it."
         ],
         "fr": [
-          "A sphere of shimmering force encloses a creature or object of Large size or smaller within range. An unwilling creature must make a dexterity saving throw. On a failed save, the creature is enclosed for the duration.",
-          "Nothing--not physical objects, energy, or other spell effects--can pass through the barrier, in or out, though a creature in the sphere can breathe there. The sphere is immune to all damage, and a creature or object inside can't be damaged by attacks or effects originating from outside, nor can a creature inside the sphere damage anything outside it.",
-          "The sphere is weightless and just large enough to contain the creature or object inside. An enclosed creature can use its action to push against the sphere's walls and thus roll the sphere at up to half the creature's speed. Similarly, the globe can be picked up and moved by other creatures.",
-          "A disintegrate spell targeting the globe destroys it without harming anything inside it."
+          "Une chatoyante sphère de force cloître une créature ou un objet de taille G ou inférieure à portée. Une créature non-consentante doit effectuer un jet de sauvegarde de Dextérité. En cas d'échec, la créature est emprisonnée pour la durée du sort.",
+          "Rien (que ce soit un objet physique, de l'énergie, ou les effets d'un sort) ne peut passer au travers de la barrière, pour en sortir ou pour y entrer, cependant une créature dans la sphère peut respirer normalement. La sphère est immunisée à tous les dégâts, et une créature ou objet présent dans la sphère ne peut pas être endommagé par une attaque ou un effet provenant de l'extérieur, de même, une créature à l'intérieur de la sphère ne peut pas faire de dommage à l'extérieur.",
+          "La sphère n'a pas de poids et est tout juste assez large pour contenir la créature ou l'objet qu'elle emprisonne. Une créature cloîtrée peut utiliser son action pour pousser contre la paroi de la sphère et ainsi faire rouler la sphère de la moitié de sa vitesse de déplacement. De la même manière, le globe peut être poussé et ainsi déplacé par les autres créatures.",
+          "Un sort de désintégration ciblant le globe le détruit sans rien endommager de ce qu'il contient."
         ]
       },
       "range": {
@@ -9716,7 +9718,7 @@
       },
       "duration": {
         "en": "Up to 1 minute",
-        "fr": "Up to 1 minute"
+        "fr": "concentration, jusqu'à 1 minute"
       },
       "casting_time": {
         "en": "1 action",
@@ -9724,7 +9726,7 @@
       },
       "material": {
         "en": "A hemispherical piece of clear crystal and a matching hemispherical piece of gum arabic.",
-        "fr": "A hemispherical piece of clear crystal and a matching hemispherical piece of gum arabic."
+        "fr": "Un hémisphère de cristal et un hémisphère assorti de gomme arabique"
       }
     },
     {
@@ -9744,7 +9746,7 @@
       },
       "name": {
         "en": "Secret Chest",
-        "fr": "Secret Chest"
+        "fr": "Coffre secret de Léomund"
       },
       "desc": {
         "en": [
@@ -9753,18 +9755,18 @@
           "After 60 days, there is a cumulative 5 percent chance per day that the spell's effect ends. This effect ends if you cast this spell again, if the smaller replica chest is destroyed, or if you choose to end the spell as an action. If the spell ends and the larger chest is on the Ethereal Plane, it is irretrievably lost."
         ],
         "fr": [
-          "You hide a chest, and all its contents, on the Ethereal Plane. You must touch the chest and the miniature replica that serves as a material component for the spell. The chest can contain up to 12 cubic feet of nonliving material (3 feet by 2 feet by 2 feet).",
-          "While the chest remains on the Ethereal Plane, you can use an action and touch the replica to recall the chest. It appears in an unoccupied space on the ground within 5 feet of you. You can send the chest back to the Ethereal Plane by using an action and touching both the chest and the replica.",
-          "After 60 days, there is a cumulative 5 percent chance per day that the spell's effect ends. This effect ends if you cast this spell again, if the smaller replica chest is destroyed, or if you choose to end the spell as an action. If the spell ends and the larger chest is on the Ethereal Plane, it is irretrievably lost."
+          "Vous cachez un coffre, et tout son contenu, dans le plan éthéré. Vous devez toucher le coffre et sa réplique miniature qui vous sert de composante matérielle pour le sort. Le coffre peut contenir jusqu'à un tiers de mètre cube de matériel non-vivant (90 cm x 60 cm x 60 cm).",
+          "Tant que le coffre reste dans le plan éthéré, vous pouvez utiliser une action et toucher la réplique pour rappeler le coffre. Il apparaît sur le sol, dans un espace inoccupé, dans un rayon de 1,50 mètre de vous. Vous pouvez renvoyer le coffre dans le plan éthéré en utilisant une action et en touchant à la fois le coffre et sa réplique.",
+          "Passé un délai de 60 jours, il y a 5 % de risque par jour (les risques se cumulent de jour en jour) que l'effet du sort prenne fin. L'effet du sort prend fin si vous lancez de nouveau ce sort, si la réplique miniature du coffre est détruite, ou si vous choisissez de mettre un terme au sort par une action. Si le sort prend fin et que la version large du coffre se trouve toujours dans le plan éthéré, il est irrémédiablement perdu."
         ]
       },
       "range": {
         "en": "Touch",
-        "fr": "Contact"
+        "fr": "contact"
       },
       "duration": {
         "en": "Instantaneous",
-        "fr": "Instantaneous"
+        "fr": "instantanée"
       },
       "casting_time": {
         "en": "1 action",
@@ -10050,7 +10052,7 @@
       },
       "name": {
         "en": "Arcane Hand",
-        "fr": "Arcane Hand"
+        "fr": "Main de Bigby"
       },
       "desc": {
         "en": [
@@ -10063,13 +10065,14 @@
           "***Interposing Hand.*** The hand interposes itself between you and a creature you choose until you give the hand a different command. The hand moves to stay between you and the target, providing you with half cover against the target. The target can't move through the hand's space if its Strength score is less than or equal to the hand's Strength score. If its Strength score is higher than the hand's Strength score, the target can move toward you through the hand's space, but that space is difficult terrain for the target."
         ],
         "fr": [
-          "You create a Large hand of shimmering, translucent force in an unoccupied space that you can see within range. The hand lasts for the spell's duration, and it moves at your command, mimicking the movements of your own hand.",
-          "The hand is an object that has AC 20 and hit points equal to your hit point maximum. If it drops to 0 hit points, the spell ends. It has a Strength of 26 (+8) and a Dexterity of 10 (+0). The hand doesn't fill its space.",
-          "When you cast the spell and as a bonus action on your subsequent turns, you can move the hand up to 60 feet and then cause one of the following effects with it.",
-          "***Clenched Fist.*** The hand strikes one creature or object within 5 feet of it. Make a melee spell attack for the hand using your game statistics. On a hit, the target takes 4d8 force damage.",
-          "***Forceful Hand.*** The hand attempts to push a creature within 5 feet of it in a direction you choose. Make a check with the hand's Strength contested by the Strength (Athletics) check of the target. If the target is Medium or smaller, you have advantage on the check. If you succeed, the hand pushes the target up to 5 feet plus a number of feet equal to five times your spellcasting ability modifier. The hand moves with the target to remain within 5 feet of it.",
-          "***Grasping Hand.*** The hand attempts to grapple a Huge or smaller creature within 5 feet of it. You use the hand's Strength score to resolve the grapple. If the target is Medium or smaller, you have advantage on the check. While the hand is grappling the target, you can use a bonus action to have the hand crush it. When you do so, the target takes bludgeoning damage equal to 2d6 + your spellcasting ability modifier.",
-          "***Interposing Hand.*** The hand interposes itself between you and a creature you choose until you give the hand a different command. The hand moves to stay between you and the target, providing you with half cover against the target. The target can't move through the hand's space if its Strength score is less than or equal to the hand's Strength score. If its Strength score is higher than the hand's Strength score, the target can move toward you through the hand's space, but that space is difficult terrain for the target."
+          "Vous créez une main de force luminescente et translucide de taille G dans un espace inoccupé à portée et que vous pouvez voir. La main reste pour la durée du sort, et elle se déplace selon vos ordres, reproduisant les mouvements de votre propre main.",
+          "La main est un objet ayant une CA de 20 et un nombre de points de vie égal à votre maximum de points de vie. Si elle tombe à 0 point de vie, le sort prend fin. Elle a une Force de 26 (+8) et une Dextérité de 10 (+0). La main ne remplit pas l'espace qu'elle occupe.",
+          "Lorsque vous lancez ce sort et par une action bonus aux tours qui suivent, vous pouvez déplacer la main jusqu'à 18 mètres puis lui appliquer l'un des effets suivants.",
+          "Poing de Bigby. La main frappe une créature ou un objet à 1,50 mètre d'elle. Effectuez une attaque au corps à corps avec un sort pour la main en utilisant vos statistiques de jeu. Si l'attaque touche, la cible subit 4d8 dégâts de force.",
+          "Main de force de Bigby. La main tente de pousser une créature située à 1,50 mètre d'elle, dans une direction de votre choix. Effectuez un jet de Force de la main contre un jet de Force (Athlétisme) de la cible. Si la cible est de taille M ou inférieure, vous avez un avantage au jet. Si vous gagnez l'opposition, la main repousse la cible sur une distance en mètre égale à 1,50 x (1 + le modificateur de votre caractéristique d'incantation). La main se déplace avec la cible pour rester à 1,50 mètre d'elle.",
+          "Main broyeuse de Bigby. La main tente d'agripper une créature de taille G ou inférieure se trouvant à 1,50 mètre d'elle. Vous utilisez la Force de la main pour résoudre la tentative. Si la cible est de taille M ou inférieure, vous avez un avantage au jet. Tant que la main agrippe la cible, vous pouvez utiliser une action bonus pour que la main la broie. Lorsque vous faites ainsi, la cible subit un nombre de points de dégâts contondants égal à 2d6 + le modificateur de votre caractéristique d'incantation.",
+          "Main d'interposition de Bigby. La main s'interpose entre vous et une créature de votre choix jusqu'à ce que vous donniez à la main un ordre différent. La main se déplace de sorte à toujours rester entre vous et la cible, vous donnant un abri partiel contre la cible. La cible ne peut pas se déplacer au travers de l'espace occupé par la main si sa valeur de Force est inférieure ou égale à celle de la main. Si la valeur de Force de la cible est supérieure à celle de la main, elle peut se déplacer dans votre direction en traversant l'espace de la main, mais son espace est considéré comme étant un terrain difficile pour la cible.",
+          "Aux niveaux supérieurs. Lorsque vous lancez ce sort en utilisant un emplacement de sort de niveau 6 ou supérieur, les dégâts du Poing de Bigby augmentent de 2d8 et les dégâts de la Main broyeuse de Bigby augmentent de 2d6, et ce pour chaque emplacement de niveau supérieur au 5eme."
         ]
       },
       "range": {
@@ -10078,7 +10081,7 @@
       },
       "duration": {
         "en": "Up to 1 minute",
-        "fr": "Up to 1 minute"
+        "fr": "concentration, jusqu'à 1 minute"
       },
       "casting_time": {
         "en": "1 action",
@@ -10086,7 +10089,7 @@
       },
       "material": {
         "en": "An eggshell and a snakeskin glove.",
-        "fr": "An eggshell and a snakeskin glove."
+        "fr": "Une coquille d'œuf et un gant en peau de serpent"
       }
     },
     {
@@ -11677,7 +11680,7 @@
       },
       "name": {
         "en": "Telepathic Bond",
-        "fr": "Telepathic Bond"
+        "fr": "Lien télépathique de Rary"
       },
       "desc": {
         "en": [
@@ -11685,8 +11688,8 @@
           "Until the spell ends, the targets can communicate telepathically through the bond whether or not they have a common language. The communication is possible over any distance, though it can't extend to other planes of existence."
         ],
         "fr": [
-          "You forge a telepathic link among up to eight willing creatures of your choice within range, psychically linking each creature to all the others for the duration. Creatures with Intelligence scores of 2 or less aren't affected by this spell.",
-          "Until the spell ends, the targets can communicate telepathically through the bond whether or not they have a common language. The communication is possible over any distance, though it can't extend to other planes of existence."
+          "Vous tissez un lien télépathique unissant jusqu'à huit créatures consentantes de votre choix et à portée, chacune psychiquement liée aux autres pour toute la durée du sort. Les créatures ayant une valeur d'Intelligence inférieure ou égale à 2 ne peuvent pas être affectées par ce sort.",
+          "Jusqu'à ce que le sort prenne fin, les cibles peuvent communiquer télépathiquement via ce lien, qu'elles aient ou non une langue en commun. La communication est possible quelle que soit la distance qui sépare les cibles, mais elle ne fonctionne plus pour des créatures se trouvant sur différents plans d'existence."
         ]
       },
       "range": {
@@ -11695,7 +11698,7 @@
       },
       "duration": {
         "en": "1 hour",
-        "fr": "1 hour"
+        "fr": "1 heure"
       },
       "casting_time": {
         "en": "1 action",
@@ -11703,7 +11706,7 @@
       },
       "material": {
         "en": "Pieces of eggshell from two different kinds of creatures",
-        "fr": "Pieces of eggshell from two different kinds of creatures"
+        "fr": "Des coquilles d'œufs pondus par des créatures d'espèces différentes"
       }
     },
     {
@@ -12482,7 +12485,7 @@
       },
       "name": {
         "en": "Freezing Sphere",
-        "fr": "Freezing Sphere"
+        "fr": "Sphère glaciale d'Otiluke"
       },
       "desc": {
         "en": [
@@ -12491,9 +12494,10 @@
           "You can refrain from firing the globe after completing the spell, if you wish. A small globe about the size of a sling stone, cool to the touch, appears in your hand. At any time, you or a creature you give the globe to can throw the globe (to a range of 40 feet) or hurl it with a sling (to the sling's normal range). It shatters on impact, with the same effect as the normal casting of the spell. You can also set the globe down without shattering it. After 1 minute, if the globe hasn't already shattered, it explodes."
         ],
         "fr": [
-          "A frigid globe of cold energy streaks from your fingertips to a point of your choice within range, where it explodes in a 60-foot-radius sphere. Each creature within the area must make a constitution saving throw. On a failed save, a creature takes 10d6 cold damage. On a successful save, it takes half as much damage.",
-          "If the globe strikes a body of water or a liquid that is principally water (not including water-based creatures), it freezes the liquid to a depth of 6 inches over an area 30 feet square. This ice lasts for 1 minute. Creatures that were swimming on the surface of frozen water are trapped in the ice. A trapped creature can use an action to make a Strength check against your spell save DC to break free.",
-          "You can refrain from firing the globe after completing the spell, if you wish. A small globe about the size of a sling stone, cool to the touch, appears in your hand. At any time, you or a creature you give the globe to can throw the globe (to a range of 40 feet) or hurl it with a sling (to the sling's normal range). It shatters on impact, with the same effect as the normal casting of the spell. You can also set the globe down without shattering it. After 1 minute, if the globe hasn't already shattered, it explodes."
+          "Un globe d'énergie glaciale est projeté du bout de votre doigt vers un point de votre choix, à portée, où il explose en une sphère d'un rayon de 18 mètres. Chaque créature se trouvant dans la zone doit effectuer un jet de sauvegarde de Constitution, subissant 10d6 dégâts de froid en cas de réussite, ou la moitié de ces dégâts en cas de réussite.",
+          "Si le globe percute une masse d'eau ou un liquide composé principalement d'eau (à l'exception des créatures constituées d'eau), il gèle le liquide sur une profondeur de 15 cm et une zone carrée de 9 mètres de côté. La glace reste en place pendant 1 minute. Les créatures qui étaient en train de nager à la surface de l'eau gelée son piégées par la glace. Une créature piégée peut utiliser son action pour effectuer un jet de Force contre le DD de sauvegarde de votre sort pour se libérer.",
+          "Si vous le souhaitez, vous pouvez vous abstenir de tirer le globe une fois que vous avez fini d'incanter le sort. Un petit globe de la taille d'une pierre à fronde, froid au toucher, apparaît alors dans votre main. À n'importe quel moment, vous, ou une autre créature à qui vous avez donné le globe, pouvez le lancer (avec une portée de 12 mètres) ou le projeter avec une fronde (la portée du globe devient celle de la fronde). Il se brise à l'impact, avec les mêmes effets que s'il avait été lancé directement suite à l'incantation du sort. Vous pouvez également poser le globe au sol sans le briser. Au bout d'une minute, si le globe n'est toujours pas brisé, il explose.",
+          "Aux niveaux supérieurs. Lorsque vous lancez ce sort en utilisant un emplacement de sort de niveau 7 ou supérieur, les dégâts augmentent de 1d6 pour chaque niveau d'emplacement au-delà du niveau 6."
         ]
       },
       "range": {
@@ -12502,7 +12506,7 @@
       },
       "duration": {
         "en": "Instantaneous",
-        "fr": "Instantaneous"
+        "fr": "instantanée"
       },
       "casting_time": {
         "en": "1 action",
@@ -12510,7 +12514,7 @@
       },
       "material": {
         "en": "A small crystal sphere.",
-        "fr": "A small crystal sphere."
+        "fr": "Une petite sphère de cristal"
       }
     },
     {
@@ -12791,7 +12795,7 @@
       },
       "name": {
         "en": "Instant Summons",
-        "fr": "Instant Summons"
+        "fr": "Convocations instantanées de Drawmij"
       },
       "desc": {
         "en": [
@@ -12801,19 +12805,19 @@
           "Dispel magic or a similar effect successfully applied to the sapphire ends this spell's effect."
         ],
         "fr": [
-          "You touch an object weighing 10 pounds or less whose longest dimension is 6 feet or less. The spell leaves an invisible mark on its surface and invisibly inscribes the name of the item on the sapphire you use as the material component. Each time you cast this spell, you must use a different sapphire.",
-          "At any time thereafter, you can use your action to speak the item's name and crush the sapphire. The item instantly appears in your hand regardless of physical or planar distances, and the spell ends.",
-          "If another creature is holding or carrying the item, crushing the sapphire doesn't transport the item to you, but instead you learn who the creature possessing the object is and roughly where that creature is located at that moment.",
-          "Dispel magic or a similar effect successfully applied to the sapphire ends this spell's effect."
+          "Vous touchez un objet pesant au mieux 5 kg dont chacune des dimensions ne peut dépasser 1,80 mètre. Le sort dépose une marque invisible à sa surface et écrit, toujours de manière invisible, le nom de l'objet sur le saphir que vous avez utilisé comme composante matérielle. Chaque fois que vous lancez ce sort, vous devez utiliser un saphir différent.",
+          "Par la suite, n'importe quand, vous pouvez utiliser votre action pour prononcer le nom de l'objet et broyer le saphir. L'objet apparaît instantanément dans votre main, quels que soient la distance ou les plans qui vous séparent. Le sort prend alors fin.",
+          "Si une autre créature porte ou tient l'objet, briser le saphir ne téléporte pas l'objet jusqu'à vous mais vous informe de qui le possède actuellement et où cette créature se trouve en ce moment.",
+          "Le sort dissipation de la magie, ou un effet similaire, lancé avec succès sur le saphir met fin à l'effet du sort."
         ]
       },
       "range": {
         "en": "Touch",
-        "fr": "Contact"
+        "fr": "contact"
       },
       "duration": {
         "en": "Until dispelled",
-        "fr": "Until dispelled"
+        "fr": "jusqu'à dissipation"
       },
       "casting_time": {
         "en": "1 minute",
@@ -12821,7 +12825,7 @@
       },
       "material": {
         "en": "A sapphire worth 1,000 gp.",
-        "fr": "A sapphire worth 1,000 gp."
+        "fr": "Un saphir valant au moins 1 000 po"
       }
     },
     {
@@ -12842,7 +12846,7 @@
       },
       "name": {
         "en": "Irresistible Dance",
-        "fr": "Irresistible Dance"
+        "fr": "Danse irrésistible d'Otto"
       },
       "desc": {
         "en": [
@@ -12850,8 +12854,8 @@
           "A dancing creature must use all its movement to dance without leaving its space and has disadvantage on dexterity saving throws and attack rolls. While the target is affected by this spell, other creatures have advantage on attack rolls against it. As an action, a dancing creature makes a wisdom saving throw to regain control of itself. On a successful save, the spell ends."
         ],
         "fr": [
-          "Choose one creature that you can see within range. The target begins a comic dance in place: shuffling, tapping its feet, and capering for the duration. Creatures that can't be charmed are immune to this spell.",
-          "A dancing creature must use all its movement to dance without leaving its space and has disadvantage on dexterity saving throws and attack rolls. While the target is affected by this spell, other creatures have advantage on attack rolls against it. As an action, a dancing creature makes a wisdom saving throw to regain control of itself. On a successful save, the spell ends."
+          "Choisissez une créature visible et à portée. La cible entame une danse hilarante et maladroite, tapant des pieds et applaudissant pendant la durée du sort. Les créatures ne pouvant être charmées sont immunisées à ce sort.",
+          "La victime doit utiliser tout son mouvement pour danser tout en restant à la même place et à un désavantage à ses jets de sauvegarde de Dextérité et ses jets d'attaque. Les autres créatures ont un avantage à leur jet d'attaque contre la victime. Par une action, la victime peut tenter un jet de sauvegarde de Sagesse afin de regagner le contrôle d'elle-même. Sur un jet réussi, le sort prend fin."
         ]
       },
       "range": {
@@ -12860,7 +12864,7 @@
       },
       "duration": {
         "en": "Up to 1 minute",
-        "fr": "Up to 1 minute"
+        "fr": "concentration, jusqu'à 1 minute"
       },
       "casting_time": {
         "en": "1 action",
@@ -13500,7 +13504,7 @@
       },
       "name": {
         "en": "Arcane Sword",
-        "fr": "Arcane Sword"
+        "fr": "Chien de garde de Mordenkainen"
       },
       "desc": {
         "en": [
@@ -13508,17 +13512,18 @@
           "When the sword appears, you make a melee spell attack against a target of your choice within 5 feet of the sword. On a hit, the target takes 3d10 force damage. Until the spell ends, you can use a bonus action on each of your turns to move the sword up to 20 feet to a spot you can see and repeat this attack against the same target or a different one."
         ],
         "fr": [
-          "You create a sword-shaped plane of force that hovers within range. It lasts for the duration.",
-          "When the sword appears, you make a melee spell attack against a target of your choice within 5 feet of the sword. On a hit, the target takes 3d10 force damage. Until the spell ends, you can use a bonus action on each of your turns to move the sword up to 20 feet to a spot you can see and repeat this attack against the same target or a different one."
+          "Vous invoquez un chien de garde fantomatique dans un espace inoccupé que vous pouvez voir et à portée, où il reste pour la durée du sort, jusqu'à ce que vous le renvoyiez par une action, ou jusqu'à ce que vous vous déplaciez à plus de 30 mètres de lui.",
+          "Le chien est invisible pour toutes les créatures, vous excepté, et on ne peut pas lui faire du mal. Lorsqu'une créature de taille P ou supérieure s'approche à 9 mètres ou moins de lui sans donner le mot de passe que vous avez spécifié lorsque vous avez lancé le sort, le chien commence à aboyer bruyamment. Le chien voit les créatures invisibles et peut également voir le plan éthéré. Il ignore les illusions.",
+          "Au début de chacun de vos tours, le chien tente de mordre une créature se trouvant à 1,50 mètre ou moins de lui et qui vous est hostile. Le bonus à l'attaque du chien de garde est égal au modificateur de votre caractéristique d'incantation + votre bonus de maîtrise. Si le coup touche, il inflige 4d8 dégâts perforants."
         ]
       },
       "range": {
         "en": "60 feet",
-        "fr": "18 mètres"
+        "fr": "9 mètres"
       },
       "duration": {
         "en": "Up to 1 minute",
-        "fr": "Up to 1 minute"
+        "fr": "8 heures"
       },
       "casting_time": {
         "en": "1 action",
@@ -13526,7 +13531,7 @@
       },
       "material": {
         "en": "A miniature platinum sword with a grip and pommel of copper and zinc, worth 250 gp.",
-        "fr": "A miniature platinum sword with a grip and pommel of copper and zinc, worth 250 gp."
+        "fr": "Un minuscule sifflet d'argent, un morceau d'os, et un bout de ficelle"
       }
     },
     {
@@ -13922,7 +13927,7 @@
       },
       "name": {
         "en": "Magnificent Mansion",
-        "fr": "Magnificent Mansion"
+        "fr": "Manoir somptueux de Mordenkainen"
       },
       "desc": {
         "en": [
@@ -13931,9 +13936,9 @@
           "You can create any floor plan you like, but the space can't exceed 50 cubes, each cube being 10 feet on each side. The place is furnished and decorated as you choose. It contains sufficient food to serve a nine course banquet for up to 100 people. A staff of 100 near-transparent servants attends all who enter. You decide the visual appearance of these servants and their attire. They are completely obedient to your orders. Each servant can perform any task a normal human servant could perform, but they can't attack or take any action that would directly harm another creature. Thus the servants can fetch things, clean, mend, fold clothes, light fires, serve food, pour wine, and so on. The servants can go anywhere in the mansion but can't leave it. Furnishings and other objects created by this spell dissipate into smoke if removed from the mansion. When the spell ends, any creatures inside the extradimensional space are expelled into the open spaces nearest to the entrance."
         ],
         "fr": [
-          "You conjure an extradimensional dwelling in range that lasts for the duration. You choose where its one entrance is located. The entrance shimmers faintly and is 5 feet wide and 10 feet tall. You and any creature you designate when you cast the spell can enter the extradimensional dwelling as long as the portal remains open. You can open or close the portal if you are within 30 feet of it. While closed, the portal is invisible.",
-          "Beyond the portal is a magnificent foyer with numerous chambers beyond. The atmosphere is clean, fresh, and warm.",
-          "You can create any floor plan you like, but the space can't exceed 50 cubes, each cube being 10 feet on each side. The place is furnished and decorated as you choose. It contains sufficient food to serve a nine course banquet for up to 100 people. A staff of 100 near-transparent servants attends all who enter. You decide the visual appearance of these servants and their attire. They are completely obedient to your orders. Each servant can perform any task a normal human servant could perform, but they can't attack or take any action that would directly harm another creature. Thus the servants can fetch things, clean, mend, fold clothes, light fires, serve food, pour wine, and so on. The servants can go anywhere in the mansion but can't leave it. Furnishings and other objects created by this spell dissipate into smoke if removed from the mansion. When the spell ends, any creatures inside the extradimensional space are expelled into the open spaces nearest to the entrance."
+          "Vous invoquez une résidence extradimensionnelle à portée et qui reste en place pour la durée du sort. Vous choisissez où son entrée est située. L'entrée, qui miroite faiblement, est large de 1,50 mètre et haute de 3 mètres. Vous, et toute créature que vous désignez lorsque vous lancez le sort, pouvez entrer dans la résidence extradimensionnelle aussi longtemps que l'entrée reste ouverte. Vous pouvez ouvrir ou fermer le portail si vous vous trouvez à 9 mètres ou moins de lui. Tant qu'il est fermé, le portail est invisible.",
+          "De l'autre côté du portail se trouve un magnifique hall donnant sur de nombreuses salles. L'atmosphère est pure, agréable et chaleureuse.",
+          "Vous pouvez créer autant d'étage que vous le souhaitez, mais l'espace total ne peut pas dépasser 50 cubes, chaque cube mesurant 3 mètres d'arête. Vous choisissez l'ameublement et la décoration du lieu. Il contient suffisamment de nourriture pour servir un banquet-à-neuf-plats pour 100 personnes. Un personnel de 100 serviteurs quasi-transparents est au service de quiconque pénètre dans le manoir. Vous décidez de l'apparence visuelle de ces serviteurs et de leur livrée. Ils obéissent complètement à vos ordres. Chaque serviteur peut réaliser n'importe quelle tâche qu'un serviteur humain pourrait faire, mais ils ne peuvent pas attaquer ou entreprendre une action qui nuirait directement à une autre créature. Ainsi les serviteurs peuvent apporter des choses, nettoyer, réparer, plier le linge, allumer des feux, servir la nourriture, verser le vin, etc. Les serviteurs peuvent se déplacer de partout dans la demeure mais ne peuvent pas la quitter. Les meubles, et tout autre objet créé par ce sort, se dissipent dans un nuage de fumée dès l'instant où ils quittent le manoir. Lorsque le sort prend fin, toute créature ou objet laissé se trouvant à l'intérieur de l'espace extradimensionnel est expulsée à l'endroit dégagé le plus proche de l'entrée."
         ]
       },
       "range": {
@@ -13942,7 +13947,7 @@
       },
       "duration": {
         "en": "24 hours",
-        "fr": "24 hours"
+        "fr": "24 heures"
       },
       "casting_time": {
         "en": "1 minute",

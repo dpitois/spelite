@@ -141,6 +141,14 @@ export type Translation = {
   grimoire: Record<string, string>;
   classes: Record<string, string>;
   races: Record<string, string>;
+  mechanics: {
+    damageTypes: Record<string, string>;
+    abilities: Record<string, string>;
+    allTypes: string;
+    allAbilities: string;
+    damageLabel: string;
+    saveLabel: string;
+  };
 };
 
 export type TranslationDictionary = Record<string, Translation>;

@@ -147,5 +147,34 @@
     "offlineReady": "App ready to work offline.",
     "updateAvailable": "New content available, click on reload button to update.",
     "updateBtn": "Reload"
+  },
+  "mechanics": {
+    "damageTypes": {
+      "acid": "Acid",
+      "bludgeoning": "Bludgeoning",
+      "cold": "Cold",
+      "fire": "Fire",
+      "force": "Force",
+      "lightning": "Lightning",
+      "necrotic": "Necrotic",
+      "piercing": "Piercing",
+      "poison": "Poison",
+      "psychic": "Psychic",
+      "radiant": "Radiant",
+      "slashing": "Slashing",
+      "thunder": "Thunder"
+    },
+    "abilities": {
+      "str": "Strength",
+      "dex": "Dexterity",
+      "con": "Constitution",
+      "int": "Intelligence",
+      "wis": "Wisdom",
+      "cha": "Charisma"
+    },
+    "allTypes": "All types",
+    "allAbilities": "All abilities",
+    "damageLabel": "Damage",
+    "saveLabel": "Saving Throw"
   }
 }

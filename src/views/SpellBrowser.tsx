@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "preact/hooks";
 import { t, language, actions } from "../store/signals";
 import { useCharacter } from "../hooks/useCharacter";
-import { spellRepository } from "../data";
+import { ontologyRepository } from "../data/ontologyRepository";
 import { BrowserHeader } from "../components/browser/BrowserHeader";
 import { BrowserFilters } from "../components/browser/BrowserFilters";
 import { SpellGrid } from "../components/browser/SpellGrid";
@@ -21,6 +21,8 @@ export function SpellBrowser() {
     "all" | "known" | "learnable"
   >("all");
   const [filterSchool, setFilterSchool] = useState<string>("all");
+  const [filterDamage, setFilterDamage] = useState<string>("all");
+  const [filterSave, setFilterSave] = useState<string>("all");
 
   const availableLevels = Array.from(
     { length: char.maxSpellLevel + 1 },
@@ -34,12 +36,29 @@ export function SpellBrowser() {
     return Array.from(unique).sort();
   }, [allSpells]);
 
+  // Get unique damage types and save abilities from all spells
+  const damageTypes = useMemo(() => {
+    const unique = new Set<string>();
+    allSpells.forEach((s) => {
+      if (s.mechanics?.damage_type) unique.add(s.mechanics.damage_type);
+    });
+    return Array.from(unique).sort();
+  }, [allSpells]);
+
+  const saveAbilities = useMemo(() => {
+    const unique = new Set<string>();
+    allSpells.forEach((s) => {
+      if (s.mechanics?.save_ability) unique.add(s.mechanics.save_ability);
+    });
+    return Array.from(unique).sort();
+  }, [allSpells]);
+
   useEffect(() => {
     let mounted = true;
 
     async function load() {
       setLoading(true);
-      const spells = await spellRepository.getAll(currentLang);
+      const spells = await ontologyRepository.getAll(currentLang);
       if (mounted) {
         setAllSpells(spells);
         setLoading(false);
@@ -94,6 +113,18 @@ export function SpellBrowser() {
       results = results.filter((spell) => spell.school.name === filterSchool);
     }
 
+    if (filterDamage !== "all") {
+      results = results.filter(
+        (spell) => spell.mechanics?.damage_type === filterDamage,
+      );
+    }
+
+    if (filterSave !== "all") {
+      results = results.filter(
+        (spell) => spell.mechanics?.save_ability === filterSave,
+      );
+    }
+
     return results.sort(
       (a, b) => a.name.localeCompare(b.name) || a.level - b.level,
     );
@@ -106,6 +137,8 @@ export function SpellBrowser() {
     filterLevel,
     filterStatus,
     filterSchool,
+    filterDamage,
+    filterSave,
   ]);
 
   const handleReset = () => {
@@ -152,8 +185,14 @@ export function SpellBrowser() {
           setFilterSchool={setFilterSchool}
           filterStatus={filterStatus}
           setFilterStatus={setFilterStatus}
+          filterDamage={filterDamage}
+          setFilterDamage={setFilterDamage}
+          filterSave={filterSave}
+          setFilterSave={setFilterSave}
           availableLevels={availableLevels}
           schools={schools}
+          damageTypes={damageTypes}
+          saveAbilities={saveAbilities}
           t={currentT}
         />
       </BrowserHeader>

@@ -1,0 +1,104 @@
+[
+  {
+    "index": "floating-disk",
+    "name_en": "Floating Disk",
+    "name_fr_current": "Floating Disk",
+    "hint_fr": "Disque flottant de Tenser"
+  },
+  {
+    "index": "hideous-laughter",
+    "name_en": "Hideous Laughter",
+    "name_fr_current": "Hideous Laughter",
+    "hint_fr": "Rire hideux de Tasha"
+  },
+  {
+    "index": "acid-arrow",
+    "name_en": "Acid Arrow",
+    "name_fr_current": "Acid Arrow",
+    "hint_fr": "Flèche acide de Melf"
+  },
+  {
+    "index": "arcanists-magic-aura",
+    "name_en": "Arcanist's Magic Aura",
+    "name_fr_current": "Arcanist's Magic Aura",
+    "hint_fr": "Aura magique de Nystul"
+  },
+  {
+    "index": "tiny-hut",
+    "name_en": "Tiny Hut",
+    "name_fr_current": "Tiny Hut",
+    "hint_fr": "Cabane minuscule de Leomund"
+  },
+  {
+    "index": "black-tentacles",
+    "name_en": "Black Tentacles",
+    "name_fr_current": "Black Tentacles",
+    "hint_fr": "Tentacules noirs d\"Évard"
+  },
+  {
+    "index": "faithful-hound",
+    "name_en": "Faithful Hound",
+    "name_fr_current": "Faithful Hound",
+    "hint_fr": "Chien fidèle de Mordenkainen"
+  },
+  {
+    "index": "private-sanctum",
+    "name_en": "Private Sanctum",
+    "name_fr_current": "Private Sanctum",
+    "hint_fr": "Sanctuaire privé de Mordenkainen"
+  },
+  {
+    "index": "resilient-sphere",
+    "name_en": "Resilient Sphere",
+    "name_fr_current": "Resilient Sphere",
+    "hint_fr": "Sphère résiliente d\"Otiluke"
+  },
+  {
+    "index": "secret-chest",
+    "name_en": "Secret Chest",
+    "name_fr_current": "Secret Chest",
+    "hint_fr": "Coffre secret de Leomund"
+  },
+  {
+    "index": "arcane-hand",
+    "name_en": "Arcane Hand",
+    "name_fr_current": "Arcane Hand",
+    "hint_fr": "Main de Bigby"
+  },
+  {
+    "index": "telepathic-bond",
+    "name_en": "Telepathic Bond",
+    "name_fr_current": "Telepathic Bond",
+    "hint_fr": "Lien télépathique de Rary"
+  },
+  {
+    "index": "freezing-sphere",
+    "name_en": "Freezing Sphere",
+    "name_fr_current": "Freezing Sphere",
+    "hint_fr": "Sphère givrante d\"Otiluke"
+  },
+  {
+    "index": "instant-summons",
+    "name_en": "Instant Summons",
+    "name_fr_current": "Instant Summons",
+    "hint_fr": "Invocation instantanée de Drawmij"
+  },
+  {
+    "index": "irresistible-dance",
+    "name_en": "Irresistible Dance",
+    "name_fr_current": "Irresistible Dance",
+    "hint_fr": "Danse irrésistible d\"Otto"
+  },
+  {
+    "index": "arcane-sword",
+    "name_en": "Arcane Sword",
+    "name_fr_current": "Arcane Sword",
+    "hint_fr": "Épée de Mordenkainen"
+  },
+  {
+    "index": "magnificent-mansion",
+    "name_en": "Magnificent Mansion",
+    "name_fr_current": "Magnificent Mansion",
+    "hint_fr": "Manoir magnifique de Mordenkainen"
+  }
+]

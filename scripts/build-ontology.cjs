@@ -5,6 +5,15 @@ const DATA_DIR = path.join(__dirname, "../src/data");
 const EN_FILE = path.join(DATA_DIR, "spells.en.json");
 const FR_FILE = path.join(DATA_DIR, "spells.fr.json");
 const OUTPUT_FILE = path.join(DATA_DIR, "spells.json");
+const EXTRACTIONS_FILE = path.join(__dirname, "extracted_translations.json");
+
+let extractions = {};
+if (fs.existsSync(EXTRACTIONS_FILE)) {
+  extractions = JSON.parse(fs.readFileSync(EXTRACTIONS_FILE, "utf-8"));
+  console.log(
+    `💡 Loaded ${Object.keys(extractions).length} manual translations from temp.`,
+  );
+}
 
 function extractMechanics(spellEn, spellFr) {
   const descEn = spellEn.desc.join(" ");
@@ -85,10 +94,9 @@ function extractMechanics(spellEn, spellFr) {
     }
   }
 
-  // Area of Effect detection (Option B: Semantic decomposition)
+  // Area of Effect detection
   const aoeTypes = ["sphere", "cone", "cylinder", "line", "cube", "wall"];
   for (const aoeType of aoeTypes) {
-    // Look for "20-foot-radius sphere" or "15-foot cone"
     const aoeRegex = new RegExp(`(\\d+)-foot(?:-radius)?\\s*${aoeType}`, "i");
     const aoeMatch = descEn.match(aoeRegex);
     if (aoeMatch) {
@@ -105,7 +113,7 @@ function extractMechanics(spellEn, spellFr) {
 }
 
 function buildOntology() {
-  console.log("🏗️  Building Spell Ontology (Option B AoE)...");
+  console.log("🏗️  Building Spell Ontology (with manual translations)...");
 
   if (!fs.existsSync(EN_FILE) || !fs.existsSync(FR_FILE)) {
     console.error("❌ Source files missing (EN or FR).");
@@ -118,7 +126,19 @@ function buildOntology() {
 
   const graph = spellsEn.map((sEn) => {
     const sFr = frMap.get(sEn.index);
+    const manual = extractions[sEn.index];
     const mechanics = extractMechanics(sEn, sFr);
+
+    // Use manual extraction if available, otherwise fallback to FR file, otherwise fallback to EN
+    const nameFr = manual?.name_fr || (sFr ? sFr.name : sEn.name);
+    const descFr = manual?.desc_fr || (sFr ? sFr.desc : sEn.desc);
+    const rangeFr = manual?.range_fr || (sFr ? sFr.range : sEn.range);
+    const durationFr =
+      manual?.duration_fr || (sFr ? sFr.duration : sEn.duration);
+    const castingTimeFr =
+      manual?.casting_time_fr || (sFr ? sFr.casting_time : sEn.casting_time);
+    const materialFr =
+      manual?.material_fr || (sFr ? sFr.material : sEn.material);
 
     return {
       "@id": `spells:${sEn.index}`,
@@ -131,18 +151,12 @@ function buildOntology() {
       concentration: sEn.concentration,
       classes: sEn.classes.map((c) => c.index),
       mechanics,
-      name: { en: sEn.name, fr: sFr ? sFr.name : sEn.name },
-      desc: { en: sEn.desc, fr: sFr ? sFr.desc : sEn.desc },
-      range: { en: sEn.range, fr: sFr ? sFr.range : sEn.range },
-      duration: { en: sEn.duration, fr: sFr ? sFr.duration : sEn.duration },
-      casting_time: {
-        en: sEn.casting_time,
-        fr: sFr ? sFr.casting_time : sEn.casting_time,
-      },
-      material: {
-        en: sEn.material || null,
-        fr: sFr ? sFr.material || null : sEn.material || null,
-      },
+      name: { en: sEn.name, fr: nameFr },
+      desc: { en: sEn.desc, fr: descFr },
+      range: { en: sEn.range, fr: rangeFr },
+      duration: { en: sEn.duration, fr: durationFr },
+      casting_time: { en: sEn.casting_time, fr: castingTimeFr },
+      material: { en: sEn.material || null, fr: materialFr || null },
     };
   });
 
@@ -164,7 +178,6 @@ function buildOntology() {
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(database, null, 2));
   console.log(`✅ Ontology built successfully: ${graph.length} spells.`);
-  console.log(`💾 Saved to ${OUTPUT_FILE}`);
 }
 
 buildOntology();

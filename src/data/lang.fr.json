@@ -147,5 +147,34 @@
     "offlineReady": "Application prête à être utilisée hors-ligne.",
     "updateAvailable": "Une nouvelle version est disponible !",
     "updateBtn": "Mettre à jour maintenant"
+  },
+  "mechanics": {
+    "damageTypes": {
+      "acid": "Acide",
+      "bludgeoning": "Contondant",
+      "cold": "Froid",
+      "fire": "Feu",
+      "force": "Force",
+      "lightning": "Foudre",
+      "necrotic": "Nécrotique",
+      "piercing": "Perçant",
+      "poison": "Poison",
+      "psychic": "Psychique",
+      "radiant": "Radiant",
+      "slashing": "Tranchant",
+      "thunder": "Tonnerre"
+    },
+    "abilities": {
+      "str": "Force",
+      "dex": "Dextérité",
+      "con": "Constitution",
+      "int": "Intelligence",
+      "wis": "Sagesse",
+      "cha": "Charisme"
+    },
+    "allTypes": "Tous les types",
+    "allAbilities": "Toutes les caractéristiques",
+    "damageLabel": "Dégâts",
+    "saveLabel": "Sauvegarde"
   }
 }
