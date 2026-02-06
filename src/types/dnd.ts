@@ -10,7 +10,14 @@ export interface SpellMechanics {
   has_save: boolean;
   save_ability?: AbilityScoreIndex;
   damage_type?: string;
+  damage_dice?: string;
   condition_inflicted?: string;
+  area_of_effect?: {
+    type: "sphere" | "cone" | "cylinder" | "line" | "cube" | "wall";
+    value: number;
+    unit: "foot" | "mile" | "self";
+  };
+  higher_levels?: boolean;
 }
 
 export interface Spell {
