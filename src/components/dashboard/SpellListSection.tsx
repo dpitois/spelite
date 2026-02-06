@@ -16,6 +16,7 @@ interface SpellListSectionProps {
   getIsBonus?: (spell: Spell) => boolean;
   getIsPrepared?: (spell: Spell) => boolean;
   getIsAlwaysReady?: (spell: Spell) => boolean;
+  showQuickInfo?: boolean;
   prefix?: string;
   t: Translation;
   className?: string;
@@ -33,6 +34,7 @@ export function SpellListSection({
   getIsBonus,
   getIsPrepared,
   getIsAlwaysReady,
+  showQuickInfo,
   prefix = "spell",
   t,
   className,
@@ -82,6 +84,7 @@ export function SpellListSection({
                     isBonus={getIsBonus?.(spell)}
                     isAlwaysReady={getIsAlwaysReady?.(spell)}
                     isPrepared={getIsPrepared?.(spell)}
+                    showQuickInfo={showQuickInfo}
                     t={t}
                   />
                 </Fragment>

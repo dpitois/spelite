@@ -107,7 +107,7 @@ export function Dashboard() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         {char.maxPreparedSpells > 0 && (
           <SpellListSection
             title={currentT.dashboard.preparedTitle}
@@ -127,6 +127,7 @@ export function Dashboard() {
             expandedKey={expandedKey}
             onToggleExpand={setExpandedKey}
             prefix="prepared"
+            showQuickInfo={true}
             t={currentT}
             getIsBonus={(s) => char.bonusSpellIndexes.includes(s.index)}
             renderActions={(spell) => (
@@ -178,6 +179,7 @@ export function Dashboard() {
           expandedKey={expandedKey}
           onToggleExpand={setExpandedKey}
           prefix="known"
+          showQuickInfo={char.maxPreparedSpells <= 0}
           t={currentT}
           getIsBonus={(s) => char.bonusSpellIndexes.includes(s.index)}
           getIsPrepared={(s) => char.preparedSpells.includes(s.index)}
