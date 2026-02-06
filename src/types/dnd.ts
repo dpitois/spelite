@@ -1,7 +1,7 @@
 export interface APIReference {
   index: string;
   name: string;
-  url: string;
+  url?: string;
 }
 
 export interface SpellMechanics {
@@ -27,7 +27,7 @@ export interface Spell {
   desc: string[];
   range: string;
   components: string[];
-  material?: string;
+  material?: string | null;
   ritual: boolean;
   duration: string;
   concentration: boolean;
@@ -36,6 +36,9 @@ export interface Spell {
   classes: APIReference[];
   subclasses?: APIReference[];
   url?: string;
+  damage?: {
+    damage_type: APIReference;
+  };
   mechanics?: SpellMechanics;
 }
 
