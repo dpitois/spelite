@@ -4,6 +4,15 @@ export interface APIReference {
   url: string;
 }
 
+export interface SpellMechanics {
+  has_attack_roll: boolean;
+  attack_type?: "melee" | "ranged";
+  has_save: boolean;
+  save_ability?: AbilityScoreIndex;
+  damage_type?: string;
+  condition_inflicted?: string;
+}
+
 export interface Spell {
   index: string;
   name: string;
@@ -20,6 +29,43 @@ export interface Spell {
   classes: APIReference[];
   subclasses?: APIReference[];
   url?: string;
+  mechanics?: SpellMechanics;
+}
+
+/**
+ * Represents the localized strings for a spell property.
+ */
+export type LocalizedString = Record<string, string>;
+export type LocalizedStringArray = Record<string, string[]>;
+
+/**
+ * The storage format for spells in the unique spells.json (JSON-LD compatible).
+ */
+export interface RawSpell {
+  "@id": string;
+  "@type": "dnd:Spell";
+  index: string;
+  level: number;
+  school: string;
+  components: string[];
+  ritual: boolean;
+  concentration: boolean;
+  classes: string[];
+  mechanics: SpellMechanics;
+  name: LocalizedString;
+  desc: LocalizedStringArray;
+  range: LocalizedString;
+  duration: LocalizedString;
+  casting_time: LocalizedString;
+  material: Record<string, string | null>;
+}
+
+/**
+ * The root structure of the ontology JSON file.
+ */
+export interface SpellDatabase {
+  "@context": Record<string, unknown>;
+  "@graph": RawSpell[];
 }
 
 export type SpellDictionary = Record<string, Spell>;
