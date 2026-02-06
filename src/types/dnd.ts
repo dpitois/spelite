@@ -82,7 +82,6 @@ export type SpellDictionary = Record<string, Spell>;
 export type UsedSlotsState = Record<number, number>;
 export type BonusSpellsConfig = Record<string, Record<number, string[]>>;
 export type SubclassConfig = Record<string, string[]>;
-export type SpellCache = Record<string, Spell[]>;
 
 export interface Class {
   index: string;
