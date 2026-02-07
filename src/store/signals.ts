@@ -54,6 +54,9 @@ const persisted = getPersistedData();
 // --- Signals ---
 
 export const language = signal<"en" | "fr">(persisted?.language || "fr");
+export const aiSearchEnabled = signal<boolean>(
+  persisted?.aiSearchEnabled || false,
+);
 export const t = computed<Translation>(() => translations[language.value]);
 
 export const savedCharacters = signal<CharacterData[]>(
@@ -140,6 +143,7 @@ effect(() => {
   const data = {
     id: activeCharacterId.value,
     language: language.value,
+    aiSearchEnabled: aiSearchEnabled.value,
     savedCharacters: savedCharacters.value,
   };
 
@@ -157,6 +161,10 @@ effect(() => {
 export const actions = {
   setLanguage: (lang: "en" | "fr") => {
     language.value = lang;
+  },
+
+  toggleAISearch: (enabled: boolean) => {
+    aiSearchEnabled.value = enabled;
   },
 
   setName: (name: string) => {

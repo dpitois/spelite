@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from "preact/hooks";
-import { t, language, actions } from "../store/signals";
+import { t, language, actions, aiSearchEnabled } from "../store/signals";
 import { useCharacter } from "../hooks/useCharacter";
 import { ontologyRepository } from "../data/ontologyRepository";
 import { parseQuery } from "../utils/search/queryParser";
+import { semanticBridge } from "../utils/search/semanticBridge";
 import { BrowserHeader } from "../components/browser/BrowserHeader";
 import { BrowserFilters } from "../components/browser/BrowserFilters";
 import { SpellGrid } from "../components/browser/SpellGrid";
@@ -12,9 +13,12 @@ export function SpellBrowser() {
   const char = useCharacter();
   const currentLang = language.value;
   const currentT = t.value;
+  const isAIEnabled = aiSearchEnabled.value;
 
   const [spells, setSpells] = useState<Spell[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModelReady, setIsModelReady] = useState(semanticBridge.initialized);
+  const [indexingProgress, setIndexingProgress] = useState(0);
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
@@ -43,6 +47,50 @@ export function SpellBrowser() {
   // Initial load to populate filter options
   useEffect(() => {
     async function loadOptions() {
+      // Initialize semantic model if enabled
+      if (isAIEnabled && !semanticBridge.initialized) {
+        console.log("[SpellBrowser] Initializing semantic model...");
+
+        semanticBridge.setProgressCallback((p) => {
+          if (p.status === "progress") {
+            // Downloading progress
+            console.log(
+              `[SpellBrowser] Model loading: ${p.file} ${Math.round(p.progress)}%`,
+            );
+          } else if (p.status === "indexing") {
+            // Indexing progress
+            setIndexingProgress(p.progress);
+          }
+        });
+
+        semanticBridge
+          .initModel()
+          .then(() => {
+            setIsModelReady(true);
+            console.log("[SpellBrowser] Semantic model ready");
+
+            // Background indexing
+            ontologyRepository.getAll(currentLang).then((allSpells) => {
+              const documents = allSpells.map(
+                (s) => `${s.name}: ${s.desc.slice(0, 3).join(" ")}`,
+              );
+              console.log(
+                "[SpellBrowser] Starting background indexing of spells...",
+              );
+              semanticBridge.search("warmup", documents).then(() => {
+                console.log("[SpellBrowser] Background indexing completed.");
+                setIndexingProgress(100);
+              });
+            });
+          })
+          .catch((err) => {
+            console.error(
+              "[SpellBrowser] Failed to initialize semantic model:",
+              err,
+            );
+          });
+      }
+
       const all = await ontologyRepository.getAll(currentLang);
       const schools = new Set<string>();
       const damageTypes = new Set<string>();
@@ -65,7 +113,7 @@ export function SpellBrowser() {
       });
     }
     loadOptions();
-  }, [currentLang]);
+  }, [currentLang, isAIEnabled]);
 
   // Main search effect
   useEffect(() => {
@@ -99,7 +147,54 @@ export function SpellBrowser() {
         query.filters.saveAbility.push(filterSave as AbilityScoreIndex);
       }
 
-      // 3. Execute semantic search on Triplet Store
+      // 3. Execute search
+      const textToSearch = query.text.trim();
+
+      // If we have text and semantic model is ready AND indexed, we do a 2-step search
+      if (textToSearch && isModelReady && indexingProgress >= 100) {
+        // Step A: Get spells filtered by metadata only (no text filter yet)
+        const metadataQuery = { ...query, text: "" };
+        const candidateSpells = await ontologyRepository.search(
+          metadataQuery,
+          currentLang,
+        );
+
+        if (candidateSpells.length > 0) {
+            // Step B: Semantic ranking
+            // Create documents for embedding: "Name: Description"
+            const documents = candidateSpells.map(
+              (s) => `${s.name}: ${s.desc.slice(0, 3).join(" ")}`,
+            );
+
+            try {
+              const semanticResults = await semanticBridge.search(
+                textToSearch,
+                documents,
+              );
+
+              console.log("[SpellBrowser] Top semantic scores:", 
+                semanticResults.slice(0, 5).map(r => ({ name: candidateSpells[r.index].name, score: r.score }))
+              );
+
+              // Re-order candidate spells based on semantic scores
+              // Filter by a threshold (e.g., score > 0.15) to keep relevance
+              const rankedSpells = semanticResults
+                .filter((res) => res.score > 0.15) // Adjust threshold as needed
+                .map((res) => candidateSpells[res.index]);
+
+            if (mounted) {
+              setSpells(rankedSpells);
+              setLoading(false);
+            }
+            return;
+          } catch (err) {
+            console.error("[SpellBrowser] Semantic search error:", err);
+            // Fallback to normal search below
+          }
+        }
+      }
+
+      // Default: Normal ontology search (includes fuzzy name filtering)
       const results = await ontologyRepository.search(query, currentLang);
 
       if (mounted) {
@@ -122,6 +217,9 @@ export function SpellBrowser() {
     filterDamage,
     filterSave,
     currentLang,
+    isModelReady,
+    indexingProgress,
+    isAIEnabled,
   ]);
 
   // Post-processing
@@ -171,6 +269,10 @@ export function SpellBrowser() {
         onLearnAll={handleLearnAll}
         onReset={handleReset}
         t={currentT}
+        isModelReady={isModelReady}
+        aiSearchEnabled={isAIEnabled}
+        onToggleAI={actions.toggleAISearch}
+        indexingProgress={indexingProgress}
       >
         <BrowserFilters
           searchTerm={searchTerm}

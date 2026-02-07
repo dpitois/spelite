@@ -8,12 +8,23 @@ export interface SearchResult {
 
 interface WorkerResponse {
   id: string;
-  type: "PONG" | "MODEL_READY" | "SEARCH_RESULTS" | "ERROR";
+  type: "PONG" | "MODEL_READY" | "SEARCH_RESULTS" | "ERROR" | "PROGRESS";
   payload: unknown;
 }
 
+export type ProgressCallback = (progress: {
+  status: string;
+  name: string;
+  file: string;
+  progress: number;
+  loaded: number;
+  total: number;
+}) => void;
+
 class SemanticBridge {
   private worker: Worker | null = null;
+  private isInitialized = false;
+  private onProgress: ProgressCallback | null = null;
   private pendingRequests = new Map<
     string,
     { resolve: (value: unknown) => void; reject: (reason?: unknown) => void }
@@ -23,6 +34,14 @@ class SemanticBridge {
     // Lazy initialization happens on first call
   }
 
+  public get initialized() {
+    return this.isInitialized;
+  }
+
+  public setProgressCallback(callback: ProgressCallback) {
+    this.onProgress = callback;
+  }
+
   private init() {
     if (this.worker) return;
 
@@ -30,16 +49,27 @@ class SemanticBridge {
     this.worker.onmessage = (event: MessageEvent<WorkerResponse>) => {
       const { id, type, payload } = event.data;
 
+      if (type === "PROGRESS") {
+        if (this.onProgress)
+          this.onProgress(payload as Parameters<ProgressCallback>[0]);
+        return;
+      }
+
       console.log(`[SemanticBridge] Received ${type} for request ${id}`);
 
       if (this.pendingRequests.has(id)) {
         const { resolve, reject } = this.pendingRequests.get(id)!;
-        this.pendingRequests.delete(id);
 
-        if (type === "ERROR") {
-          reject(new Error(payload as string));
-        } else {
+        if (
+          type === "MODEL_READY" ||
+          type === "SEARCH_RESULTS" ||
+          type === "PONG"
+        ) {
+          this.pendingRequests.delete(id);
           resolve(payload);
+        } else if (type === "ERROR") {
+          this.pendingRequests.delete(id);
+          reject(new Error(payload as string));
         }
       } else {
         console.warn(
@@ -48,13 +78,21 @@ class SemanticBridge {
       }
     };
 
+    this.worker.onerror = (error) => {
+      console.error("[SemanticBridge] Worker error:", error);
+    };
+
     console.log("[SemanticBridge] Worker initialized");
   }
 
   private sendMessage<T>(type: string, payload?: unknown): Promise<T> {
     if (!this.worker) this.init();
 
-    const id = crypto.randomUUID();
+    const id =
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : Math.random().toString(36).substring(2, 11);
+
     return new Promise((resolve, reject) => {
       this.pendingRequests.set(id, {
         resolve: resolve as (value: unknown) => void,
@@ -69,7 +107,9 @@ class SemanticBridge {
   }
 
   public async initModel(): Promise<boolean> {
-    return this.sendMessage<boolean>("INIT_MODEL");
+    const result = await this.sendMessage<boolean>("INIT_MODEL");
+    this.isInitialized = true;
+    return result;
   }
 
   public async search(

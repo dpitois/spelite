@@ -10,6 +10,7 @@ export interface Triplet {
 
 export class SpeliteDatabase extends Dexie {
   triplets!: Table<Triplet>;
+  embeddings!: Table<{ text: string; vector: number[] }>;
 
   constructor() {
     super("SpeliteDatabase");
@@ -19,6 +20,11 @@ export class SpeliteDatabase extends Dexie {
       // [p+o] is compound index for finding subjects matching a predicate-object pair
       // lang is index for filtering by language
       triplets: "++id, s, [p+o], lang",
+    });
+
+    this.version(2).stores({
+      triplets: "++id, s, [p+o], lang",
+      embeddings: "&text", // Unique index on text
     });
   }
 }
