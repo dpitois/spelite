@@ -16,12 +16,15 @@ import {
 } from "../store/signals";
 import { CharacterManager } from "../components/setup/CharacterManager";
 import { CharacterEditor } from "../components/setup/CharacterEditor";
+import { Settings } from "./Settings";
 
 export function CharacterSetup() {
   const currentT = t.value;
   const storeId = activeCharacterId.value;
 
-  const [activeTab, setActiveTab] = useState<"edit" | "manage">("edit");
+  const [activeTab, setActiveTab] = useState<"edit" | "manage" | "admin">(
+    "edit",
+  );
   const [name, setLocalName] = useState(characterName.value);
   const [className, setLocalClass] = useState(storeClassSignal.value);
   const [subclass, setLocalSubclass] = useState(storeSubclassSignal.value);
@@ -92,6 +95,16 @@ export function CharacterSetup() {
         >
           {currentT.setup.manageTab}
         </button>
+        <button
+          onClick={() => setActiveTab("admin")}
+          className={`px-6 py-3 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${
+            activeTab === "admin"
+              ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
+              : "bg-white text-slate-400 border border-slate-200 hover:border-indigo-300"
+          }`}
+        >
+          Admin
+        </button>
       </div>
 
       {activeTab === "edit" && (
@@ -130,6 +143,8 @@ export function CharacterSetup() {
           t={currentT}
         />
       )}
+
+      {activeTab === "admin" && <Settings />}
     </div>
   );
 }

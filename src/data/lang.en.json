@@ -63,6 +63,30 @@
     "setupShort": "Hero",
     "footer": "D&D 5e Spell Manager"
   },
+  "ui": {
+    "title": "Character Management",
+    "back": "Back",
+    "create": "Create a character",
+    "noCharacter": "No character configured."
+  },
+  "admin": {
+    "title": "Administration & Maintenance",
+    "dbStatus": "Database Status",
+    "refresh": "Refresh",
+    "triplets": "Triplets",
+    "embeddings": "Embeddings",
+    "storage": "Storage",
+    "data": "Data",
+    "schema": "Schema",
+    "actionsTitle": "Maintenance Actions",
+    "clearAI": "Clear AI Index",
+    "clearAIDesc": "Force full re-indexing on next use",
+    "factoryReset": "Factory Reset",
+    "factoryResetDesc": "Absolutely delete all local data",
+    "clearConfirm": "Do you really want to clear the AI cache? Indexing will start over.",
+    "resetConfirm1": "WARNING: This will erase ALL data (cache, index) and reload the page.",
+    "resetConfirm2": "Are you absolutely sure? This is irreversible."
+  },
   "setup": {
     "title": "Character",
     "editTab": "Edition",

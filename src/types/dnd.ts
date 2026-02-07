@@ -139,6 +139,8 @@ export type Translation = {
   common: Record<string, string>;
   dashboard: Record<string, string>;
   setup: Record<string, string>;
+  ui: Record<string, string>;
+  admin: Record<string, string>;
   spells: Record<string, string>;
   layout: Record<string, string>;
   pwa: Record<string, string>;

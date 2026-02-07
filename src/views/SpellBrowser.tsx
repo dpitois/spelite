@@ -173,10 +173,10 @@ export function SpellBrowser() {
 
             if (semanticResults.length > 0) {
               const bestScore = semanticResults[0].score;
-              
+
               // Dynamic threshold: at least 0.25 AND at least 60% of the best score
               const threshold = Math.max(0.25, bestScore * 0.6);
-              
+
               const rankedSpells = semanticResults
                 .filter((res) => res.score >= threshold)
                 .map((res) => candidateSpells[res.index]);

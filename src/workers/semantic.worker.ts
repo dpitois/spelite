@@ -127,7 +127,10 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
           if (embeddingsCache.has(doc)) {
             // Already in memory
             const docEmbedding = embeddingsCache.get(doc)!;
-            const score = cosineSimilarity(queryEmbedding as number[], docEmbedding);
+            const score = cosineSimilarity(
+              queryEmbedding as number[],
+              docEmbedding,
+            );
             results.push({ index, score, text: doc });
           } else {
             docsMissingInMemory.push({ text: doc, index });
@@ -138,7 +141,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
         const docsToCompute: { text: string; index: number }[] = [];
 
         if (docsMissingInMemory.length > 0) {
-          const textsToLookup = docsMissingInMemory.map(d => d.text);
+          const textsToLookup = docsMissingInMemory.map((d) => d.text);
           const dbRecords = await db.embeddings.bulkGet(textsToLookup);
 
           docsMissingInMemory.forEach((docItem, i) => {
@@ -146,50 +149,62 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
             if (record) {
               // Found in DB -> Add to Memory Cache & Results
               embeddingsCache.set(docItem.text, record.vector);
-              const score = cosineSimilarity(queryEmbedding as number[], record.vector);
+              const score = cosineSimilarity(
+                queryEmbedding as number[],
+                record.vector,
+              );
               results.push({ index: docItem.index, score, text: docItem.text });
             } else {
               // Not in DB -> Needs computation
               docsToCompute.push(docItem);
             }
           });
-          
+
           // Report progress after DB lookup only if warmup
           if (query === "warmup") {
-            self.postMessage({ 
-              id, 
-              type: "PROGRESS", 
-              payload: { 
-                status: "indexing", 
-                progress: Math.round(((documents.length - docsToCompute.length) / documents.length) * 100) 
-              } 
+            self.postMessage({
+              id,
+              type: "PROGRESS",
+              payload: {
+                status: "indexing",
+                progress: Math.round(
+                  ((documents.length - docsToCompute.length) /
+                    documents.length) *
+                    100,
+                ),
+              },
             });
           }
         }
 
         // 4. Compute embeddings for totally new docs
         if (docsToCompute.length > 0) {
-          console.log(`[SemanticWorker] Computing embeddings for ${docsToCompute.length} new documents...`);
+          console.log(
+            `[SemanticWorker] Computing embeddings for ${docsToCompute.length} new documents...`,
+          );
 
           const BATCH_SIZE = 10;
-          const rawDocs = docsToCompute.map(d => d.text);
+          const rawDocs = docsToCompute.map((d) => d.text);
           const isWarmup = query === "warmup";
 
           for (let i = 0; i < rawDocs.length; i += BATCH_SIZE) {
             const batchTexts = rawDocs.slice(i, i + BATCH_SIZE);
             const batchRecordsToSave: { text: string; vector: number[] }[] = [];
-            
+
             // Only send indexing progress during warmup
             if (isWarmup) {
-                const processedCount = (documents.length - docsToCompute.length) + i;
-                self.postMessage({ 
-                  id, 
-                  type: "PROGRESS", 
-                  payload: { 
-                    status: "indexing", 
-                    progress: Math.round((processedCount / documents.length) * 100) 
-                  } 
-                });
+              const processedCount =
+                documents.length - docsToCompute.length + i;
+              self.postMessage({
+                id,
+                type: "PROGRESS",
+                payload: {
+                  status: "indexing",
+                  progress: Math.round(
+                    (processedCount / documents.length) * 100,
+                  ),
+                },
+              });
             }
 
             const batchOutput = await extractor(batchTexts, {
@@ -219,21 +234,24 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
 
               const score = cosineSimilarity(
                 queryEmbedding as number[],
-                docEmbedding as number[]
+                docEmbedding as number[],
               );
 
               results.push({
                 index: originalIndex,
                 score: score,
-                text: originalText
+                text: originalText,
               });
             }
 
             // Save batch to DB immediately
             if (batchRecordsToSave.length > 0) {
-                await db.embeddings.bulkPut(batchRecordsToSave).catch(err => {
-                    console.error("[SemanticWorker] Failed to save batch to DB:", err);
-                });
+              await db.embeddings.bulkPut(batchRecordsToSave).catch((err) => {
+                console.error(
+                  "[SemanticWorker] Failed to save batch to DB:",
+                  err,
+                );
+              });
             }
           }
         }
@@ -243,11 +261,11 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
 
         // Final progress report only for warmup
         if (query === "warmup") {
-            self.postMessage({ 
-              id, 
-              type: "PROGRESS", 
-              payload: { status: "indexing", progress: 100 } 
-            });
+          self.postMessage({
+            id,
+            type: "PROGRESS",
+            payload: { status: "indexing", progress: 100 },
+          });
         }
 
         self.postMessage({ id, type: "SEARCH_RESULTS", payload: results });

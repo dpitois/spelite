@@ -63,6 +63,30 @@
     "setupShort": "Perso",
     "footer": "Gestionnaire de Sorts D&D 5e"
   },
+  "ui": {
+    "title": "Gestion du Personnage",
+    "back": "Retour",
+    "create": "Créer un personnage",
+    "noCharacter": "Aucun personnage configuré."
+  },
+  "admin": {
+    "title": "Administration & Maintenance",
+    "dbStatus": "État de la Base de Données",
+    "refresh": "Rafraîchir",
+    "triplets": "Triplets",
+    "embeddings": "Embeddings",
+    "storage": "Stockage",
+    "data": "Données",
+    "schema": "Schema",
+    "actionsTitle": "Actions de Maintenance",
+    "clearAI": "Vider l'index IA",
+    "clearAIDesc": "Force une ré-indexation complète au prochain usage",
+    "factoryReset": "Réinitialisation Totale",
+    "factoryResetDesc": "Supprime absolument toutes les données locales",
+    "clearConfirm": "Voulez-vous vraiment vider le cache de l'IA ? L'indexation devra recommencer.",
+    "resetConfirm1": "ATTENTION : Cela va effacer TOUTES les données (cache, index) et recharger la page.",
+    "resetConfirm2": "Êtes-vous vraiment sûr ? C'est irréversible."
+  },
   "setup": {
     "title": "Personnage",
     "editTab": "Édition",
