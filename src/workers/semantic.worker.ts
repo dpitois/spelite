@@ -1,15 +1,37 @@
-import { pipeline, env, FeatureExtractionPipeline } from "@xenova/transformers";
-import type { PipelineType } from "@xenova/transformers";
+// @ts-ignore
+import { pipeline, env } from "@xenova/transformers/dist/transformers.min.js";
 import Dexie, { type Table } from "dexie";
+
+// Define types locally for the worker context
+type FeatureExtractionPipeline = any;
 
 // Skip local model checks since we are running in the browser
 env.allowLocalModels = false;
 env.useBrowserCache = true;
 
 // Configure WASM paths to use local files from public/ directory
-env.backends.onnx.wasm.wasmPaths = "/";
+// We use self.location to get a reliable base path for production deployments in subdirectories
+const isProd = import.meta.env.PROD;
+if (isProd) {
+  // If base URL is relative (./), we need to go up from assets/ to root
+  const base = import.meta.env.BASE_URL;
+  if (base === "./") {
+    // We derive the path from the worker script location
+    const workerUrl = self.location.href;
+    const assetsIndex = workerUrl.indexOf("/assets/");
+    if (assetsIndex !== -1) {
+      env.backends.onnx.wasm.wasmPaths = workerUrl.substring(0, assetsIndex + 1);
+    } else {
+      env.backends.onnx.wasm.wasmPaths = base;
+    }
+  } else {
+    env.backends.onnx.wasm.wasmPaths = base;
+  }
+} else {
+  env.backends.onnx.wasm.wasmPaths = "/";
+}
 
-console.log("[SemanticWorker] Worker script started");
+console.log(`[SemanticWorker] Worker script started (base: ${env.backends.onnx.wasm.wasmPaths})`);
 
 // Define types locally for the worker context
 type WorkerMessage = {
@@ -45,7 +67,7 @@ const db = new WorkerDatabase();
 
 // Singleton class to manage the AI model
 class SemanticPipeline {
-  static task: PipelineType = "feature-extraction";
+  static task: string = "feature-extraction";
   static model = "Xenova/paraphrase-multilingual-MiniLM-L12-v2";
   static instance: Promise<FeatureExtractionPipeline> | null = null;
 

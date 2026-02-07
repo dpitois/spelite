@@ -43,7 +43,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,json,svg}"],
+        globPatterns: ["**/*.{js,css,html,json,svg,wasm}"],
+        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024, // 15MB to accommodate WASM files
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
