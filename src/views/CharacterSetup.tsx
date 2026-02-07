@@ -1,5 +1,5 @@
 import type { JSX } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 import {
   activeCharacterId,
   characterName,
@@ -14,17 +14,18 @@ import {
   t,
   actions,
 } from "../store/signals";
+import { subRoute, navigate } from "../store/router";
 import { CharacterManager } from "../components/setup/CharacterManager";
 import { CharacterEditor } from "../components/setup/CharacterEditor";
 import { Settings } from "./Settings";
+import { useState } from "preact/hooks";
 
 export function CharacterSetup() {
   const currentT = t.value;
   const storeId = activeCharacterId.value;
 
-  const [activeTab, setActiveTab] = useState<"edit" | "manage" | "admin">(
-    "edit",
-  );
+  const activeTab = subRoute.value || "edit";
+
   const [name, setLocalName] = useState(characterName.value);
   const [className, setLocalClass] = useState(storeClassSignal.value);
   const [subclass, setLocalSubclass] = useState(storeSubclassSignal.value);
@@ -76,7 +77,7 @@ export function CharacterSetup() {
     <div className="max-w-4xl mx-auto space-y-8">
       <div className="flex gap-4 mb-2">
         <button
-          onClick={() => setActiveTab("edit")}
+          onClick={() => navigate("character/edit")}
           className={`px-6 py-3 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${
             activeTab === "edit"
               ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
@@ -86,7 +87,7 @@ export function CharacterSetup() {
           {currentT.setup.editTab}
         </button>
         <button
-          onClick={() => setActiveTab("manage")}
+          onClick={() => navigate("character/manage")}
           className={`px-6 py-3 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${
             activeTab === "manage"
               ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
@@ -96,7 +97,7 @@ export function CharacterSetup() {
           {currentT.setup.manageTab}
         </button>
         <button
-          onClick={() => setActiveTab("admin")}
+          onClick={() => navigate("character/admin")}
           className={`px-6 py-3 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${
             activeTab === "admin"
               ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"

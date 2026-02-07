@@ -219,6 +219,7 @@ export function SpellBrowser() {
     currentLang,
     isModelReady,
     isAIEnabled,
+    indexingProgress,
   ]);
 
   // Post-processing

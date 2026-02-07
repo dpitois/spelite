@@ -22,7 +22,7 @@ export function Layout({ children, activeView, onViewChange }: LayoutProps) {
       short: currentT.layout.dashboardShort,
     },
     {
-      id: "setup",
+      id: "character",
       label: currentT.layout.setup,
       short: currentT.layout.setupShort,
     },

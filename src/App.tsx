@@ -1,7 +1,7 @@
-import { useState } from "preact/hooks";
 import { Suspense, lazy } from "preact/compat";
 import { Layout } from "./components/Layout";
 import { ReloadPrompt } from "./components/ReloadPrompt";
+import { mainRoute, navigate } from "./store/router";
 
 // Lazy load views to split bundle
 const Dashboard = lazy(() =>
@@ -28,23 +28,32 @@ function Loading() {
 }
 
 function App() {
-  const [activeView, setActiveView] = useState("dashboard");
+  const activeView = mainRoute.value;
 
   const renderView = () => {
     switch (activeView) {
       case "dashboard":
+      case "home":
         return <Dashboard />;
-      case "setup":
+      case "character":
         return <CharacterSetup />;
       case "spells":
         return <SpellBrowser />;
       default:
-        return null;
+        return <Dashboard />;
+    }
+  };
+
+  const handleViewChange = (view: string) => {
+    if (view === "character") {
+      navigate("character/edit");
+    } else {
+      navigate(view);
     }
   };
 
   return (
-    <Layout activeView={activeView} onViewChange={setActiveView}>
+    <Layout activeView={activeView} onViewChange={handleViewChange}>
       <Suspense fallback={<Loading />}>{renderView()}</Suspense>
       <ReloadPrompt />
     </Layout>
