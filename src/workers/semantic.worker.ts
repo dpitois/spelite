@@ -105,8 +105,6 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
           documents: string[];
         };
 
-        console.log(`[SemanticWorker] Starting search for "${query}" across ${documents.length} documents.`);
-
         if (!query || !documents || documents.length === 0) {
           self.postMessage({ id, type: "SEARCH_RESULTS", payload: [] });
           return;
@@ -140,7 +138,6 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
         const docsToCompute: { text: string; index: number }[] = [];
 
         if (docsMissingInMemory.length > 0) {
-          console.log(`[SemanticWorker] Checking DB for ${docsMissingInMemory.length} docs...`);
           const textsToLookup = docsMissingInMemory.map(d => d.text);
           const dbRecords = await db.embeddings.bulkGet(textsToLookup);
 
@@ -176,15 +173,11 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
 
           const BATCH_SIZE = 10;
           const rawDocs = docsToCompute.map(d => d.text);
-          const newRecordsToSave: { text: string; vector: number[] }[] = [];
           const isWarmup = query === "warmup";
 
           for (let i = 0; i < rawDocs.length; i += BATCH_SIZE) {
             const batchTexts = rawDocs.slice(i, i + BATCH_SIZE);
-            const currentBatch = Math.floor(i / BATCH_SIZE) + 1;
-            const totalBatches = Math.ceil(rawDocs.length / BATCH_SIZE);
-            
-            console.log(`[SemanticWorker] Processing batch ${currentBatch}/${totalBatches}`);
+            const batchRecordsToSave: { text: string; vector: number[] }[] = [];
             
             // Only send indexing progress during warmup
             if (isWarmup) {
@@ -218,8 +211,8 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
               // Update Memory Cache
               embeddingsCache.set(originalText, docEmbedding as number[]);
 
-              // Queue for DB Save
-              newRecordsToSave.push({
+              // Prepare for DB Save
+              batchRecordsToSave.push({
                 text: originalText,
                 vector: docEmbedding as number[],
               });
@@ -235,22 +228,19 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
                 text: originalText
               });
             }
-          }
 
-          // Bulk save to DB
-          if (newRecordsToSave.length > 0) {
-            console.log(`[SemanticWorker] Persisting ${newRecordsToSave.length} embeddings to IndexedDB...`);
-            db.embeddings.bulkPut(newRecordsToSave).catch((err) => {
-              console.error("[SemanticWorker] Failed to save embeddings to DB:", err);
-            });
+            // Save batch to DB immediately
+            if (batchRecordsToSave.length > 0) {
+                await db.embeddings.bulkPut(batchRecordsToSave).catch(err => {
+                    console.error("[SemanticWorker] Failed to save batch to DB:", err);
+                });
+            }
           }
         }
 
         // 5. Sort by score (descending)
         results.sort((a, b) => b.score - a.score);
 
-        console.log(`[SemanticWorker] Search completed. Top result score: ${results[0]?.score}`);
-        
         // Final progress report only for warmup
         if (query === "warmup") {
             self.postMessage({ 
