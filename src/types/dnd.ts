@@ -94,6 +94,11 @@ export interface Class {
   };
 }
 
+export interface Race {
+  index: string;
+  name: string;
+}
+
 export type AbilityScoreIndex = "str" | "dex" | "con" | "int" | "wis" | "cha";
 
 export interface AbilityScores extends Record<AbilityScoreIndex, number> {

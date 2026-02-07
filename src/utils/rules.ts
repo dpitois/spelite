@@ -149,19 +149,6 @@ export function getSpellcastingAbility(
  */
 export const PREPARE_ALL_CLASSES = ["cleric", "druid", "paladin", "artificer"];
 
-export const RACES = [
-  "human",
-  "elf",
-  "high-elf",
-  "dwarf",
-  "halfling",
-  "dragonborn",
-  "gnome",
-  "half-elf",
-  "half-orc",
-  "tiefling",
-];
-
 export const SUBCLASSES: SubclassConfig = {
   rogue: ["arcane trickster", "assassin", "thief"],
   fighter: ["eldritch knight", "battle master", "champion"],

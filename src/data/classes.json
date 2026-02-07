@@ -1,0 +1,103 @@
+{
+  "@context": {
+    "dnd": "https://purl.org/dnd/ontology#",
+    "classes": "https://purl.org/dnd/classes/",
+    "name": "dnd:name",
+    "hit_die": "dnd:hitDie",
+    "spellcasting_ability": "dnd:spellcastingAbility"
+  },
+  "@graph": [
+    {
+      "@id": "classes:barbarian",
+      "@type": "dnd:Class",
+      "index": "barbarian",
+      "hit_die": 12,
+      "name": { "en": "Barbarian", "fr": "Barbare" }
+    },
+    {
+      "@id": "classes:bard",
+      "@type": "dnd:Class",
+      "index": "bard",
+      "hit_die": 8,
+      "spellcasting_ability": "cha",
+      "name": { "en": "Bard", "fr": "Barde" }
+    },
+    {
+      "@id": "classes:cleric",
+      "@type": "dnd:Class",
+      "index": "cleric",
+      "hit_die": 8,
+      "spellcasting_ability": "wis",
+      "name": { "en": "Cleric", "fr": "Clerc" }
+    },
+    {
+      "@id": "classes:druid",
+      "@type": "dnd:Class",
+      "index": "druid",
+      "hit_die": 8,
+      "spellcasting_ability": "wis",
+      "name": { "en": "Druid", "fr": "Druide" }
+    },
+    {
+      "@id": "classes:fighter",
+      "@type": "dnd:Class",
+      "index": "fighter",
+      "hit_die": 10,
+      "name": { "en": "Fighter", "fr": "Guerrier" }
+    },
+    {
+      "@id": "classes:monk",
+      "@type": "dnd:Class",
+      "index": "monk",
+      "hit_die": 8,
+      "name": { "en": "Monk", "fr": "Moine" }
+    },
+    {
+      "@id": "classes:paladin",
+      "@type": "dnd:Class",
+      "index": "paladin",
+      "hit_die": 10,
+      "spellcasting_ability": "cha",
+      "name": { "en": "Paladin", "fr": "Paladin" }
+    },
+    {
+      "@id": "classes:ranger",
+      "@type": "dnd:Class",
+      "index": "ranger",
+      "hit_die": 10,
+      "spellcasting_ability": "wis",
+      "name": { "en": "Ranger", "fr": "Rôdeur" }
+    },
+    {
+      "@id": "classes:rogue",
+      "@type": "dnd:Class",
+      "index": "rogue",
+      "hit_die": 8,
+      "name": { "en": "Rogue", "fr": "Roublard" }
+    },
+    {
+      "@id": "classes:sorcerer",
+      "@type": "dnd:Class",
+      "index": "sorcerer",
+      "hit_die": 6,
+      "spellcasting_ability": "cha",
+      "name": { "en": "Sorcerer", "fr": "Ensorceleur" }
+    },
+    {
+      "@id": "classes:warlock",
+      "@type": "dnd:Class",
+      "index": "warlock",
+      "hit_die": 8,
+      "spellcasting_ability": "cha",
+      "name": { "en": "Warlock", "fr": "Occultiste" }
+    },
+    {
+      "@id": "classes:wizard",
+      "@type": "dnd:Class",
+      "index": "wizard",
+      "hit_die": 6,
+      "spellcasting_ability": "int",
+      "name": { "en": "Wizard", "fr": "Magicien" }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "@context": {
+    "dnd": "https://purl.org/dnd/ontology#",
+    "races": "https://purl.org/dnd/races/",
+    "name": "dnd:name"
+  },
+  "@graph": [
+    {
+      "@id": "races:human",
+      "@type": "dnd:Race",
+      "index": "human",
+      "name": { "en": "Human", "fr": "Humain" }
+    },
+    {
+      "@id": "races:elf",
+      "@type": "dnd:Race",
+      "index": "elf",
+      "name": { "en": "Elf", "fr": "Elfe" }
+    },
+    {
+      "@id": "races:high-elf",
+      "@type": "dnd:Race",
+      "index": "high-elf",
+      "name": { "en": "High Elf", "fr": "Haut-Elfe" }
+    },
+    {
+      "@id": "races:dwarf",
+      "@type": "dnd:Race",
+      "index": "dwarf",
+      "name": { "en": "Dwarf", "fr": "Nain" }
+    },
+    {
+      "@id": "races:halfling",
+      "@type": "dnd:Race",
+      "index": "halfling",
+      "name": { "en": "Halfelin", "fr": "Halfelin" }
+    },
+    {
+      "@id": "races:dragonborn",
+      "@type": "dnd:Race",
+      "index": "dragonborn",
+      "name": { "en": "Dragonborn", "fr": "Sangdragon" }
+    },
+    {
+      "@id": "races:gnome",
+      "@type": "dnd:Race",
+      "index": "gnome",
+      "name": { "en": "Gnome", "fr": "Gnome" }
+    },
+    {
+      "@id": "races:half-elf",
+      "@type": "dnd:Race",
+      "index": "half-elf",
+      "name": { "en": "Half-Elf", "fr": "Demi-Elfe" }
+    },
+    {
+      "@id": "races:half-orc",
+      "@type": "dnd:Race",
+      "index": "half-orc",
+      "name": { "en": "Half-Orc", "fr": "Demi-Orc" }
+    },
+    {
+      "@id": "races:tiefling",
+      "@type": "dnd:Race",
+      "index": "tiefling",
+      "name": { "en": "Tiefling", "fr": "Tieffelin" }
+    }
+  ]
+}

@@ -1,7 +1,15 @@
+import { useState, useEffect } from "preact/hooks";
 import { Panel } from "../Panel";
 import { AbilityScoreInput } from "./AbilityScoreInput";
-import { RACES, SUBCLASSES } from "../../utils/rules";
-import type { AbilityScores, AbilityScoreIndex } from "../../types/dnd";
+import { SUBCLASSES } from "../../utils/rules";
+import { classRepository, raceRepository } from "../../data";
+import { language } from "../../store/signals";
+import type {
+  AbilityScores,
+  AbilityScoreIndex,
+  Class,
+  Race,
+} from "../../types/dnd";
 import type { Translation } from "../../types/dnd";
 
 const ABILITIES: { key: AbilityScoreIndex; label: string }[] = [
@@ -11,22 +19,6 @@ const ABILITIES: { key: AbilityScoreIndex; label: string }[] = [
   { key: "int", label: "INT" },
   { key: "wis", label: "WIS" },
   { key: "cha", label: "CHA" },
-];
-
-const CLASSES = [
-  "bard",
-  "cleric",
-  "druid",
-  "paladin",
-  "ranger",
-  "sorcerer",
-  "warlock",
-  "wizard",
-  "artificer",
-  "rogue",
-  "fighter",
-  "barbarian",
-  "monk",
 ];
 
 interface CharacterEditorProps {
@@ -70,6 +62,22 @@ export function CharacterEditor({
   onSave,
   t,
 }: CharacterEditorProps) {
+  const [availableClasses, setAvailableClasses] = useState<Class[]>([]);
+  const [availableRaces, setAvailableRaces] = useState<Race[]>([]);
+  const currentLang = language.value;
+
+  useEffect(() => {
+    async function loadData() {
+      const [classes, races] = await Promise.all([
+        classRepository.getAll(currentLang),
+        raceRepository.getAll(currentLang),
+      ]);
+      setAvailableClasses(classes);
+      setAvailableRaces(races);
+    }
+    loadData();
+  }, [currentLang]);
+
   return (
     <Panel title={t.setup.title} titleVariant="large">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -93,14 +101,24 @@ export function CharacterEditor({
             <select
               value={className}
               onChange={(e) => {
-                setClassName(e.currentTarget.value);
+                const selectedClass = e.currentTarget.value;
+                setClassName(selectedClass);
                 setSubclass("none");
+
+                // Auto-update HP if hit die is known
+                const classData = availableClasses.find(
+                  (c) => c.index === selectedClass,
+                );
+                if (classData && level === 1) {
+                  const conBonus = Math.floor((stats.con - 10) / 2);
+                  setHPMax(classData.hit_die + conBonus);
+                }
               }}
               className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-indigo-500 focus:bg-white outline-none transition-all font-bold text-slate-700 capitalize"
             >
-              {CLASSES.map((c) => (
-                <option key={c} value={c}>
-                  {(t.classes as Record<string, string>)[c] || c}
+              {availableClasses.map((c) => (
+                <option key={c.index} value={c.index}>
+                  {c.name}
                 </option>
               ))}
             </select>
@@ -152,9 +170,9 @@ export function CharacterEditor({
               className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-3 focus:border-indigo-500 focus:bg-white outline-none transition-all font-bold text-slate-700 capitalize"
             >
               <option value="none">Aucune</option>
-              {RACES.map((r) => (
-                <option key={r} value={r}>
-                  {(t.races as Record<string, string>)?.[r] || r}
+              {availableRaces.map((r) => (
+                <option key={r.index} value={r.index}>
+                  {r.name}
                 </option>
               ))}
             </select>
