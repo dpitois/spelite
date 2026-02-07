@@ -1,9 +1,15 @@
-// @ts-ignore
+// @ts-expect-error - Transformers.js doesn't provide types for the minified distribution
 import { pipeline, env } from "@xenova/transformers/dist/transformers.min.js";
 import Dexie, { type Table } from "dexie";
 
 // Define types locally for the worker context
-type FeatureExtractionPipeline = any;
+type FeatureExtractionPipeline = (
+  text: string | string[],
+  options?: { pooling?: string; normalize?: boolean },
+) => Promise<{
+  data: Float32Array;
+  dims: number[];
+}>;
 
 // Skip local model checks since we are running in the browser
 env.allowLocalModels = false;
@@ -20,7 +26,10 @@ if (isProd) {
     const workerUrl = self.location.href;
     const assetsIndex = workerUrl.indexOf("/assets/");
     if (assetsIndex !== -1) {
-      env.backends.onnx.wasm.wasmPaths = workerUrl.substring(0, assetsIndex + 1);
+      env.backends.onnx.wasm.wasmPaths = workerUrl.substring(
+        0,
+        assetsIndex + 1,
+      );
     } else {
       env.backends.onnx.wasm.wasmPaths = base;
     }
@@ -31,7 +40,9 @@ if (isProd) {
   env.backends.onnx.wasm.wasmPaths = "/";
 }
 
-console.log(`[SemanticWorker] Worker script started (base: ${env.backends.onnx.wasm.wasmPaths})`);
+console.log(
+  `[SemanticWorker] Worker script started (base: ${env.backends.onnx.wasm.wasmPaths})`,
+);
 
 // Define types locally for the worker context
 type WorkerMessage = {

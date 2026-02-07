@@ -178,6 +178,15 @@ function buildOntology() {
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(database, null, 2));
   console.log(`✅ Ontology built successfully: ${graph.length} spells.`);
+
+  // Auto-generate embeddings after building ontology
+  console.log("🔄 Triggering embedding generation...");
+  const { execSync } = require("child_process");
+  try {
+    execSync("node scripts/generate-embeddings.js", { stdio: "inherit" });
+  } catch (err) {
+    console.error("❌ Failed to generate embeddings:", err.message);
+  }
 }
 
 buildOntology();
