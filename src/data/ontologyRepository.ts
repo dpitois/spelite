@@ -1,5 +1,6 @@
 import type { Spell, SpellMechanics, AbilityScoreIndex } from "../types/dnd";
 import { db } from "./db";
+import type { SearchQuery } from "../utils/search/queryParser";
 
 /**
  * Reconstructs a Spell object from SPO triplets for a specific subject.
@@ -79,8 +80,16 @@ async function reconstructSpell(
           mechanics.area_of_effect.unit = t.o as "foot" | "mile" | "self";
         }
       } else {
-        // Use type assertion carefully for the rest
-        (mechanics as unknown as Record<string, unknown>)[key] = t.o;
+        // Retransform 1/0 to boolean for boolean fields
+        let val = t.o;
+        if (
+          key === "has_attack_roll" ||
+          key === "has_save" ||
+          key === "higher_levels"
+        ) {
+          val = t.o === 1;
+        }
+        (mechanics as unknown as Record<string, unknown>)[key] = val;
       }
     });
 
@@ -90,9 +99,9 @@ async function reconstructSpell(
     desc: (getLocalized("dnd:desc") as string)?.split("\n") || [],
     range: getLocalized("dnd:range") as string,
     components: getArray("dnd:components"),
-    ritual: getSingle("dnd:ritual") as boolean,
+    ritual: getSingle("dnd:ritual") === 1,
     duration: getLocalized("dnd:duration") as string,
-    concentration: getSingle("dnd:concentration") as boolean,
+    concentration: getSingle("dnd:concentration") === 1,
     casting_time: getLocalized("dnd:casting_time") as string,
     level: getSingle("dnd:level") as number,
     damage: mechanics.damage_type
@@ -143,7 +152,156 @@ export const ontologyRepository = {
   },
 
   /**
+   * Advanced semantic search using SearchQuery.
+   */
+  search: async (
+    query: SearchQuery,
+    lang: "en" | "fr" = "en",
+  ): Promise<Spell[]> => {
+    const subjectSets: Set<string>[] = [];
+
+    const {
+      level,
+      class: classes,
+      school,
+      damageType,
+      saveAbility,
+      ritual,
+      concentration,
+      hasSave,
+      hasAttack,
+    } = query.filters;
+
+    // Filter by levels
+    if (level && level.length > 0) {
+      const triplets = await db.triplets
+        .where("p")
+        .equals("dnd:level")
+        .and((t) => level.includes(t.o as number))
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by classes
+    if (classes && classes.length > 0) {
+      const triplets = await db.triplets
+        .where("p")
+        .equals("dnd:classes")
+        .and((t) => classes.includes(t.o as string))
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by schools
+    if (school && school.length > 0) {
+      const triplets = await db.triplets
+        .where("p")
+        .equals("dnd:school")
+        .and((t) => school.includes(t.o as string))
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by damage types
+    if (damageType && damageType.length > 0) {
+      const triplets = await db.triplets
+        .where("p")
+        .equals("dnd:damage_type")
+        .and((t) => damageType.includes(t.o as string))
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by saves
+    if (saveAbility && saveAbility.length > 0) {
+      const triplets = await db.triplets
+        .where("p")
+        .equals("dnd:save_ability")
+        .and((t) => saveAbility.includes(t.o as AbilityScoreIndex))
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by ritual
+    if (ritual !== undefined) {
+      const triplets = await db.triplets
+        .where("[p+o]")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .equals(["dnd:ritual", ritual ? 1 : 0] as any)
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by concentration
+    if (concentration !== undefined) {
+      const triplets = await db.triplets
+        .where("[p+o]")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .equals(["dnd:concentration", concentration ? 1 : 0] as any)
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by hasSave
+    if (hasSave !== undefined) {
+      const triplets = await db.triplets
+        .where("[p+o]")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .equals(["dnd:has_save", hasSave ? 1 : 0] as any)
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by hasAttack
+    if (hasAttack !== undefined) {
+      const triplets = await db.triplets
+        .where("[p+o]")
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .equals(["dnd:has_attack_roll", hasAttack ? 1 : 0] as any)
+        .toArray();
+      subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    let finalSubjects: string[];
+
+    if (subjectSets.length === 0) {
+      const all = await db.triplets.where("p").equals("dnd:index").toArray();
+      finalSubjects = Array.from(new Set(all.map((t) => t.s)));
+    } else {
+      const firstSet = subjectSets[0];
+      finalSubjects = Array.from(firstSet).filter((s) =>
+        subjectSets.slice(1).every((set) => set.has(s)),
+      );
+    }
+
+    // Reconstruct spells
+    let spells = await Promise.all(
+      finalSubjects.map((s) => reconstructSpell(s, lang)),
+    );
+
+    // Final fuzzy/text filtering on name
+    if (query.text.trim().length > 0) {
+      const searchTerms = query.text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .split(/\s+/)
+        .filter((t) => t.length > 0);
+      spells = spells.filter((spell) => {
+        const normalizedName = spell.name
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+        return searchTerms.every((term) => normalizedName.includes(term));
+      });
+    }
+
+    return spells.sort((a, b) => a.name.localeCompare(b.name, lang));
+  },
+
+  /**
    * Filters spells by damage type (semantic search).
+   * @deprecated Use search() instead
    */
   getByDamageType: async (
     type: string,
@@ -159,6 +317,7 @@ export const ontologyRepository = {
 
   /**
    * Filters spells by saving throw ability.
+   * @deprecated Use search() instead
    */
   getBySaveAbility: async (
     ability: AbilityScoreIndex,
@@ -174,6 +333,7 @@ export const ontologyRepository = {
 
   /**
    * Returns all spells with a specific Area of Effect type.
+   * @deprecated Use search() instead
    */
   getByAoEType: async (
     aoeType: NonNullable<SpellMechanics["area_of_effect"]>["type"],

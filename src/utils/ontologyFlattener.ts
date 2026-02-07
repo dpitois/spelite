@@ -8,12 +8,17 @@ export function flattenSpellToTriplets(
 
   if (!s) return [];
 
+  const transformValue = (val: unknown): string | number => {
+    if (typeof val === "boolean") return val ? 1 : 0;
+    return val as string | number;
+  };
+
   // 1. Basic properties
   const basicProps = ["level", "school", "ritual", "concentration", "index"];
   basicProps.forEach((p) => {
     const val = spell[p];
     if (val !== undefined && val !== null) {
-      triplets.push({ s, p: `dnd:${p}`, o: val as string | number | boolean });
+      triplets.push({ s, p: `dnd:${p}`, o: transformValue(val) });
     }
   });
 
@@ -23,11 +28,7 @@ export function flattenSpellToTriplets(
     const val = spell[p];
     if (Array.isArray(val)) {
       val.forEach((item: unknown) => {
-        triplets.push({
-          s,
-          p: `dnd:${p}`,
-          o: item as string | number | boolean,
-        });
+        triplets.push({ s, p: `dnd:${p}`, o: transformValue(item) });
       });
     }
   });
@@ -45,12 +46,7 @@ export function flattenSpellToTriplets(
     if (val && typeof val === "object" && !Array.isArray(val)) {
       Object.entries(val as Record<string, unknown>).forEach(([lang, o]) => {
         if (o !== null && o !== undefined) {
-          triplets.push({
-            s,
-            p: `dnd:${p}`,
-            o: o as string | number | boolean,
-            lang,
-          });
+          triplets.push({ s, p: `dnd:${p}`, o: transformValue(o), lang });
         }
       });
     }
@@ -86,16 +82,12 @@ export function flattenSpellToTriplets(
               triplets.push({
                 s,
                 p: `dnd:area_of_effect_${subP}`,
-                o: subO as string | number | boolean,
+                o: transformValue(subO),
               });
             },
           );
         } else if (typeof o !== "object") {
-          triplets.push({
-            s,
-            p: `dnd:${p}`,
-            o: o as string | number | boolean,
-          });
+          triplets.push({ s, p: `dnd:${p}`, o: transformValue(o) });
         }
       }
     });

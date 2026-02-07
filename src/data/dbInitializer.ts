@@ -4,7 +4,7 @@ import spellsData from "./spells.json";
 
 const STORAGE_KEY_VERSION = "spelite_ontology_version";
 // Current version based on the data or a simple timestamp
-const CURRENT_VERSION = "20260207-v1";
+const CURRENT_VERSION = "20260207-v2";
 
 export async function initializeDatabase() {
   const storedVersion = localStorage.getItem(STORAGE_KEY_VERSION);

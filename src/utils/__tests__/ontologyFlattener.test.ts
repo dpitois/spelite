@@ -5,14 +5,12 @@ describe("ontologyFlattener", () => {
   it("should flatten a simple spell to triplets", () => {
     const spell = {
       "@id": "spells:acid-splash",
+      index: "acid-splash",
       level: 0,
       school: "conjuration",
-      components: ["V", "S"],
       ritual: false,
-      name: {
-        en: "Acid Splash",
-        fr: "Aspersion d'acide",
-      },
+      components: ["V", "S"],
+      name: { en: "Acid Splash", fr: "Aspersion d'acide" },
       mechanics: {
         has_save: true,
         damage_type: "acid",
@@ -21,6 +19,12 @@ describe("ontologyFlattener", () => {
 
     const triplets = flattenSpellToTriplets(spell);
 
+    // Basic props (booleans become numbers)
+    expect(triplets).toContainEqual({
+      s: "spells:acid-splash",
+      p: "dnd:index",
+      o: "acid-splash",
+    });
     expect(triplets).toContainEqual({
       s: "spells:acid-splash",
       p: "dnd:level",
@@ -33,6 +37,13 @@ describe("ontologyFlattener", () => {
     });
     expect(triplets).toContainEqual({
       s: "spells:acid-splash",
+      p: "dnd:ritual",
+      o: 0, // false -> 0
+    });
+
+    // Arrays
+    expect(triplets).toContainEqual({
+      s: "spells:acid-splash",
       p: "dnd:components",
       o: "V",
     });
@@ -41,11 +52,8 @@ describe("ontologyFlattener", () => {
       p: "dnd:components",
       o: "S",
     });
-    expect(triplets).toContainEqual({
-      s: "spells:acid-splash",
-      p: "dnd:ritual",
-      o: false,
-    });
+
+    // Localized
     expect(triplets).toContainEqual({
       s: "spells:acid-splash",
       p: "dnd:name",
@@ -58,10 +66,12 @@ describe("ontologyFlattener", () => {
       o: "Aspersion d'acide",
       lang: "fr",
     });
+
+    // Mechanics
     expect(triplets).toContainEqual({
       s: "spells:acid-splash",
       p: "dnd:has_save",
-      o: true,
+      o: 1, // true -> 1
     });
     expect(triplets).toContainEqual({
       s: "spells:acid-splash",
@@ -71,8 +81,11 @@ describe("ontologyFlattener", () => {
   });
 
   it("should handle missing properties gracefully", () => {
-    const spell = { "@id": "spells:empty" };
-    const triplets = flattenSpellToTriplets(spell);
-    expect(triplets).toHaveLength(0); // Only @id is present, but no indexed basic props
+    const minimalSpell = {
+      "@id": "minimal",
+      index: "minimal",
+    };
+    const triplets = flattenSpellToTriplets(minimalSpell);
+    expect(triplets.length).toBe(1); // Only 'index' creates a triplet. '@id' is the subject 's'.
   });
 });
