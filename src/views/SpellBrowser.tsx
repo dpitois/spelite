@@ -72,7 +72,7 @@ export function SpellBrowser() {
             // Background indexing
             ontologyRepository.getAll(currentLang).then((allSpells) => {
               const documents = allSpells.map(
-                (s) => `${s.name}: ${s.desc.slice(0, 3).join(" ")}`,
+                (s) => `${s.name}: ${s.desc.slice(0, 10).join(" ")}`,
               );
               console.log(
                 "[SpellBrowser] Starting background indexing of spells...",
@@ -160,33 +160,33 @@ export function SpellBrowser() {
         );
 
         if (candidateSpells.length > 0) {
-            // Step B: Semantic ranking
-            // Create documents for embedding: "Name: Description"
-            const documents = candidateSpells.map(
-              (s) => `${s.name}: ${s.desc.slice(0, 3).join(" ")}`,
+          // Step B: Semantic ranking
+          const documents = candidateSpells.map(
+            (s) => `${s.name}: ${s.desc.slice(0, 10).join(" ")}`,
+          );
+
+          try {
+            const semanticResults = await semanticBridge.search(
+              textToSearch,
+              documents,
             );
 
-            try {
-              const semanticResults = await semanticBridge.search(
-                textToSearch,
-                documents,
-              );
-
-              console.log("[SpellBrowser] Top semantic scores:", 
-                semanticResults.slice(0, 5).map(r => ({ name: candidateSpells[r.index].name, score: r.score }))
-              );
-
-              // Re-order candidate spells based on semantic scores
-              // Filter by a threshold (e.g., score > 0.15) to keep relevance
+            if (semanticResults.length > 0) {
+              const bestScore = semanticResults[0].score;
+              
+              // Dynamic threshold: at least 0.25 AND at least 60% of the best score
+              const threshold = Math.max(0.25, bestScore * 0.6);
+              
               const rankedSpells = semanticResults
-                .filter((res) => res.score > 0.15) // Adjust threshold as needed
+                .filter((res) => res.score >= threshold)
                 .map((res) => candidateSpells[res.index]);
 
-            if (mounted) {
-              setSpells(rankedSpells);
-              setLoading(false);
+              if (mounted) {
+                setSpells(rankedSpells);
+                setLoading(false);
+              }
+              return;
             }
-            return;
           } catch (err) {
             console.error("[SpellBrowser] Semantic search error:", err);
             // Fallback to normal search below
@@ -218,7 +218,6 @@ export function SpellBrowser() {
     filterSave,
     currentLang,
     isModelReady,
-    indexingProgress,
     isAIEnabled,
   ]);
 

@@ -105,9 +105,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
           documents: string[];
         };
 
-        console.log(
-          `[SemanticWorker] Starting search for "${query}" across ${documents.length} documents.`,
-        );
+        console.log(`[SemanticWorker] Starting search for "${query}" across ${documents.length} documents.`);
 
         if (!query || !documents || documents.length === 0) {
           self.postMessage({ id, type: "SEARCH_RESULTS", payload: [] });
@@ -131,10 +129,7 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
           if (embeddingsCache.has(doc)) {
             // Already in memory
             const docEmbedding = embeddingsCache.get(doc)!;
-            const score = cosineSimilarity(
-              queryEmbedding as number[],
-              docEmbedding,
-            );
+            const score = cosineSimilarity(queryEmbedding as number[], docEmbedding);
             results.push({ index, score, text: doc });
           } else {
             docsMissingInMemory.push({ text: doc, index });
@@ -145,10 +140,8 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
         const docsToCompute: { text: string; index: number }[] = [];
 
         if (docsMissingInMemory.length > 0) {
-          console.log(
-            `[SemanticWorker] Checking DB for ${docsMissingInMemory.length} docs...`,
-          );
-          const textsToLookup = docsMissingInMemory.map((d) => d.text);
+          console.log(`[SemanticWorker] Checking DB for ${docsMissingInMemory.length} docs...`);
+          const textsToLookup = docsMissingInMemory.map(d => d.text);
           const dbRecords = await db.embeddings.bulkGet(textsToLookup);
 
           docsMissingInMemory.forEach((docItem, i) => {
@@ -156,60 +149,55 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
             if (record) {
               // Found in DB -> Add to Memory Cache & Results
               embeddingsCache.set(docItem.text, record.vector);
-              const score = cosineSimilarity(
-                queryEmbedding as number[],
-                record.vector,
-              );
+              const score = cosineSimilarity(queryEmbedding as number[], record.vector);
               results.push({ index: docItem.index, score, text: docItem.text });
             } else {
               // Not in DB -> Needs computation
               docsToCompute.push(docItem);
             }
           });
-
-          // Report progress after DB lookup
-          self.postMessage({
-            id,
-            type: "PROGRESS",
-            payload: {
-              status: "indexing",
-              progress: Math.round(
-                ((documents.length - docsToCompute.length) / documents.length) *
-                  100,
-              ),
-            },
-          });
+          
+          // Report progress after DB lookup only if warmup
+          if (query === "warmup") {
+            self.postMessage({ 
+              id, 
+              type: "PROGRESS", 
+              payload: { 
+                status: "indexing", 
+                progress: Math.round(((documents.length - docsToCompute.length) / documents.length) * 100) 
+              } 
+            });
+          }
         }
 
         // 4. Compute embeddings for totally new docs
         if (docsToCompute.length > 0) {
-          console.log(
-            `[SemanticWorker] Computing embeddings for ${docsToCompute.length} new documents...`,
-          );
+          console.log(`[SemanticWorker] Computing embeddings for ${docsToCompute.length} new documents...`);
 
           const BATCH_SIZE = 10;
-          const rawDocs = docsToCompute.map((d) => d.text);
+          const rawDocs = docsToCompute.map(d => d.text);
           const newRecordsToSave: { text: string; vector: number[] }[] = [];
+          const isWarmup = query === "warmup";
 
           for (let i = 0; i < rawDocs.length; i += BATCH_SIZE) {
             const batchTexts = rawDocs.slice(i, i + BATCH_SIZE);
             const currentBatch = Math.floor(i / BATCH_SIZE) + 1;
             const totalBatches = Math.ceil(rawDocs.length / BATCH_SIZE);
-
-            console.log(
-              `[SemanticWorker] Processing batch ${currentBatch}/${totalBatches}`,
-            );
-
-            // Send indexing progress
-            const processedCount = documents.length - docsToCompute.length + i;
-            self.postMessage({
-              id,
-              type: "PROGRESS",
-              payload: {
-                status: "indexing",
-                progress: Math.round((processedCount / documents.length) * 100),
-              },
-            });
+            
+            console.log(`[SemanticWorker] Processing batch ${currentBatch}/${totalBatches}`);
+            
+            // Only send indexing progress during warmup
+            if (isWarmup) {
+                const processedCount = (documents.length - docsToCompute.length) + i;
+                self.postMessage({ 
+                  id, 
+                  type: "PROGRESS", 
+                  payload: { 
+                    status: "indexing", 
+                    progress: Math.round((processedCount / documents.length) * 100) 
+                  } 
+                });
+            }
 
             const batchOutput = await extractor(batchTexts, {
               pooling: "mean",
@@ -238,28 +226,22 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
 
               const score = cosineSimilarity(
                 queryEmbedding as number[],
-                docEmbedding as number[],
+                docEmbedding as number[]
               );
 
               results.push({
                 index: originalIndex,
                 score: score,
-                text: originalText,
+                text: originalText
               });
             }
           }
 
           // Bulk save to DB
           if (newRecordsToSave.length > 0) {
-            console.log(
-              `[SemanticWorker] Persisting ${newRecordsToSave.length} embeddings to IndexedDB...`,
-            );
-            // Fire and forget - don't block search results on DB write
+            console.log(`[SemanticWorker] Persisting ${newRecordsToSave.length} embeddings to IndexedDB...`);
             db.embeddings.bulkPut(newRecordsToSave).catch((err) => {
-              console.error(
-                "[SemanticWorker] Failed to save embeddings to DB:",
-                err,
-              );
+              console.error("[SemanticWorker] Failed to save embeddings to DB:", err);
             });
           }
         }
@@ -267,16 +249,16 @@ self.addEventListener("message", async (event: MessageEvent<WorkerMessage>) => {
         // 5. Sort by score (descending)
         results.sort((a, b) => b.score - a.score);
 
-        console.log(
-          `[SemanticWorker] Search completed. Top result score: ${results[0]?.score}`,
-        );
-
-        // Final progress report
-        self.postMessage({
-          id,
-          type: "PROGRESS",
-          payload: { status: "indexing", progress: 100 },
-        });
+        console.log(`[SemanticWorker] Search completed. Top result score: ${results[0]?.score}`);
+        
+        // Final progress report only for warmup
+        if (query === "warmup") {
+            self.postMessage({ 
+              id, 
+              type: "PROGRESS", 
+              payload: { status: "indexing", progress: 100 } 
+            });
+        }
 
         self.postMessage({ id, type: "SEARCH_RESULTS", payload: results });
         break;
