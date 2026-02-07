@@ -19,6 +19,12 @@ export function SpellBrowser() {
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
   const [filterLevel, setFilterLevel] = useState<string>("all");
+  // Use the effective spell source (e.g., "wizard" for Arcane Trickster) instead of the raw class name ("rogue")
+  const defaultClass =
+    char.spellSources.length > 0
+      ? char.spellSources[0]
+      : char.className || "all";
+  const [filterClass, setFilterClass] = useState<string>(defaultClass);
   const [filterStatus, setFilterStatus] = useState<
     "all" | "known" | "learnable"
   >("all");
@@ -26,17 +32,13 @@ export function SpellBrowser() {
   const [filterDamage, setFilterDamage] = useState<string>("all");
   const [filterSave, setFilterSave] = useState<string>("all");
 
-  // Dynamic options for filters (based on initial load or static logic)
+  // Dynamic options for filters
   const [filterOptions, setFilterOptions] = useState<{
+    classes: string[];
     schools: string[];
     damageTypes: string[];
     saveAbilities: string[];
-  }>({ schools: [], damageTypes: [], saveAbilities: [] });
-
-  const availableLevels = Array.from(
-    { length: char.maxSpellLevel + 1 },
-    (_, i) => i,
-  );
+  }>({ classes: [], schools: [], damageTypes: [], saveAbilities: [] });
 
   // Initial load to populate filter options
   useEffect(() => {
@@ -45,15 +47,18 @@ export function SpellBrowser() {
       const schools = new Set<string>();
       const damageTypes = new Set<string>();
       const saveAbilities = new Set<string>();
+      const classes = new Set<string>();
 
       all.forEach((s) => {
         schools.add(s.school.name);
+        s.classes.forEach((c) => classes.add(c.index));
         if (s.mechanics?.damage_type) damageTypes.add(s.mechanics.damage_type);
         if (s.mechanics?.save_ability)
           saveAbilities.add(s.mechanics.save_ability);
       });
 
       setFilterOptions({
+        classes: Array.from(classes).sort(),
         schools: Array.from(schools).sort(),
         damageTypes: Array.from(damageTypes).sort(),
         saveAbilities: Array.from(saveAbilities).sort(),
@@ -72,10 +77,14 @@ export function SpellBrowser() {
       // 1. Parse natural language search
       const query = parseQuery(searchTerm);
 
-      // 2. Merge manual dropdown filters into query if they are not "all"
+      // 2. Merge manual dropdown filters into query
       if (filterLevel !== "all") {
         if (!query.filters.level) query.filters.level = [];
         query.filters.level.push(parseInt(filterLevel));
+      }
+      if (filterClass !== "all") {
+        if (!query.filters.class) query.filters.class = [];
+        query.filters.class.push(filterClass);
       }
       if (filterSchool !== "all") {
         if (!query.filters.school) query.filters.school = [];
@@ -108,29 +117,16 @@ export function SpellBrowser() {
   }, [
     searchTerm,
     filterLevel,
+    filterClass,
     filterSchool,
     filterDamage,
     filterSave,
     currentLang,
   ]);
 
-  // Post-processing: Apply character-specific filters on results
+  // Post-processing
   const filteredSpells = useMemo(() => {
     let results = spells;
-    const sources = char.spellSources;
-
-    // Filter by class sources (unless explicitly searched otherwise via NL?)
-    // For now, we maintain the "class view" constraint of the character
-    if (sources.length > 0) {
-      results = results.filter((spell) =>
-        spell.classes.some((c) => sources.includes(c.index)),
-      );
-    }
-
-    // Level constraint (don't show spells above max level available)
-    if (char.maxSpellLevel >= 0) {
-      results = results.filter((spell) => spell.level <= char.maxSpellLevel);
-    }
 
     // Status filter
     if (filterStatus === "known") {
@@ -144,13 +140,7 @@ export function SpellBrowser() {
     }
 
     return results;
-  }, [
-    spells,
-    char.spellSources,
-    char.maxSpellLevel,
-    char.knownSpells,
-    filterStatus,
-  ]);
+  }, [spells, char.knownSpells, filterStatus]);
 
   const handleReset = () => {
     if (char.knownSpells.length === 0) return;
@@ -187,6 +177,8 @@ export function SpellBrowser() {
           setSearchTerm={setSearchTerm}
           filterLevel={filterLevel}
           setFilterLevel={setFilterLevel}
+          filterClass={filterClass}
+          setFilterClass={setFilterClass}
           filterSchool={filterSchool}
           setFilterSchool={setFilterSchool}
           filterStatus={filterStatus}
@@ -195,7 +187,7 @@ export function SpellBrowser() {
           setFilterDamage={setFilterDamage}
           filterSave={filterSave}
           setFilterSave={setFilterSave}
-          availableLevels={availableLevels}
+          classes={filterOptions.classes}
           schools={filterOptions.schools}
           damageTypes={filterOptions.damageTypes}
           saveAbilities={filterOptions.saveAbilities}
@@ -212,6 +204,8 @@ export function SpellBrowser() {
         onForget={actions.forgetSpell}
         language={currentLang}
         t={currentT}
+        maxSpellLevel={char.maxSpellLevel}
+        allowedClasses={char.spellSources}
       />
     </div>
   );

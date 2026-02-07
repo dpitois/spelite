@@ -12,6 +12,9 @@ interface SpellGridProps {
   onForget: (id: string) => void;
   language: "en" | "fr";
   t: Translation;
+  // Learning criteria from character
+  maxSpellLevel: number;
+  allowedClasses: string[];
 }
 
 export function SpellGrid({
@@ -23,6 +26,8 @@ export function SpellGrid({
   onForget,
   language,
   t,
+  maxSpellLevel,
+  allowedClasses,
 }: SpellGridProps) {
   if (loading) {
     return (
@@ -45,20 +50,27 @@ export function SpellGrid({
 
   return (
     <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
-      {spells.map((spell) => (
-        <SpellCard
-          key={spell.index}
-          spell={spell}
-          isKnown={
-            knownSpells.includes(spell.index) ||
-            bonusSpellIndexes.includes(spell.index)
-          }
-          isBonus={bonusSpellIndexes.includes(spell.index)}
-          onLearn={onLearn}
-          onForget={onForget}
-          language={language}
-        />
-      ))}
+      {spells.map((spell) => {
+        const isKnown =
+          knownSpells.includes(spell.index) ||
+          bonusSpellIndexes.includes(spell.index);
+        const canLearn =
+          spell.level <= maxSpellLevel &&
+          spell.classes.some((c) => allowedClasses.includes(c.index));
+
+        return (
+          <SpellCard
+            key={spell.index}
+            spell={spell}
+            isKnown={isKnown}
+            canLearn={canLearn}
+            isBonus={bonusSpellIndexes.includes(spell.index)}
+            onLearn={onLearn}
+            onForget={onForget}
+            language={language}
+          />
+        );
+      })}
     </div>
   );
 }

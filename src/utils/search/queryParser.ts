@@ -104,7 +104,7 @@ export function parseQuery(input: string): SearchQuery {
           // Special case: don't reset if we have "sans jet de sauvegarde"
           // "jet" and "sauvegarde" both trigger this. If we already set it to false, keep it false.
           if (query.filters.hasSave === undefined || isNegated) {
-             query.filters.hasSave = !isNegated;
+            query.filters.hasSave = !isNegated;
           }
           // Note: we don't reset isNegated here so it can carry over "jet" to "sauvegarde"
           break;

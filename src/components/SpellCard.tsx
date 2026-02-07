@@ -5,6 +5,7 @@ interface SpellCardProps {
   spell: Spell;
   isKnown: boolean;
   isBonus?: boolean;
+  canLearn: boolean;
   onLearn: (id: string) => void;
   onForget: (id: string) => void;
   language: "fr" | "en";
@@ -14,6 +15,7 @@ export function SpellCard({
   spell,
   isKnown,
   isBonus,
+  canLearn,
   onLearn,
   onForget,
 }: SpellCardProps) {
@@ -146,27 +148,29 @@ export function SpellCard({
       </div>
 
       {/* Footer Action */}
-      <div className="p-3 bg-slate-50 rounded-b-xl border-t border-slate-100">
-        <button
-          disabled={isBonus}
-          onClick={() =>
-            isKnown ? onForget(spell.index) : onLearn(spell.index)
-          }
-          className={`w-full py-2 rounded-lg text-xs font-bold transition-all shadow-sm border ${
-            isBonus
-              ? "bg-amber-50 text-amber-700 border-amber-200 cursor-default"
+      {(isKnown || canLearn) && (
+        <div className="p-3 bg-slate-50 rounded-b-xl border-t border-slate-100">
+          <button
+            disabled={isBonus}
+            onClick={() =>
+              isKnown ? onForget(spell.index) : onLearn(spell.index)
+            }
+            className={`w-full py-2 rounded-lg text-xs font-bold transition-all shadow-sm border ${
+              isBonus
+                ? "bg-amber-50 text-amber-700 border-amber-200 cursor-default"
+                : isKnown
+                  ? "bg-red-50 text-red-600 hover:bg-red-100 border-red-200"
+                  : "bg-indigo-600 text-white hover:bg-indigo-700 border-indigo-700"
+            }`}
+          >
+            {isBonus
+              ? `⭐ ${currentT.dashboard.ready}`
               : isKnown
-                ? "bg-red-50 text-red-600 hover:bg-red-100 border-red-200"
-                : "bg-indigo-600 text-white hover:bg-indigo-700 border-indigo-700"
-          }`}
-        >
-          {isBonus
-            ? `⭐ ${currentT.dashboard.ready}`
-            : isKnown
-              ? `🗑️ ${currentT.grimoire.forget}`
-              : `✨ ${currentT.grimoire.learn}`}
-        </button>
-      </div>
+                ? `🗑️ ${currentT.grimoire.forget}`
+                : `✨ ${currentT.grimoire.learn}`}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

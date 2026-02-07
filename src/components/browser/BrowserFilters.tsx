@@ -5,6 +5,8 @@ interface BrowserFiltersProps {
   setSearchTerm: (val: string) => void;
   filterLevel: string;
   setFilterLevel: (val: string) => void;
+  filterClass: string;
+  setFilterClass: (val: string) => void;
   filterSchool: string;
   setFilterSchool: (val: string) => void;
   filterStatus: "all" | "known" | "learnable";
@@ -13,7 +15,7 @@ interface BrowserFiltersProps {
   setFilterDamage: (val: string) => void;
   filterSave: string;
   setFilterSave: (val: string) => void;
-  availableLevels: number[];
+  classes: string[];
   schools: string[];
   damageTypes: string[];
   saveAbilities: string[];
@@ -25,6 +27,8 @@ export function BrowserFilters({
   setSearchTerm,
   filterLevel,
   setFilterLevel,
+  filterClass,
+  setFilterClass,
   filterSchool,
   setFilterSchool,
   filterStatus,
@@ -33,7 +37,7 @@ export function BrowserFilters({
   setFilterDamage,
   filterSave,
   setFilterSave,
-  availableLevels,
+  classes,
   schools,
   damageTypes,
   saveAbilities,
@@ -52,8 +56,27 @@ export function BrowserFilters({
         <span className="absolute left-4 top-3.5 text-slate-400">🔍</span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {/* ... (Level, School, Status dropdowns) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Class Filter */}
+        <div>
+          <label className="block text-[10px] font-black uppercase text-slate-400 mb-1.5 tracking-widest pl-1">
+            {t.setup.classLabel}
+          </label>
+          <select
+            value={filterClass}
+            onChange={(e) => setFilterClass(e.currentTarget.value)}
+            className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-2.5 focus:border-indigo-500 focus:bg-white outline-none transition-all font-bold text-slate-700 text-sm"
+          >
+            <option value="all">{t.common.all}</option>
+            {classes.map((cls) => (
+              <option key={cls} value={cls}>
+                {t.classes[cls] || cls}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Level Filter */}
         <div>
           <label className="block text-[10px] font-black uppercase text-slate-400 mb-1.5 tracking-widest pl-1">
             {t.common.level}
@@ -64,7 +87,7 @@ export function BrowserFilters({
             className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl px-4 py-2.5 focus:border-indigo-500 focus:bg-white outline-none transition-all font-bold text-slate-700 text-sm"
           >
             <option value="all">{t.grimoire.allLevels}</option>
-            {availableLevels.map((lvl) => (
+            {Array.from({ length: 10 }, (_, i) => i).map((lvl) => (
               <option key={lvl} value={lvl.toString()}>
                 {lvl === 0
                   ? t.common.cantrip
@@ -73,6 +96,8 @@ export function BrowserFilters({
             ))}
           </select>
         </div>
+
+        {/* School Filter */}
         <div>
           <label className="block text-[10px] font-black uppercase text-slate-400 mb-1.5 tracking-widest pl-1">
             {t.grimoire.schoolFilter}
@@ -90,6 +115,8 @@ export function BrowserFilters({
             ))}
           </select>
         </div>
+
+        {/* Status Filter */}
         <div>
           <label className="block text-[10px] font-black uppercase text-slate-400 mb-1.5 tracking-widest pl-1">
             {t.grimoire.statusFilter}
