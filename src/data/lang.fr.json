@@ -141,7 +141,8 @@
     "range": "Portée",
     "duration": "Durée",
     "components": "Composantes",
-    "concentration": "Concentration"
+    "concentration": "Concentration",
+    "ritual": "Rituel"
   },
   "pwa": {
     "offlineReady": "Application prête à être utilisée hors-ligne.",

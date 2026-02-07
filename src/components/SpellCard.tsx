@@ -46,15 +46,35 @@ export function SpellCard({
               </span>
             )}
           </h3>
-          <span
-            className={`shrink-0 inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider ${
-              spell.level === 0
-                ? "bg-slate-100 text-slate-600"
-                : "bg-blue-100 text-blue-800"
-            }`}
-          >
-            {spellLevelLabel}
-          </span>
+          <div className="flex flex-col items-end gap-1.5 shrink-0">
+            <span
+              className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider ${
+                spell.level === 0
+                  ? "bg-slate-100 text-slate-600"
+                  : "bg-blue-100 text-blue-800"
+              }`}
+            >
+              {spellLevelLabel}
+            </span>
+            <div className="flex gap-1">
+              {spell.concentration && (
+                <span
+                  className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-700 border border-indigo-200"
+                  title={currentT.grimoire.concentration}
+                >
+                  C
+                </span>
+              )}
+              {spell.ritual && (
+                <span
+                  className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200"
+                  title={currentT.grimoire.ritual}
+                >
+                  R
+                </span>
+              )}
+            </div>
+          </div>
         </div>
         <p className="text-[11px] font-bold text-slate-400 uppercase mt-1 tracking-tight">
           {spell.school.name}
@@ -93,7 +113,6 @@ export function SpellCard({
             className="text-slate-700 font-medium truncate block"
             title={spell.duration}
           >
-            {spell.concentration && "Conc., "}
             {spell.duration}
           </span>
         </div>

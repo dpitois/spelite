@@ -91,15 +91,23 @@ export function SpellRow({
               </span>
               <span className="px-2 py-0.5 rounded-full border border-slate-200 text-slate-500 bg-white/50 flex items-center gap-1">
                 {spell.duration}
-                {spell.concentration && (
-                  <span
-                    className="text-indigo-500"
-                    title={t.grimoire.concentration}
-                  >
-                    (C)
-                  </span>
-                )}
               </span>
+              {spell.concentration && (
+                <span
+                  className="px-2 py-0.5 rounded-full border border-indigo-200 text-indigo-700 bg-indigo-50/30"
+                  title={t.grimoire.concentration}
+                >
+                  C
+                </span>
+              )}
+              {spell.ritual && (
+                <span
+                  className="px-2 py-0.5 rounded-full border border-emerald-200 text-emerald-700 bg-emerald-50/30"
+                  title={t.grimoire.ritual}
+                >
+                  R
+                </span>
+              )}
               {spell.mechanics?.has_save && spell.mechanics.save_ability && (
                 <span className="px-2 py-0.5 rounded-full border border-amber-200 text-amber-700 bg-amber-50/30">
                   {t.mechanics.saveLabel.substring(0, 3)}.{" "}

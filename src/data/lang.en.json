@@ -141,7 +141,8 @@
     "range": "Range",
     "duration": "Duration",
     "components": "Components",
-    "concentration": "Concentration"
+    "concentration": "Concentration",
+    "ritual": "Ritual"
   },
   "pwa": {
     "offlineReady": "App ready to work offline.",
