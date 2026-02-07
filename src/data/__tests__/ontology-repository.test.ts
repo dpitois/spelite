@@ -1,9 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { ontologyRepository } from "../ontologyRepository";
+import { initializeDatabase } from "../dbInitializer";
 
 describe("ontologyRepository", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.resetModules();
+    await initializeDatabase();
   });
 
   it("should return spells in English by default", async () => {

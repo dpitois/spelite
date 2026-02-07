@@ -1,52 +1,115 @@
-import type {
-  Spell,
-  SpellDatabase,
-  SpellMechanics,
-  AbilityScoreIndex,
-  RawSpell,
-} from "../types/dnd";
-
-let cachedDb: SpellDatabase | null = null;
+import type { Spell, SpellMechanics, AbilityScoreIndex } from "../types/dnd";
+import { db } from "./db";
 
 /**
- * Loads the master ontology database.
+ * Reconstructs a Spell object from SPO triplets for a specific subject.
  */
-async function loadDb(): Promise<SpellDatabase> {
-  if (cachedDb) return cachedDb;
+async function reconstructSpell(
+  subject: string,
+  lang: "en" | "fr",
+): Promise<Spell> {
+  const triplets = await db.triplets.where("s").equals(subject).toArray();
 
-  // Dynamic import for code splitting
-  const data = await import("./spells.json");
-  cachedDb = data.default as SpellDatabase;
-  return cachedDb;
-}
+  const getSingle = (predicate: string) =>
+    triplets.find((t) => t.p === predicate)?.o;
 
-/**
- * Maps a raw ontology spell to a localized Spell object.
- */
-function mapToLanguage(raw: RawSpell, lang: "en" | "fr"): Spell {
+  const getLocalized = (predicate: string) => {
+    const localized = triplets.find(
+      (t) => t.p === predicate && t.lang === lang,
+    );
+    if (localized) return localized.o;
+    // Fallback to English if the requested language is not found
+    return triplets.find(
+      (t) => t.p === predicate && (t.lang === "en" || !t.lang),
+    )?.o;
+  };
+
+  const getArray = (predicate: string) =>
+    triplets.filter((t) => t.p === predicate).map((t) => t.o as string);
+
+  // Initialize with default values for mandatory properties
+  const mechanics: SpellMechanics = {
+    has_attack_roll: false,
+    has_save: false,
+  };
+
+  triplets
+    .filter(
+      (t) =>
+        t.p.startsWith("dnd:") &&
+        ![
+          "level",
+          "school",
+          "ritual",
+          "concentration",
+          "index",
+          "components",
+          "classes",
+          "name",
+          "range",
+          "duration",
+          "casting_time",
+          "material",
+          "desc",
+        ]
+          .map((k) => `dnd:${k}`)
+          .includes(t.p),
+    )
+    .forEach((t) => {
+      const key = t.p.replace("dnd:", "");
+
+      if (key.startsWith("area_of_effect_")) {
+        const subKey = key.replace("area_of_effect_", "");
+        if (!mechanics.area_of_effect) {
+          mechanics.area_of_effect = { type: "sphere", value: 0, unit: "foot" };
+        }
+        if (subKey === "type") {
+          mechanics.area_of_effect.type = t.o as
+            | "sphere"
+            | "cone"
+            | "cylinder"
+            | "line"
+            | "cube"
+            | "wall";
+        }
+        if (subKey === "value") {
+          mechanics.area_of_effect.value = t.o as number;
+        }
+        if (subKey === "unit") {
+          mechanics.area_of_effect.unit = t.o as "foot" | "mile" | "self";
+        }
+      } else {
+        // Use type assertion carefully for the rest
+        (mechanics as unknown as Record<string, unknown>)[key] = t.o;
+      }
+    });
+
   return {
-    index: raw.index,
-    name: raw.name[lang] || raw.name.en,
-    desc: raw.desc[lang] || raw.desc.en,
-    range: raw.range[lang] || raw.range.en,
-    components: raw.components,
-    ritual: raw.ritual,
-    duration: raw.duration[lang] || raw.duration.en,
-    concentration: raw.concentration,
-    casting_time: raw.casting_time[lang] || raw.casting_time.en,
-    level: raw.level,
-    damage: raw.mechanics?.damage_type
+    index: getSingle("dnd:index") as string,
+    name: getLocalized("dnd:name") as string,
+    desc: (getLocalized("dnd:desc") as string)?.split("\n") || [],
+    range: getLocalized("dnd:range") as string,
+    components: getArray("dnd:components"),
+    ritual: getSingle("dnd:ritual") as boolean,
+    duration: getLocalized("dnd:duration") as string,
+    concentration: getSingle("dnd:concentration") as boolean,
+    casting_time: getLocalized("dnd:casting_time") as string,
+    level: getSingle("dnd:level") as number,
+    damage: mechanics.damage_type
       ? {
           damage_type: {
-            index: raw.mechanics.damage_type,
-            name: raw.mechanics.damage_type,
+            index: mechanics.damage_type,
+            name: mechanics.damage_type,
           },
         }
       : undefined,
-    school: { index: raw.school, name: raw.school },
-    classes: raw.classes.map((c: string) => ({ index: c, name: c })),
-    mechanics: raw.mechanics,
-    material: raw.material?.[lang] || raw.material?.en,
+    school: {
+      index: getSingle("dnd:school") as string,
+      name: getSingle("dnd:school") as string,
+    },
+    classes: getArray("dnd:classes").map((c) => ({ index: c, name: c })),
+    mechanics,
+    material: getLocalized("dnd:material") as string | undefined,
   };
 }
 
@@ -55,8 +118,13 @@ export const ontologyRepository = {
    * Returns all spells localized in the given language.
    */
   getAll: async (lang: "en" | "fr" = "en"): Promise<Spell[]> => {
-    const db = await loadDb();
-    return db["@graph"].map((s) => mapToLanguage(s, lang));
+    const allTriplets = await db.triplets
+      .where("p")
+      .equals("dnd:index")
+      .toArray();
+    const uniqueSubjects = Array.from(new Set(allTriplets.map((t) => t.s)));
+
+    return Promise.all(uniqueSubjects.map((s) => reconstructSpell(s, lang)));
   },
 
   /**
@@ -66,9 +134,12 @@ export const ontologyRepository = {
     index: string,
     lang: "en" | "fr" = "en",
   ): Promise<Spell | undefined> => {
-    const db = await loadDb();
-    const raw = db["@graph"].find((s) => s.index === index);
-    return raw ? mapToLanguage(raw, lang) : undefined;
+    const triplet = await db.triplets
+      .where("[p+o]")
+      .equals(["dnd:index", index])
+      .first();
+
+    return triplet ? reconstructSpell(triplet.s, lang) : undefined;
   },
 
   /**
@@ -78,10 +149,12 @@ export const ontologyRepository = {
     type: string,
     lang: "en" | "fr" = "en",
   ): Promise<Spell[]> => {
-    const db = await loadDb();
-    return db["@graph"]
-      .filter((s) => s.mechanics.damage_type === type)
-      .map((s) => mapToLanguage(s, lang));
+    const triplets = await db.triplets
+      .where("[p+o]")
+      .equals(["dnd:damage_type", type])
+      .toArray();
+
+    return Promise.all(triplets.map((t) => reconstructSpell(t.s, lang)));
   },
 
   /**
@@ -91,10 +164,12 @@ export const ontologyRepository = {
     ability: AbilityScoreIndex,
     lang: "en" | "fr" = "en",
   ): Promise<Spell[]> => {
-    const db = await loadDb();
-    return db["@graph"]
-      .filter((s) => s.mechanics.save_ability === ability)
-      .map((s) => mapToLanguage(s, lang));
+    const triplets = await db.triplets
+      .where("[p+o]")
+      .equals(["dnd:save_ability", ability])
+      .toArray();
+
+    return Promise.all(triplets.map((t) => reconstructSpell(t.s, lang)));
   },
 
   /**
@@ -104,9 +179,11 @@ export const ontologyRepository = {
     aoeType: NonNullable<SpellMechanics["area_of_effect"]>["type"],
     lang: "en" | "fr" = "en",
   ): Promise<Spell[]> => {
-    const db = await loadDb();
-    return db["@graph"]
-      .filter((s) => s.mechanics.area_of_effect?.type === aoeType)
-      .map((s) => mapToLanguage(s, lang));
+    const triplets = await db.triplets
+      .where("[p+o]")
+      .equals(["dnd:area_of_effect_type", aoeType])
+      .toArray();
+
+    return Promise.all(triplets.map((t) => reconstructSpell(t.s, lang)));
   },
 };
