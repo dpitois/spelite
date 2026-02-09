@@ -13,6 +13,7 @@ export interface SearchQuery {
     concentration?: boolean;
     hasSave?: boolean;
     hasAttack?: boolean;
+    actionType?: string[];
   };
 }
 
@@ -112,6 +113,11 @@ export function parseQuery(input: string): SearchQuery {
           if (query.filters.hasAttack === undefined || isNegated) {
             query.filters.hasAttack = !isNegated;
           }
+          break;
+        case "ACTION_TYPE":
+          if (!query.filters.actionType) query.filters.actionType = [];
+          query.filters.actionType.push(entry.value as string);
+          isNegated = false;
           break;
         case "NOISE":
           // Noise words like "de" don't reset negation

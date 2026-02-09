@@ -61,4 +61,11 @@ describe("queryParser", () => {
     expect(result.filters.school).toContain("evocation");
     expect(result.text).toBe("ecole");
   });
+
+  it("should parse action types", () => {
+    const result = parseQuery("dragon bonus action");
+    expect(result.filters.actionType).toContain("bonus");
+    expect(result.filters.actionType).toContain("action");
+    expect(result.text).toBe("dragon");
+  });
 });

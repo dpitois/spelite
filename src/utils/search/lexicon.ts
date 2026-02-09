@@ -11,7 +11,8 @@ export type SearchFilterType =
   | "NEGATION"
   | "SAVE_PROMPT"
   | "ATTACK_PROMPT"
-  | "NOISE";
+  | "NOISE"
+  | "ACTION_TYPE";
 
 export interface LexiconEntry {
   type: SearchFilterType;
@@ -138,4 +139,9 @@ export const LEXICON: Record<string, LexiconEntry> = {
   jet: { type: "SAVE_PROMPT", value: true },
   attaque: { type: "ATTACK_PROMPT", value: true },
   attack: { type: "ATTACK_PROMPT", value: true },
+
+  // Action types
+  action: { type: "ACTION_TYPE", value: "action" },
+  bonus: { type: "ACTION_TYPE", value: "bonus" },
+  reaction: { type: "ACTION_TYPE", value: "reaction" },
 };
