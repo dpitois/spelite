@@ -1,3 +1,9 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.6.1](https://github.com/dpitois/spelite/compare/v0.6.0...v0.6.1) (2026-02-09)
+
 # [0.6.0](https://github.com/dpitois/spelite/compare/v0.5.0...v0.6.0) (2026-02-09)
 
 
@@ -81,6 +87,3 @@
 * PWA support, assets and test environment ([68f8bf0](https://github.com/dpitois/spelite/commit/68f8bf012629d9bf514835580c56e901c36f0d90))
 * redesign ability scores with bold overlay layout and massive values ([5490bb4](https://github.com/dpitois/spelite/commit/5490bb4d4e796abf03967ceb71cc7ef3c3248196))
 * **ui:** enrich spell display with concentration and ritual metadata ([c025a75](https://github.com/dpitois/spelite/commit/c025a7591fdfbeb2277453fd15541935e9a7bf50))
-
-
-
