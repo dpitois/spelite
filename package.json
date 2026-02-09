@@ -1,7 +1,7 @@
 {
   "name": "spelite",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.6.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "preview": "vite preview",
+    "release": "standard-version",
     "test": "vitest run",
     "generate-embeddings": "node scripts/generate-embeddings.js"
   },
@@ -33,6 +34,7 @@
     "globals": "^16.5.0",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
+    "standard-version": "^9.5.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^6.0.0",
