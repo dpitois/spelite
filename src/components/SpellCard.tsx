@@ -37,7 +37,7 @@ export function SpellCard({
       {/* Header */}
       <div className="p-4 border-b border-slate-50">
         <div className="flex justify-between items-start gap-2">
-          <h3 className="font-bold text-slate-800 text-lg leading-tight">
+          <h3 className="font-bold text-slate-800 text-xl leading-tight">
             {spell.name}{" "}
             {isBonus && (
               <span
@@ -135,7 +135,7 @@ export function SpellCard({
       <div className="p-4 flex-grow">
         <div className="prose prose-sm prose-slate max-w-none text-slate-600 leading-relaxed space-y-3">
           {spell.desc.map((paragraph, idx) => (
-            <p key={idx} className="text-[13px]">
+            <p key={idx} className="text-sm">
               {paragraph}
             </p>
           ))}

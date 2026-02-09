@@ -41,7 +41,7 @@ export function CharacterHeader({ char, t }: CharacterHeaderProps) {
           <h2 className="text-2xl font-black text-slate-800 tracking-tight">
             {char.name}
           </h2>
-          <p className="text-slate-500 uppercase text-[10px] font-bold tracking-widest">
+          <p className="text-slate-500 uppercase text-xs font-bold tracking-widest">
             {translatedClassName}{" "}
             {t.common.levelN.replace("{{n}}", char.level.toString())}
           </p>

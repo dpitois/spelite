@@ -9,7 +9,7 @@ interface SpellAccordionProps {
 export function SpellAccordion({ spell, t }: SpellAccordionProps) {
   return (
     <div className="px-4 pb-4 pt-2 bg-slate-50/80 border-t border-slate-100">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-2 mb-4 text-[11px]">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-2 mb-4 text-xs">
         <div className="flex flex-wrap items-baseline gap-1.5 sm:col-span-2">
           <span className="text-slate-500 font-black uppercase tracking-tighter shrink-0">
             {t.grimoire.castingTime} :
@@ -60,7 +60,7 @@ export function SpellAccordion({ spell, t }: SpellAccordionProps) {
       </div>
       <div className="space-y-2">
         {spell.desc.map((paragraph, idx) => (
-          <p key={idx} className="text-xs leading-relaxed text-slate-600">
+          <p key={idx} className="text-sm leading-relaxed text-slate-600">
             {paragraph}
           </p>
         ))}
