@@ -151,9 +151,9 @@ The `Character` model integrates these static entities with dynamic game rules u
 
 ```mermaid
 erDiagram
-    RAW-SPELL ||--o{ TRIPLET : "flattens to"
+    RAW_SPELL ||--o{ TRIPLET : "flattens to"
     TRIPLET }o--|| SPELL : "reconstructs to"
     CHARACTER ||--o{ SPELL : "knows / prepares"
-    CHARACTER ||--|| RULES-ENGINE : "queries for stats"
-    RULES-ENGINE ||--o{ CLASS-DATA : "uses for slots"
+    CHARACTER ||--|| RULES_ENGINE : "queries for stats"
+    RULES_ENGINE ||--o{ CLASS_DATA : "uses for slots"
 ```
