@@ -170,6 +170,7 @@ export const ontologyRepository = {
       concentration,
       hasSave,
       hasAttack,
+      actionType,
     } = query.filters;
 
     // Filter by levels
@@ -260,6 +261,37 @@ export const ontologyRepository = {
         .equals(["dnd:has_attack_roll", hasAttack ? 1 : 0] as any)
         .toArray();
       subjectSets.push(new Set(triplets.map((t) => t.s)));
+    }
+
+    // Filter by action types
+    if (actionType && actionType.length > 0) {
+      const triplets = await db.triplets
+        .where("p")
+        .equals("dnd:casting_time")
+        .toArray();
+
+      const matchingSubjects = new Set(
+        triplets
+          .filter((t) => {
+            const val = (t.o as string).toLowerCase();
+            return actionType!.some((type) => {
+              if (type === "bonus") return val.includes("bonus");
+              if (type === "reaction")
+                return val.includes("reaction") || val.includes("réaction");
+              if (type === "action") {
+                return (
+                  val.includes("action") &&
+                  !val.includes("bonus") &&
+                  !val.includes("reaction") &&
+                  !val.includes("réaction")
+                );
+              }
+              return false;
+            });
+          })
+          .map((t) => t.s),
+      );
+      subjectSets.push(matchingSubjects);
     }
 
     let finalSubjects: string[];

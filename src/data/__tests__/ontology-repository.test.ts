@@ -1,13 +1,13 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeAll } from "vitest";
 import { ontologyRepository } from "../ontologyRepository";
 import { initializeDatabase } from "../dbInitializer";
 import { parseQuery } from "../../utils/search/queryParser";
 import { db } from "../db";
 
 describe("ontologyRepository", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     vi.resetModules();
-    // Clear the database completely between tests to avoid pollution
+    // Clear the database completely once before all tests
     await db.triplets.clear();
     await initializeDatabase();
   });
@@ -93,6 +93,30 @@ describe("ontologyRepository", () => {
       const spells = await nlSearch("sans sauvegarde", "fr");
       expect(spells.length).toBeGreaterThan(0);
       expect(spells.every((s) => s.mechanics?.has_save === false)).toBe(true);
+    }, 15000);
+
+    it("11. bonus action", async () => {
+      const spells = await nlSearch("bonus action");
+      expect(spells.length).toBeGreaterThan(0);
+      expect(
+        spells.every(
+          (s) =>
+            s.casting_time.toLowerCase().includes("bonus action") ||
+            s.casting_time.toLowerCase().includes("action bonus"),
+        ),
+      ).toBe(true);
+    }, 15000);
+
+    it("12. reaction", async () => {
+      const spells = await nlSearch("reaction");
+      expect(spells.length).toBeGreaterThan(0);
+      expect(
+        spells.every(
+          (s) =>
+            s.casting_time.toLowerCase().includes("reaction") ||
+            s.casting_time.toLowerCase().includes("réaction"),
+        ),
+      ).toBe(true);
     }, 15000);
   });
 });

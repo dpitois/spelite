@@ -114,11 +114,31 @@ export function parseQuery(input: string): SearchQuery {
             query.filters.hasAttack = !isNegated;
           }
           break;
-        case "ACTION_TYPE":
-          if (!query.filters.actionType) query.filters.actionType = [];
-          query.filters.actionType.push(entry.value as string);
+        case "ACTION_TYPE": {
+          const val = entry.value as string;
+          const nextToken = tokens[index + 1];
+
+          if (val === "bonus" && nextToken === "action") {
+            skipNext = true;
+            if (!query.filters.actionType) query.filters.actionType = [];
+            if (!query.filters.actionType.includes("bonus")) {
+              query.filters.actionType.push("bonus");
+            }
+          } else if (val === "action" && nextToken === "bonus") {
+            skipNext = true;
+            if (!query.filters.actionType) query.filters.actionType = [];
+            if (!query.filters.actionType.includes("bonus")) {
+              query.filters.actionType.push("bonus");
+            }
+          } else {
+            if (!query.filters.actionType) query.filters.actionType = [];
+            if (!query.filters.actionType.includes(val)) {
+              query.filters.actionType.push(val);
+            }
+          }
           isNegated = false;
           break;
+        }
         case "NOISE":
           // Noise words like "de" don't reset negation
           break;

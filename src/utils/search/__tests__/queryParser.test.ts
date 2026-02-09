@@ -64,8 +64,17 @@ describe("queryParser", () => {
 
   it("should parse action types", () => {
     const result = parseQuery("dragon bonus action");
-    expect(result.filters.actionType).toContain("bonus");
-    expect(result.filters.actionType).toContain("action");
+    expect(result.filters.actionType).toEqual(["bonus"]);
     expect(result.text).toBe("dragon");
+
+    const result2 = parseQuery("fire action bonus");
+    expect(result2.filters.actionType).toEqual(["bonus"]);
+    expect(result2.filters.damageType).toContain("fire");
+
+    const result3 = parseQuery("reaction");
+    expect(result3.filters.actionType).toEqual(["reaction"]);
+
+    const result4 = parseQuery("action");
+    expect(result4.filters.actionType).toEqual(["action"]);
   });
 });
