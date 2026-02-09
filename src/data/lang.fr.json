@@ -85,7 +85,12 @@
     "factoryResetDesc": "Supprime absolument toutes les données locales",
     "clearConfirm": "Voulez-vous vraiment vider le cache de l'IA ? L'indexation devra recommencer.",
     "resetConfirm1": "ATTENTION : Cela va effacer TOUTES les données (cache, index) et recharger la page.",
-    "resetConfirm2": "Êtes-vous vraiment sûr ? C'est irréversible."
+    "resetConfirm2": "Êtes-vous vraiment sûr ? C'est irréversible.",
+    "exportTitle": "Export Sémantique",
+    "exportJSONLD": "Exporter JSON-LD",
+    "exportJSONLDDesc": "Format de données liées standard",
+    "exportRDFXML": "Exporter RDF-XML",
+    "exportRDFXMLDesc": "Sérialisation XML standard du W3C"
   },
   "setup": {
     "title": "Personnage",

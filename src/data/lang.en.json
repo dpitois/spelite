@@ -85,7 +85,12 @@
     "factoryResetDesc": "Absolutely delete all local data",
     "clearConfirm": "Do you really want to clear the AI cache? Indexing will start over.",
     "resetConfirm1": "WARNING: This will erase ALL data (cache, index) and reload the page.",
-    "resetConfirm2": "Are you absolutely sure? This is irreversible."
+    "resetConfirm2": "Are you absolutely sure? This is irreversible.",
+    "exportTitle": "Semantic Export",
+    "exportJSONLD": "Export JSON-LD",
+    "exportJSONLDDesc": "Standard linked data format",
+    "exportRDFXML": "Export RDF-XML",
+    "exportRDFXMLDesc": "W3C standard XML serialization"
   },
   "setup": {
     "title": "Character",

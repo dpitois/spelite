@@ -2,6 +2,9 @@ import { useState, useEffect } from "preact/hooks";
 import { dbAdmin, type DBStats } from "../utils/dbAdmin";
 import { Panel } from "../components/Panel";
 import { t } from "../store/signals";
+import { OntologyExporter } from "../utils/ontologyExporter";
+
+const exporter = new OntologyExporter();
 
 export function Settings() {
   const currentT = t.value;
@@ -39,6 +42,38 @@ export function Settings() {
         setLoading(true);
         await dbAdmin.deleteDatabase();
       }
+    }
+  };
+
+  const downloadFile = (content: string, type: string, filename: string) => {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportJSONLD = async () => {
+    setLoading(true);
+    try {
+      const data = await exporter.exportAsJSONLD();
+      downloadFile(data, "application/ld+json", "spelite-ontology.jsonld");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleExportRDFXML = async () => {
+    setLoading(true);
+    try {
+      const data = await exporter.exportAsRDFXML();
+      downloadFile(data, "application/rdf+xml", "spelite-ontology.rdf");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -148,6 +183,40 @@ export function Settings() {
               </span>
               <span className="text-[10px] font-bold text-slate-400 group-hover:text-red-600 uppercase tracking-tight">
                 {currentT.admin.factoryResetDesc}
+              </span>
+            </button>
+          </div>
+        </section>
+
+        {/* Export Section */}
+        <section className="space-y-4">
+          <h4 className="text-xs font-black uppercase text-slate-400 tracking-widest">
+            📤 {currentT.admin.exportTitle}
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button
+              onClick={handleExportJSONLD}
+              disabled={loading}
+              className="group flex flex-col items-start p-5 bg-slate-50 hover:bg-indigo-50 border-2 border-slate-100 hover:border-indigo-200 rounded-2xl transition-all text-left"
+            >
+              <span className="font-black text-slate-700 group-hover:text-indigo-700 uppercase text-xs tracking-wider mb-1">
+                🌐 {currentT.admin.exportJSONLD}
+              </span>
+              <span className="text-[10px] font-bold text-slate-400 group-hover:text-indigo-600 uppercase tracking-tight">
+                {currentT.admin.exportJSONLDDesc}
+              </span>
+            </button>
+
+            <button
+              onClick={handleExportRDFXML}
+              disabled={loading}
+              className="group flex flex-col items-start p-5 bg-slate-50 hover:bg-indigo-50 border-2 border-slate-100 hover:border-indigo-200 rounded-2xl transition-all text-left"
+            >
+              <span className="font-black text-slate-700 group-hover:text-indigo-700 uppercase text-xs tracking-wider mb-1">
+                📑 {currentT.admin.exportRDFXML}
+              </span>
+              <span className="text-[10px] font-bold text-slate-400 group-hover:text-indigo-600 uppercase tracking-tight">
+                {currentT.admin.exportRDFXMLDesc}
               </span>
             </button>
           </div>
