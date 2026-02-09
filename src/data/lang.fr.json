@@ -168,9 +168,21 @@
     "castingTime": "Temps d'incantation",
     "range": "Portée",
     "duration": "Durée",
+    "name": "Nom",
+    "level": "Niveau",
     "components": "Composantes",
     "concentration": "Concentration",
-    "ritual": "Rituel"
+    "ritual": "Rituel",
+    "filters": "Filtres",
+    "sortBy": "Trier par",
+    "sortOrder": "Ordre",
+    "asc": "Croissant",
+    "desc": "Décroissant",
+    "actionType": "Type d'action",
+    "anyAction": "Toutes",
+    "action": "Action",
+    "bonus": "Action bonus",
+    "reaction": "Réaction"
   },
   "pwa": {
     "offlineReady": "Application prête à être utilisée hors-ligne.",

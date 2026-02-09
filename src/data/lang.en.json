@@ -168,9 +168,21 @@
     "castingTime": "Casting Time",
     "range": "Range",
     "duration": "Duration",
+    "name": "Name",
+    "level": "Level",
     "components": "Components",
     "concentration": "Concentration",
-    "ritual": "Ritual"
+    "ritual": "Rituel",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "sortOrder": "Order",
+    "asc": "Ascending",
+    "desc": "Descending",
+    "actionType": "Action Type",
+    "anyAction": "Any Action",
+    "action": "Action",
+    "bonus": "Bonus Action",
+    "reaction": "Reaction"
   },
   "pwa": {
     "offlineReady": "App ready to work offline.",

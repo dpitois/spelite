@@ -6,8 +6,14 @@ import { parseQuery } from "../utils/search/queryParser";
 import { semanticBridge } from "../utils/search/semanticBridge";
 import { BrowserHeader } from "../components/browser/BrowserHeader";
 import { BrowserFilters } from "../components/browser/BrowserFilters";
+import { FilterDrawer } from "../components/browser/FilterDrawer";
 import { SpellGrid } from "../components/browser/SpellGrid";
 import type { Spell, AbilityScoreIndex } from "../types/dnd";
+import {
+  getDurationValue,
+  getRangeValue,
+  type SortOption,
+} from "../utils/spellSorting";
 
 export function SpellBrowser() {
   const char = useCharacter();
@@ -35,6 +41,11 @@ export function SpellBrowser() {
   const [filterSchool, setFilterSchool] = useState<string>("all");
   const [filterDamage, setFilterDamage] = useState<string>("all");
   const [filterSave, setFilterSave] = useState<string>("all");
+  const [filterAction, setFilterAction] = useState<string>("all");
+
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
+  const [sortBy, setSortBy] = useState<SortOption>("name");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   // Dynamic options for filters
   const [filterOptions, setFilterOptions] = useState<{
@@ -146,6 +157,10 @@ export function SpellBrowser() {
         if (!query.filters.saveAbility) query.filters.saveAbility = [];
         query.filters.saveAbility.push(filterSave as AbilityScoreIndex);
       }
+      if (filterAction !== "all") {
+        if (!query.filters.actionType) query.filters.actionType = [];
+        query.filters.actionType.push(filterAction);
+      }
 
       // 3. Execute search
       const textToSearch = query.text.trim();
@@ -216,15 +231,16 @@ export function SpellBrowser() {
     filterSchool,
     filterDamage,
     filterSave,
+    filterAction,
     currentLang,
     isModelReady,
     isAIEnabled,
     indexingProgress,
   ]);
 
-  // Post-processing
+  // Post-processing (Status filtering + Sorting)
   const filteredSpells = useMemo(() => {
-    let results = spells;
+    let results = [...spells];
 
     // Status filter
     if (filterStatus === "known") {
@@ -237,8 +253,65 @@ export function SpellBrowser() {
       );
     }
 
+    // Manual Sorting
+    // If AI is enabled and we are searching by text, semantic search already ranks results.
+    // However, if the user explicitly chooses a sort (other than name or if they change order), we apply it.
+    const isSearchingText = searchTerm.trim().length > 0;
+    const isAIDriven = isAIEnabled && isSearchingText;
+
+    // Apply manual sort if not default AI ranking or if user changed order/sortBy
+    if (!isAIDriven || sortBy !== "name" || sortOrder !== "asc") {
+      results.sort((a, b) => {
+        let comparison = 0;
+        if (sortBy === "level") {
+          comparison = a.level - b.level;
+        } else if (sortBy === "range") {
+          comparison = getRangeValue(a.range) - getRangeValue(b.range);
+        } else if (sortBy === "duration") {
+          comparison =
+            getDurationValue(a.duration) - getDurationValue(b.duration);
+        }
+
+        // Fallback to name for tie-breaking or default name sort
+        if (comparison === 0) {
+          comparison = a.name.localeCompare(b.name, currentLang);
+        }
+
+        return sortOrder === "asc" ? comparison : -comparison;
+      });
+    }
+
     return results;
-  }, [spells, char.knownSpells, filterStatus]);
+  }, [
+    spells,
+    char.knownSpells,
+    filterStatus,
+    sortBy,
+    sortOrder,
+    searchTerm,
+    isAIEnabled,
+    currentLang,
+  ]);
+
+  const activeFiltersCount = useMemo(() => {
+    let count = 0;
+    if (filterSchool !== "all") count++;
+    if (filterStatus !== "all") count++;
+    if (filterDamage !== "all") count++;
+    if (filterSave !== "all") count++;
+    if (filterAction !== "all") count++;
+    return count;
+  }, [filterSchool, filterStatus, filterDamage, filterSave, filterAction]);
+
+  const handleResetAdvancedFilters = () => {
+    setFilterSchool("all");
+    setFilterStatus("all");
+    setFilterDamage("all");
+    setFilterSave("all");
+    setFilterAction("all");
+    setSortBy("name");
+    setSortOrder("asc");
+  };
 
   const handleReset = () => {
     if (char.knownSpells.length === 0) return;
@@ -281,21 +354,36 @@ export function SpellBrowser() {
           setFilterLevel={setFilterLevel}
           filterClass={filterClass}
           setFilterClass={setFilterClass}
-          filterSchool={filterSchool}
-          setFilterSchool={setFilterSchool}
-          filterStatus={filterStatus}
-          setFilterStatus={setFilterStatus}
-          filterDamage={filterDamage}
-          setFilterDamage={setFilterDamage}
-          filterSave={filterSave}
-          setFilterSave={setFilterSave}
+          onOpenFilters={() => setIsFiltersOpen(true)}
+          activeFiltersCount={activeFiltersCount}
           classes={filterOptions.classes}
-          schools={filterOptions.schools}
-          damageTypes={filterOptions.damageTypes}
-          saveAbilities={filterOptions.saveAbilities}
           t={currentT}
         />
       </BrowserHeader>
+
+      <FilterDrawer
+        isOpen={isFiltersOpen}
+        onClose={() => setIsFiltersOpen(false)}
+        filterSchool={filterSchool}
+        setFilterSchool={setFilterSchool}
+        filterStatus={filterStatus}
+        setFilterStatus={setFilterStatus}
+        filterDamage={filterDamage}
+        setFilterDamage={setFilterDamage}
+        filterSave={filterSave}
+        setFilterSave={setFilterSave}
+        filterAction={filterAction}
+        setFilterAction={setFilterAction}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+        schools={filterOptions.schools}
+        damageTypes={filterOptions.damageTypes}
+        saveAbilities={filterOptions.saveAbilities}
+        onReset={handleResetAdvancedFilters}
+        t={currentT}
+      />
 
       <SpellGrid
         spells={filteredSpells}
