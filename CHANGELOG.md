@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.6.2](https://github.com/dpitois/spelite/compare/v0.6.0...v0.6.2) (2026-02-09)
+
+### Documentation
+
+- finalize changelog generation and document release process ([45210a3](https://github.com/dpitois/spelite/commit/45210a34b0219c3a45dd891a603fd0faebe3b889))
+
+### UI/UX Enhancements
+
+- **mobile:** increase font sizes for better readability ([27bbbdd](https://github.com/dpitois/spelite/commit/27bbbdd2d6419e53cccd52cd9acba24ce86ca04d))
+
+### Styling
+
+- fix formatting in changelog and release documentation ([5294835](https://github.com/dpitois/spelite/commit/52948357ebc54025b486ba785dff88ad89363914))
+
 ### [0.6.1](https://github.com/dpitois/spelite/compare/v0.6.0...v0.6.1) (2026-02-09)
 
 # [0.6.0](https://github.com/dpitois/spelite/compare/v0.5.0...v0.6.0) (2026-02-09)
