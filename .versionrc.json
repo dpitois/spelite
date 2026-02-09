@@ -9,5 +9,8 @@
     { "type": "refactor", "hidden": true },
     { "type": "perf", "hidden": true },
     { "type": "test", "hidden": true }
-  ]
+  ],
+  "scripts": {
+    "postchangelog": "prettier --write CHANGELOG.md"
+  }
 }
