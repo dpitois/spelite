@@ -24,9 +24,11 @@ Once you have finished your changes and they are ready to be published:
 
 1.  **Ensure you are on the main branch** (`main`) and everything is committed and pushed.
 2.  **Run the release command**:
+
     ```bash
     npm run release
     ```
+
     This command will automatically:
     - Analyze commits since the last tag.
     - Bump the version in `package.json` and `package-lock.json`.
@@ -51,6 +53,7 @@ git push --follow-tags origin main
 ## 4. Special Notes for Agents (Gemini)
 
 When an agent performs a release:
+
 - Always verify that the `CHANGELOG.md` is consistent with recent developments.
 - NEVER push to a remote repository without explicit user authorization.
 - Propose that the user reviews the generated `CHANGELOG.md` before finalizing.
