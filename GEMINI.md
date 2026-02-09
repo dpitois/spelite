@@ -25,7 +25,9 @@ The following tags were created to archive initial research and implementations:
 - `v0.1.0`: Ontology implementation and repository (ex-feature/ontology)
 - `v0.2.0`: Semantic search with embeddings and ONNX worker (ex-feature/semantic-embeddings)
 - `v0.3.0`: Triplestore integration research (ex-feature/triplestore)
-- `v0.4.0`: Base semantic implementation and optimized indexing (HEAD on main)
+- `v0.4.0`: Base semantic implementation and optimized indexing
+- `v0.5.0`: Data architecture documentation and references
+- `v0.6.0`: Semantic export implementation for JSON-LD and RDF-XML
 
 ## Main Branch Versioning
 
