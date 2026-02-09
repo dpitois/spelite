@@ -59,6 +59,8 @@ _Note : Une version détaillée est également disponible en anglais : [User Gui
 
 Spelite uses a hybrid search architecture to provide fast, relevant results for D&D spells.
 
+For a deep dive into our semantic ontology and data models, see the [Data Architecture Guide](docs/DataArchitecture.md).
+
 ### General Architecture
 
 - **Frontend**: Built with **Preact** and **Vite** for a lightweight footprint.
@@ -76,13 +78,13 @@ graph TD
     A[User Input Query] --> B{AI Search Enabled?}
     B -- No --> C[Lexical Search]
     B -- Yes --> D[Hybrid Search]
-    
+
     subgraph "Lexical Mode"
     C --> C1[Query Parser: Extract Metadata Filters]
     C1 --> C2[Filter by Level, Class, School, etc.]
     C2 --> C3[Fuzzy Text Match on Name]
     end
-    
+
     subgraph "Semantic (AI) Mode"
     D --> D1[Query Parser: Extract Metadata Filters]
     D1 --> D2[Filter Candidates by Metadata]
@@ -90,16 +92,19 @@ graph TD
     D3 --> D4[Cosine Similarity Ranking]
     D4 --> D5[Dynamic Threshold Filtering]
     end
-    
+
     C3 --> E[Final Spell List]
     D5 --> E
 ```
 
 ### 1. Lexical Mode (Default)
+
 The query is processed by a rule-based parser (`queryParser.ts`) that identifies keywords (e.g., "level 3", "fire", "wizard") and converts them into structured filters. Any remaining text is used for a standard keyword search.
 
 ### 2. Semantic Mode (AI-Powered)
+
 When enabled, Spelite uses **Transformers.js** to run a `paraphrase-multilingual-MiniLM-L12-v2` model directly in your browser.
+
 - **Hybrid Approach**: Metadata filters are applied first to narrow down the search space.
 - **Local AI**: Embeddings are computed and stored in your browser (IndexedDB). No data ever leaves your device.
 - **Ranking**: Results are ranked by conceptual similarity rather than exact keyword matches (e.g., searching "healing" will find "Cure Wounds" even if the word "healing" isn't in the title).

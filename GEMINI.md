@@ -33,15 +33,21 @@ Tags on the `main` branch should reflect the current stable version or the lates
 
 ## Technical Architecture Summary
 
+For a detailed breakdown of the semantic ontology, data models, and reactive state management, refer to:
+
+- [Data Architecture Documentation](docs/DataArchitecture.md)
+
 ### Hybrid Search Implementation
+
 - **Lexical Engine**: Rule-based tokenization (`queryParser.ts`) using a predefined `LEXICON`. It extracts D&D metadata (level, school, etc.) from natural language.
-- **Semantic Engine**: 
-    - Model: `Xenova/paraphrase-multilingual-MiniLM-L12-v2` (quantized ONNX).
-    - Runtime: **Transformers.js** inside a Web Worker (`semantic.worker.ts`).
-    - Storage: Embeddings are cached in IndexedDB (`embeddings` table) to minimize CPU usage.
-    - Logic: Hybrid filtering (Metadata first, then Semantic ranking) with a dynamic threshold (`max(0.25, best_score * 0.6)`).
+- **Semantic Engine**:
+  - Model: `Xenova/paraphrase-multilingual-MiniLM-L12-v2` (quantized ONNX).
+  - Runtime: **Transformers.js** inside a Web Worker (`semantic.worker.ts`).
+  - Storage: Embeddings are cached in IndexedDB (`embeddings` table) to minimize CPU usage.
+  - Logic: Hybrid filtering (Metadata first, then Semantic ranking) with a dynamic threshold (`max(0.25, best_score * 0.6)`).
 
 ### Performance Considerations
+
 - Semantic search only triggers after a "warmup" (indexing of candidates).
 - All AI operations are local (offline-first PWA).
 - WASM files for ONNX are served from `/public` to ensure compatibility with sub-directory deployments.
