@@ -145,6 +145,62 @@ describe("searchEngine", () => {
     // Both should be present thanks to hybridization
     expect(results.map((s) => s.index)).toContain("shield-of-faith");
     expect(results.map((s) => s.index)).toContain("other-spell");
-    expect(results[0].index).toBe("other-spell"); // Ranking still respects semantic score for sorting
+
+    // With 70/30 weighting:
+    // "Shield of faith" has Lexical 1.0 (contains "bouclier") -> Score = 0.7 * 1.0 + 0.3 * 0.1 = 0.73
+    // "Other spell" has Lexical 0.0 + Semantic 0.9 -> Score = 0.7 * 0.0 + 0.3 * 0.9 = 0.27
+    // So "Shield of faith" should now be FIRST
+    expect(results[0].index).toBe("shield-of-faith");
+  });
+
+  it("should prioritize exact name matches even if semantic similarity is lower", async () => {
+    const mockSpells = [
+      {
+        index: "guidance",
+        name: "Assistance",
+        desc: ["Gives a d4 bonus to a check"],
+        level: 0,
+        classes: [{ index: "cleric", name: "Cleric" }],
+      },
+      {
+        index: "shield-of-faith",
+        name: "Bouclier de la foi",
+        desc: ["Protection magic"],
+        level: 1,
+        classes: [{ index: "cleric", name: "Cleric" }],
+      },
+    ];
+
+    vi.mocked(ontologyRepository.search).mockResolvedValue(
+      mockSpells as unknown as Spell[],
+    );
+
+    // Mock semantic results:
+    // "Assistance" gets a high semantic score (0.9) but 0 lexical score for "bouclier"
+    // "Bouclier de la foi" gets a medium semantic score (0.6) but high lexical score (1.0)
+    vi.mocked(semanticBridge.search).mockResolvedValue([
+      { index: 0, score: 0.9, text: "assistance" },
+      { index: 1, score: 0.6, text: "bouclier de la foi" },
+    ]);
+
+    const results = await searchSpells({
+      searchTerm: "bouclier",
+      aiSearchEnabled: true,
+      isModelReady: true,
+      indexingProgress: 100,
+      currentLang: "fr",
+      filters: {
+        level: "all",
+        class: "all",
+        school: "all",
+        damage: "all",
+        save: "all",
+        action: "all",
+      },
+    });
+
+    // "Bouclier de la foi" should be first because of the 70% Lexical weight
+    expect(results[0].index).toBe("shield-of-faith");
+    expect(results[1].index).toBe("guidance");
   });
 });

@@ -3,6 +3,22 @@ import { parseQuery } from "./queryParser";
 import { semanticBridge } from "./semanticBridge";
 import type { Spell, AbilityScoreIndex } from "../../types/dnd";
 
+const SCORING_CONFIG = {
+  // Global fusion weights
+  LEXICAL_WEIGHT: 0.7,
+  SEMANTIC_WEIGHT: 0.3,
+
+  // Semantic thresholds
+  SEMANTIC_THRESHOLD_MIN: 0.25,
+  SEMANTIC_THRESHOLD_RATIO: 0.6,
+
+  // Lexical scoring factors
+  NAME_PARTIAL_MATCH_FACTOR: 0.8,
+  DESC_MATCH_MAX_BOOST: 0.2,
+  PRECISION_BASE_FACTOR: 0.8,
+  PRECISION_VARIABLE_FACTOR: 0.2,
+};
+
 export interface SearchFilters {
   level: string;
   class: string;
@@ -92,7 +108,10 @@ export async function searchSpells({
           const bestScore = semanticResults[0].score;
 
           // Dynamic threshold: at least 0.25 AND at least 60% of the best score
-          const threshold = Math.max(0.25, bestScore * 0.6);
+          const threshold = Math.max(
+            SCORING_CONFIG.SEMANTIC_THRESHOLD_MIN,
+            bestScore * SCORING_CONFIG.SEMANTIC_THRESHOLD_RATIO,
+          );
 
           // Hybridization: Identify spells that match lexical search on name
           const searchTerms = textToSearch
@@ -103,20 +122,77 @@ export async function searchSpells({
             .filter((t) => t.length > 0);
 
           const rankedSpells = semanticResults
-            .filter((res) => {
-              // Keep if above threshold OR if it's a lexical match on name
-              if (res.score >= threshold) return true;
-
+            .map((res) => {
               const spell = candidateSpells[res.index];
               const normalizedName = spell.name
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/[\u0300-\u036f]/g, "");
 
-              // If all search terms are in the name, it's a lexical match
-              return searchTerms.every((term) => normalizedName.includes(term));
+              const normalizedDesc = spell.desc
+                .join(" ")
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+              // 1. Calculate Lexical Score (70% weight)
+              let lexicalScore = 0;
+              const nameMatches = searchTerms.filter((term) =>
+                normalizedName.includes(term),
+              ).length;
+              const descMatches = searchTerms.filter((term) =>
+                normalizedDesc.includes(term),
+              ).length;
+
+              if (nameMatches === searchTerms.length) {
+                // Exact match on all terms in name
+                lexicalScore = 1.0;
+              } else if (nameMatches > 0) {
+                // Partial match in name
+                lexicalScore =
+                  (nameMatches / searchTerms.length) *
+                  SCORING_CONFIG.NAME_PARTIAL_MATCH_FACTOR;
+              }
+
+              // Description boost (capped)
+              if (lexicalScore < 1.0 && descMatches > 0) {
+                lexicalScore += Math.min(
+                  SCORING_CONFIG.DESC_MATCH_MAX_BOOST,
+                  (descMatches / searchTerms.length) *
+                    SCORING_CONFIG.DESC_MATCH_MAX_BOOST,
+                );
+              }
+
+              // Precision penalty: slight reduction for longer names
+              if (lexicalScore > 0) {
+                const precision =
+                  searchTerms.join(" ").length / normalizedName.length;
+                lexicalScore =
+                  lexicalScore *
+                  (SCORING_CONFIG.PRECISION_BASE_FACTOR +
+                    SCORING_CONFIG.PRECISION_VARIABLE_FACTOR * precision);
+              }
+
+              // 2. Semantic Score (30% weight)
+              const semanticScore = res.score;
+
+              // 3. Combined Score
+              const finalScore =
+                lexicalScore * SCORING_CONFIG.LEXICAL_WEIGHT +
+                semanticScore * SCORING_CONFIG.SEMANTIC_WEIGHT;
+
+              return {
+                spell,
+                score: finalScore,
+                isLexicalMatch: nameMatches === searchTerms.length,
+                passesSemanticThreshold: res.score >= threshold,
+              };
             })
-            .map((res) => candidateSpells[res.index]);
+            .filter(
+              (item) => item.passesSemanticThreshold || item.isLexicalMatch,
+            )
+            .sort((a, b) => b.score - a.score)
+            .map((item) => item.spell);
 
           return rankedSpells;
         }
