@@ -34,13 +34,13 @@ function App() {
     switch (activeView) {
       case "dashboard":
       case "home":
-        return <Dashboard />;
+        return <Dashboard key="dashboard" />;
       case "character":
-        return <CharacterSetup />;
+        return <CharacterSetup key="character" />;
       case "spells":
-        return <SpellBrowser />;
+        return <SpellBrowser key="spells" />;
       default:
-        return <Dashboard />;
+        return <Dashboard key="dashboard" />;
     }
   };
 

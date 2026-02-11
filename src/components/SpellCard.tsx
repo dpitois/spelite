@@ -24,7 +24,7 @@ export function SpellCard({
   const spellLevelLabel =
     spell.level === 0
       ? currentT.common.cantrip
-      : currentT.common.levelN.replace("{{n}}", spell.level.toString());
+      : currentT.common.levelN.replace("{{n}}", (spell.level ?? "?").toString());
 
   return (
     <div

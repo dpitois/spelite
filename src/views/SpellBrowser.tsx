@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "preact/hooks";
+import { useState, useEffect, useMemo, useRef } from "preact/hooks";
 import { t, language, actions, aiSearchEnabled } from "../store/signals";
 import { useCharacter } from "../hooks/useCharacter";
 import { ontologyRepository } from "../data/ontologyRepository";
@@ -24,10 +24,15 @@ export function SpellBrowser() {
   const [spells, setSpells] = useState<Spell[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModelReady, setIsModelReady] = useState(semanticBridge.initialized);
-  const [indexingProgress, setIndexingProgress] = useState(0);
+  const [indexingProgress, setIndexingProgress] = useState(
+    semanticBridge.initialized ? 100 : 0,
+  );
 
   // Filter states
   const [searchTerm, setSearchTerm] = useState("");
+
+  const lastRequestId = useRef(0);
+
   const [filterLevel, setFilterLevel] = useState<string>("all");
   // Use the effective spell source (e.g., "wizard" for Arcane Trickster) instead of the raw class name ("rogue")
   const defaultClass =
@@ -65,9 +70,6 @@ export function SpellBrowser() {
         semanticBridge.setProgressCallback((p) => {
           if (p.status === "progress") {
             // Downloading progress
-            console.log(
-              `[SpellBrowser] Model loading: ${p.file} ${Math.round(p.progress)}%`,
-            );
           } else if (p.status === "indexing") {
             // Indexing progress
             setIndexingProgress(p.progress);
@@ -78,18 +80,13 @@ export function SpellBrowser() {
           .initModel()
           .then(() => {
             setIsModelReady(true);
-            console.log("[SpellBrowser] Semantic model ready");
 
             // Background indexing
             ontologyRepository.getAll(currentLang).then((allSpells) => {
               const documents = allSpells.map(
                 (s) => `${s.name}: ${s.desc.slice(0, 10).join(" ")}`,
               );
-              console.log(
-                "[SpellBrowser] Starting background indexing of spells...",
-              );
               semanticBridge.search("warmup", documents).then(() => {
-                console.log("[SpellBrowser] Background indexing completed.");
                 setIndexingProgress(100);
               });
             });
@@ -131,13 +128,14 @@ export function SpellBrowser() {
     let mounted = true;
 
     async function performSearch() {
+      const requestId = ++lastRequestId.current;
       setLoading(true);
 
       const results = await searchSpells({
         searchTerm,
         aiSearchEnabled: isAIEnabled,
         isModelReady,
-        indexingProgress,
+        indexingProgress, // Still passed to the engine but won't trigger the effect itself
         currentLang,
         filters: {
           level: filterLevel,
@@ -149,7 +147,7 @@ export function SpellBrowser() {
         },
       });
 
-      if (mounted) {
+      if (mounted && requestId === lastRequestId.current) {
         setSpells(results);
         setLoading(false);
       }
@@ -172,7 +170,7 @@ export function SpellBrowser() {
     currentLang,
     isModelReady,
     isAIEnabled,
-    indexingProgress,
+    indexingProgress === 100, // Trigger once when finished indexing
   ]);
 
   // Post-processing (Status filtering + Sorting)
