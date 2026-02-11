@@ -94,9 +94,31 @@ export async function searchSpells({
           // Dynamic threshold: at least 0.25 AND at least 60% of the best score
           const threshold = Math.max(0.25, bestScore * 0.6);
 
-          return semanticResults
-            .filter((res) => res.score >= threshold)
+          // Hybridization: Identify spells that match lexical search on name
+          const searchTerms = textToSearch
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .split(/\s+/)
+            .filter((t) => t.length > 0);
+
+          const rankedSpells = semanticResults
+            .filter((res) => {
+              // Keep if above threshold OR if it's a lexical match on name
+              if (res.score >= threshold) return true;
+
+              const spell = candidateSpells[res.index];
+              const normalizedName = spell.name
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
+              // If all search terms are in the name, it's a lexical match
+              return searchTerms.every((term) => normalizedName.includes(term));
+            })
             .map((res) => candidateSpells[res.index]);
+
+          return rankedSpells;
         }
       } catch (err) {
         console.error("[SearchEngine] Semantic search error:", err);

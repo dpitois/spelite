@@ -95,4 +95,56 @@ describe("searchEngine", () => {
 
     expect(semanticBridge.search).toHaveBeenCalled();
   });
+
+  it("should include lexical matches even if semantic score is below threshold (Hybridization)", async () => {
+    const mockSpells = [
+      {
+        index: "shield-of-faith",
+        name: "Bouclier de la foi",
+        desc: ["Protection magic"],
+        level: 1,
+        classes: [{ index: "cleric", name: "Cleric" }],
+      },
+      {
+        index: "other-spell",
+        name: "Autre sort",
+        desc: ["High relevance description about protection"],
+        level: 1,
+        classes: [{ index: "cleric", name: "Cleric" }],
+      },
+    ];
+
+    vi.mocked(ontologyRepository.search).mockResolvedValue(
+      mockSpells as unknown as Spell[],
+    );
+
+    // Mock semantic results:
+    // "Other spell" gets a high score (0.9)
+    // "Bouclier de la foi" gets a low score (0.1), which is below threshold (max(0.25, 0.9 * 0.6) = 0.54)
+    vi.mocked(semanticBridge.search).mockResolvedValue([
+      { index: 1, score: 0.9, text: "autre sort" },
+      { index: 0, score: 0.1, text: "bouclier de la foi" },
+    ]);
+
+    const results = await searchSpells({
+      searchTerm: "bouclier",
+      aiSearchEnabled: true,
+      isModelReady: true,
+      indexingProgress: 100,
+      currentLang: "fr",
+      filters: {
+        level: "all",
+        class: "all",
+        school: "all",
+        damage: "all",
+        save: "all",
+        action: "all",
+      },
+    });
+
+    // Both should be present thanks to hybridization
+    expect(results.map((s) => s.index)).toContain("shield-of-faith");
+    expect(results.map((s) => s.index)).toContain("other-spell");
+    expect(results[0].index).toBe("other-spell"); // Ranking still respects semantic score for sorting
+  });
 });
