@@ -2,13 +2,13 @@ import { useState, useEffect, useMemo } from "preact/hooks";
 import { t, language, actions, aiSearchEnabled } from "../store/signals";
 import { useCharacter } from "../hooks/useCharacter";
 import { ontologyRepository } from "../data/ontologyRepository";
-import { parseQuery } from "../utils/search/queryParser";
+import { searchSpells } from "../utils/search/searchEngine";
 import { semanticBridge } from "../utils/search/semanticBridge";
 import { BrowserHeader } from "../components/browser/BrowserHeader";
 import { BrowserFilters } from "../components/browser/BrowserFilters";
 import { FilterDrawer } from "../components/browser/FilterDrawer";
 import { SpellGrid } from "../components/browser/SpellGrid";
-import type { Spell, AbilityScoreIndex } from "../types/dnd";
+import type { Spell } from "../types/dnd";
 import {
   getDurationValue,
   getRangeValue,
@@ -133,84 +133,21 @@ export function SpellBrowser() {
     async function performSearch() {
       setLoading(true);
 
-      // 1. Parse natural language search
-      const query = parseQuery(searchTerm);
-
-      // 2. Merge manual dropdown filters into query
-      if (filterLevel !== "all") {
-        if (!query.filters.level) query.filters.level = [];
-        query.filters.level.push(parseInt(filterLevel));
-      }
-      if (filterClass !== "all") {
-        if (!query.filters.class) query.filters.class = [];
-        query.filters.class.push(filterClass);
-      }
-      if (filterSchool !== "all") {
-        if (!query.filters.school) query.filters.school = [];
-        query.filters.school.push(filterSchool);
-      }
-      if (filterDamage !== "all") {
-        if (!query.filters.damageType) query.filters.damageType = [];
-        query.filters.damageType.push(filterDamage);
-      }
-      if (filterSave !== "all") {
-        if (!query.filters.saveAbility) query.filters.saveAbility = [];
-        query.filters.saveAbility.push(filterSave as AbilityScoreIndex);
-      }
-      if (filterAction !== "all") {
-        if (!query.filters.actionType) query.filters.actionType = [];
-        query.filters.actionType.push(filterAction);
-      }
-
-      // 3. Execute search
-      const textToSearch = query.text.trim();
-
-      // If we have text and semantic model is ready AND indexed, we do a 2-step search
-      if (textToSearch && isModelReady && indexingProgress >= 100) {
-        // Step A: Get spells filtered by metadata only (no text filter yet)
-        const metadataQuery = { ...query, text: "" };
-        const candidateSpells = await ontologyRepository.search(
-          metadataQuery,
-          currentLang,
-        );
-
-        if (candidateSpells.length > 0) {
-          // Step B: Semantic ranking
-          const documents = candidateSpells.map(
-            (s) => `${s.name}: ${s.desc.slice(0, 10).join(" ")}`,
-          );
-
-          try {
-            const semanticResults = await semanticBridge.search(
-              textToSearch,
-              documents,
-            );
-
-            if (semanticResults.length > 0) {
-              const bestScore = semanticResults[0].score;
-
-              // Dynamic threshold: at least 0.25 AND at least 60% of the best score
-              const threshold = Math.max(0.25, bestScore * 0.6);
-
-              const rankedSpells = semanticResults
-                .filter((res) => res.score >= threshold)
-                .map((res) => candidateSpells[res.index]);
-
-              if (mounted) {
-                setSpells(rankedSpells);
-                setLoading(false);
-              }
-              return;
-            }
-          } catch (err) {
-            console.error("[SpellBrowser] Semantic search error:", err);
-            // Fallback to normal search below
-          }
-        }
-      }
-
-      // Default: Normal ontology search (includes fuzzy name filtering)
-      const results = await ontologyRepository.search(query, currentLang);
+      const results = await searchSpells({
+        searchTerm,
+        aiSearchEnabled: isAIEnabled,
+        isModelReady,
+        indexingProgress,
+        currentLang,
+        filters: {
+          level: filterLevel,
+          class: filterClass,
+          school: filterSchool,
+          damage: filterDamage,
+          save: filterSave,
+          action: filterAction,
+        },
+      });
 
       if (mounted) {
         setSpells(results);
