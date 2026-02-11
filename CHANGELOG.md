@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.7.0](https://github.com/dpitois/spelite/compare/v0.6.2...v0.7.0) (2026-02-11)
+
+### Features
+
+- **search:** implement lexical-semantic hybridization ([3f7ef02](https://github.com/dpitois/spelite/commit/3f7ef02406ed7e18c8893fd8f4e9d38b6a8d87ce))
+- **search:** implement weighted hybrid scoring and centralized config ([ef0aeba](https://github.com/dpitois/spelite/commit/ef0aeba35f34e0987561bc3daacc83daa7b78a22))
+
+### Bug Fixes
+
+- resolve SpellBrowser multi-rendering and async race conditions ([9981427](https://github.com/dpitois/spelite/commit/9981427394ed5b3fea6ff0af020704473255cfac))
+
 ### [0.6.2](https://github.com/dpitois/spelite/compare/v0.6.0...v0.6.2) (2026-02-09)
 
 ### Documentation

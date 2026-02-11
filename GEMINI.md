@@ -28,6 +28,7 @@ The following tags were created to archive initial research and implementations:
 - `v0.4.0`: Base semantic implementation and optimized indexing
 - `v0.5.0`: Data architecture documentation and references
 - `v0.6.0`: Semantic export implementation for JSON-LD and RDF-XML
+- `v0.7.0`: Hybrid search implementation and SpellBrowser stability fixes
 
 ## Main Branch Versioning
 
